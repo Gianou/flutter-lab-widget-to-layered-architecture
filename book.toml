@@ -5,4 +5,4 @@ language = "en"
 
 [output.html]
 default-theme = "light"
-preferred-dark-theme = "navy"
+preferred-dark-theme = "coal"
