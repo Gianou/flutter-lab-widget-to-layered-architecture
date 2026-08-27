@@ -41,7 +41,9 @@ If you prefer Android Studio or Intellij, you can refer to the official document
   3. If you need to change the device that your project launches on:   
       - In the command palette, type `flutter`.  
       - Select **Flutter: Select Device**.
+  4. You should now see the default empty Flutter project in your Android Emulator or web browser:
+   ![alt text](image-4.png)
 
 
 ## References
-- https://docs.flutter.dev/install/quick#test-drive
+- [https://docs.flutter.dev/install/quick#test-drive](https://docs.flutter.dev/install/quick#test-drive)

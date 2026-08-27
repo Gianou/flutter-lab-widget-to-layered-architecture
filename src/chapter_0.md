@@ -9,6 +9,8 @@ It is based on Flutter's official documentation and training materials, and comb
 
 The final result is a cross platform frontend application that displays a list of movies from an open source API.
 
+#@todo, add screenshot
+
 ## Pre-requisites
 
 - Flutter is installed
