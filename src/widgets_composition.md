@@ -26,6 +26,7 @@ Some layout widgets also use `children:` (plural) to accept an array of widgets,
 Beyond these basic patterns, some widgets like `Scaffold()` use named parameters for specific purposes. For example, `Scaffold` provides `body:` for the main content, but it can also take other named parameters like `appBar:` or `floatingActionButton:` for different sections of the page. See [Scaffold class](https://api.flutter.dev/flutter/material/Scaffold-class.html) for an example.
 
 ### Practice
+#@todo, border and padding before Row, to practice simple wrapping with container before seeing `children`?
 
 1. Duplicate your Movie Text using a `Row()` widget:  
 
@@ -51,11 +52,13 @@ Beyond these basic patterns, some widgets like `Scaffold()` use named parameters
 
    Wrap each movie title in a `Container()` to give them a border
    The result from the previous step does not look very good. We can refactor both `Text()` to be wrapped in a `Container()` to add some `padding` and `decoration` to display some borders
-   ![alt text](image-9.png)
+   ![alt text](image-9.png)  
+
 3. Refactor to extract a new custom `FilmTitle()` widget:
 
    Notice that we've duplicated the same `Container()` with `Text()` code twice. In software development, repeating the same code is generally a bad practice. Instead, we can create our own reusable widget called `FilmTitle()`.
 
+  #@todo, link to documentation
    A custom widget is a Dart class that extends `StatelessWidget` and returns a widget in its `build()` method. By extracting the `Container()` and `Text()` logic into a custom widget, we can:
    - Avoid code duplication
    - Reuse the same widget multiple times

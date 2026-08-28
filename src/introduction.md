@@ -16,3 +16,4 @@ The final result is a cross platform frontend application that displays a list o
 - Flutter is installed
 - An Android emulator is installed
 - VS Code or Android Studio
+- Checked Dart basics
