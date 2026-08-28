@@ -156,5 +156,9 @@ We create a **Film class** that represents the structure of this data:
     ```
 3. **Update your FilmTitle() widget** to accept a Film object instead of just a String title
    - Notice how auto-complete now shows you all available properties on the Film object
-4. Create a new widget named FilmDetails()
+4. Update FilmTitle() to display the movie
+5. Create a new widget named FilmDetails()
    - Try to replicate this result on your own
+   - #@todo, add image
+
+#@todo, from there refer to solution repo for solutions?
