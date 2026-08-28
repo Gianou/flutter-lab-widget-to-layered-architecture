@@ -1,13 +1,13 @@
 # Widgets Introduction
 
-In Flutter, everything that appears on the screen, and dictate how it appears on the screens, is called a Widget. Widgets are Dart classes. Some are defined as part of the Flutter's <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>, and you can also create your own Widgets.
+In Flutter, everything that appears on the screen, and dictate how it appears on the screens, is called a **Widget**. Widgets are Dart classes. Some are defined as part of the Flutter's <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>, and you can also create your own Widgets.
 
 In the default empty project, there are already five widgets:
-- `Text()`: A leaf widget responsible for rendering a specific string of characters on the screen.
+- `Text()`: A leaf widget that renders a String on the screen.
 - `Center()`: A layout widget that forces its single child to be positioned in the middle of the available space.
-- `Scaffold()`: Provides the fundamental visual structure for a page, including background, app bars, and body placement.
-- `MaterialApp()`: The root widget that initializes the application with Material Design standards and navigation.
-- `MainApp()`: The custom root widget defined in your code that wraps the MaterialApp to start the widget tree.
+- `Scaffold()`: Provides the fundamental visual structure for a page. It only renders the body in the current project, but a header (appBar) could be added.
+- `MaterialApp()`: The root widget that initializes the application with <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>.
+- `MainApp()`: The custom root widget defined in your code `class MainApp extends StatelessWidget`. Wraps the MaterialApp to start the widget tree.
 
 
 ```dart
@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
 ```
 
 ### Practice
-It is time to practice, let's change the "Hello World!" message to a movie title and add some styling:  
+Now, let's apply this knowledge by customizing the interface. You will update the text content to display a movie title and apply basic styling to match the design below:  
     ![alt text](image-5.png)
 
 
@@ -53,3 +53,9 @@ It is time to practice, let's change the "Hello World!" message to a movie title
           ),
      
 ```
+Note on Types: As per the documentation, color expects a Color object, not a string. You can provide this in two ways:
+
+- Predefined Constants: `Colors.red` or `Colors.blue`
+- Custom Values: Create a specific color using `Color(0xFFE63946)` for hex, or `Color.fromRGBO(230, 57, 70, 1)` for RGB
+
+Similarly, fontWeight expects a FontWeight enum (e.g., `FontWeight.w400`, `FontWeight.w700`, `FontWeight.bold`), not a string or number.

@@ -4,6 +4,7 @@
 - [Widgets Introduction](./widgets_introduction.md)
 - [Widgets Composition](./widgets_composition.md)
 - [Class Model](./class_model.md)
+- [Stateless Widgets](./stateless_widgets.md)
 - [Stateful Widgets](./stateful_widgets.md)
 - [MVVM: View](./mvvm_view.md)
 - [MVVM: ViewModel](./mvvm_view_model.md)

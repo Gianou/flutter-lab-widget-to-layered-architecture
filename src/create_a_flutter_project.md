@@ -1,7 +1,8 @@
 # Create a Flutter Project  
 
 This chapter covers the basics of creating a new Flutter project. It is based on the use of VS Code.  
-If you prefer Android Studio or Intellij, you can refer to the official documentation from Flutter: [https://docs.flutter.dev/install/custom#editor](https://docs.flutter.dev/install/custom#editor)
+
+For instructions on using Android Studio or IntelliJ, consult the official Flutter documentation: [https://docs.flutter.dev/install/custom#editor](https://docs.flutter.dev/install/custom#editor)
 
 ## Create a new empty project
   1. Open the command palette in VS Code.
@@ -25,13 +26,14 @@ If you prefer Android Studio or Intellij, you can refer to the official document
   
 
   8. Wait for the project to initialize.  
-    VS Code uses flutter create to bootstrap your app.
-   ![alt text](image-2.png)
-   
-      #@todo, toggle for image and smaller image
-    If needed, set the folder as a `Trusted Folder`. The project creation is blocked in `Restricted Mode`.
-   ![alt text](image-1.png)
-   
+     VS Code uses `flutter create` to bootstrap your app.
+    ![alt text](image-2.png)  
+  
+     If needed, set the folder as a `Trusted Folder`. The project creation is blocked in `Restricted Mode`.  
+    ![alt text](image-1.png)
+
+  9. Once the project is created you should see this folder structure (or similar):  
+    ![alt text](image-10.png) 
 
 
 ## Run the project
@@ -40,7 +42,7 @@ If you prefer Android Studio or Intellij, you can refer to the official document
    ![alt text](image-3.png)
   3. If you need to change the device that your project launches on:   
       - In the command palette, type `flutter`.  
-      - Select **Flutter: Select Device**.
+      - Select **Flutter: Select Device**.  
   4. You should now see the default empty Flutter project in your Android Emulator or web browser:
    ![alt text](image-4.png)
 
