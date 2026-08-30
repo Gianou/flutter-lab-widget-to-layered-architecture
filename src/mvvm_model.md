@@ -37,29 +37,16 @@ Notice that `Film` needs a `fromJson()` constructor to parse JSON data into a `F
 
 ## Practice
 
+#@todo, should instantiate service in ViewModel or inject during creation of ViewModel?
+
 1. **Add the http package**
    - Run `flutter pub add http`
    - Verify it was added to `pubspec.yaml`
 
-2. **Create a FilmRepository**
-   - Create a class `FilmRepository` with a method `fetchFilms()`
-   - This method calls the Ghibli API at `https://ghibliapi.vercel.app/films`
-   - Parse the JSON response into a list of `Film` objects
-   - Return the list
-
-3. **Update your Film model** (if needed)
-   - Add a `Film.fromJson()` constructor that parses JSON data
-   - This allows converting API responses into Film objects
-
-4. **Update your FilmsViewModel**
-   - Instead of creating sample films, create an instance of `FilmRepository`
-   - In `fetchFilms()`, call `repository.fetchFilms()` and store the result
+2. **Update your FilmsViewModel and FilmsView**
+   - On button click in the View, a function in the ViewModel calls a function in the Service to fetch the data
+   - The ViewModel holds the response, the service does not have any attributes
    - Handle errors gracefully (show an error message if the fetch fails)
 
-5. **Test the flow**
-   - Tap the "Fetch Films" button in your View
-   - The ViewModel calls the Repository
-   - The Repository fetches from the API
-   - Films appear on screen
 
 ![alt text](image-14.png)
