@@ -1,7 +1,9 @@
 # Class Model
 #@todo, in this chapter we'll create a `Film()` class to represent the future api response we'll get, and add a new widget `FilmDetails()`
 
-So far, we've been hardcoding our data as simple strings for movie titles that are passed to the `FilmTitle()` widget. But we are eventually going to use the Studio Ghibli API at `https://ghibliapi.vercel.app/` that returns much more information about each film. To use this data in our code, we need to define a **class** so that we can create instances of Films and work with them in Dart.
+So far, we've been hardcoding our data as simple strings for movie titles that are passed to the `FilmTitle()` widget.  
+Eventually, we are going to use the Studio Ghibli API at `https://ghibliapi.vercel.app/` that returns much more information about each film.  
+To use this data in our code, we need to define a **class** so that we can create instances of Films and work with them in Dart.
 
 Here is a simplified example of what the API returns for a single film:
 
@@ -27,7 +29,7 @@ Here is a simplified example of what the API returns for a single film:
 
 ## Dart Classes for Type Safety
 
-Dart is a **strongly typed language**. This means we can't just treat API responses as generic objects—we need to define the exact structure of our data.
+Dart is a **strongly typed language**. This means we can't just treat API responses as generic objects, we need to define the exact structure of our data.
 
 We create a **Film class** that represents the structure of this data:
 - Each property (title, description, director, etc.) has a defined type (String, int, etc.)
@@ -125,10 +127,10 @@ We create a **Film class** that represents the structure of this data:
     - All attribute that can be found in the ghibli api response, strongly typed
     - A constructor
     - A factory method that returns a Film instance from a json input
-2. Instantiate a film object in the main.dart file
+2. Instantiate a film object in the main.dart file.  
    It is not best practice to place an application's data in the main, this will be corrected in later chapters.
     ```dart
-      static const mockMovie = Film(
+      static const mockFilm = Film(
         id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
         title: "Kiki's Delivery Service",
         originalTitle: '魔女の宅急便',
@@ -156,9 +158,8 @@ We create a **Film class** that represents the structure of this data:
     ```
 3. **Update your FilmTitle() widget** to accept a Film object instead of just a String title
    - Notice how auto-complete now shows you all available properties on the Film object
-4. Update FilmTitle() to display the movie
+4. Update FilmTitle() to display the `film.image` property ([Display images from the internet](https://docs.flutter.dev/cookbook/images/network-image))
 5. Create a new widget named FilmDetails()
    - Try to replicate this result on your own
-   - #@todo, add image
 
-#@todo, from there refer to solution repo for solutions?
+![alt text](image-13.png)
