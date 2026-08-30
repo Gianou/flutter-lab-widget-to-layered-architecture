@@ -19,4 +19,5 @@ Participants will build a cross-platform frontend application that retrieves and
 - Flutter is installed
 - An Android emulator is installed
 - VS Code or Android Studio
+- Format on save is enabled and working
 - Checked Dart basics
