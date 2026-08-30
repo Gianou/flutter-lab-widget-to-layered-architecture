@@ -8,7 +8,9 @@ So far, all our widgets have been `StatelessWidget` because they don't need to c
 **State** is data that can change during the lifetime of a widget. Examples include:
 - Whether a button has been pressed
 - Whether a menu is open or closed
-- Whether a film's details are showing or hidden
+- Whether a film's details are showing or hidden  
+
+
 React has useState(), Vue usually uses Ref(), Angular has signals() and Flutter uses StatefulWidget
 
 When state changes, the widget rebuilds to reflect the new state on screen. This automatic re-rendering of the UI is the concept of declarative programming.
@@ -19,7 +21,7 @@ Not all state is the same:
 - **Ephemeral state** (or UI state) affects only one widget and is temporary. Examples: whether a dropdown is expanded, whether a film's details are showing. This state doesn't need to be saved or shared globally.
 - **App state** affects the entire application and persists. We'll cover this later with MVVM.
 
-For now, we're focusing on **ephemeral state**—using `StatefulWidget` to manage local UI changes.
+For now, we're focusing on **ephemeral state**, using `StatefulWidget` to manage local UI changes.
 
 ## Creating a StatefulWidget
 
@@ -39,6 +41,46 @@ When you need to change state and update the UI, you call `setState()`:
 - Flutter rebuilds the widget automatically
 - The screen displays the new state
 
+## Example: A Simple Counter
+
+Here's a basic `StatefulWidget` that increments a counter when a button is tapped:
+
+```dart
+class Counter extends StatefulWidget {
+  const Counter({super.key});
+
+  @override
+  State<Counter> createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Count: $count'),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
+          child: const Text('Increment'),
+        ),
+      ],
+    );
+  }
+}
+```
+
+Notice:
+- The widget class (`Counter`) is simple and just creates the state
+- The state class (`_CounterState`) holds the mutable `count` variable
+- `setState()` wraps the state change and triggers a rebuild
+- The UI automatically updates to show the new count
+
 ## Practice
 
 Create a `FilmCard` widget that combines `FilmTitle()` and `FilmDetails()`:
@@ -48,20 +90,18 @@ Create a `FilmCard` widget that combines `FilmTitle()` and `FilmDetails()`:
    - This tracks whether we're showing the title or details view
 
 2. **Add tap interaction** using `GestureDetector`
-   - Wrap your widget with `GestureDetector` and provide an `onTap` callback
+   - Wrap your widget with `GestureDetector` and provide an `onTap` callback (so the whole card acts like a button)
    - In the callback, use `setState()` to toggle `showDetails`
    - Each tap switches between showing the title and the details
 
 3. **Conditionally display different views**
    - If `showDetails` is false, show `FilmTitle(film: film)`
    - If `showDetails` is true, show `FilmDetails(film: film)`
-   - Use a ternary operator to switch between them
 
-4. **Style the container** to indicate it's interactive
-   - Add padding, border, and width/height
-   - The visual styling helps users understand they can tap
+4. **Elevate the container**, if any display logic is duplicated between FilmTitle and FilmDetails.
+    - the new FilmCard can also include logic to enforce a specific size to its children
 
-![alt text](image-11.png)
+![alt text](image-14.png)
 
 ## Next Steps
 
