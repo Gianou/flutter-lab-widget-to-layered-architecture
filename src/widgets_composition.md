@@ -6,7 +6,8 @@ Now that we know how to edit a simple widget, let us look into the use of widget
 
 In Flutter, widgets are organized in a hierarchical structure called a **widget tree**. Widgets can contain other widgets as children, creating nested layers that form your entire UI. This composition is the foundation of how applications are built in Flutter.
 
-You can visualize your app's widget tree using the Flutter DevTools widget inspector. Open it to see how your widgets are nested.  
+You can visualize your app's widget tree using the Flutter DevTools widget inspector. Flutter DevTools is and IDE extension that should have been automatically installed when you set-up your Flutter development environment.  
+
 `MaterialApp` contains `Scaffold`, which contains `Center`, which contains `Text()`, and so on. This helps you understand the structure of your UI and debug layout issues.
 ![alt text](image-6.png)
 
@@ -58,13 +59,23 @@ Beyond these basic patterns, some widgets like `Scaffold()` use named parameters
    ![alt text](image-12.png)
 
   Currently our `Container(Text())` widget is child of `Center()`, and we want to have two `Container(Text())` instead of one. 
+  #@todo, could just put the solution of exo 1 and not the example here.
   ```dart
-    body: Center(
-            child: Text(
+
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red, width: 2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
               "Castle in The Sky",
               style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
             ),
           ),
+        ),
+
   ```
   The solution is to add a `Row()` widget between `Center()` and `Container(Text())`. The `Row()` widget can take multiple widgets as children with the `children:` attribute.
   >[!TIP]

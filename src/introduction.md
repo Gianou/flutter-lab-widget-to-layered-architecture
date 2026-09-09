@@ -12,12 +12,20 @@ It is based on Flutter's official documentation and training materials, and comb
 
 Participants will build a cross-platform frontend application that retrieves and displays a list of movies from an open-source API.
 
-#@todo, add screenshot
+![alt text](ghibli_viewer_output_demo.gif)
 
 ## Pre-requisites
 
 - Flutter is installed
+  - [Set up and test drive Flutter](https://docs.flutter.dev/install/quick)
 - An Android emulator is installed
+  - [Set up Android development](https://docs.flutter.dev/platform-integration/android/setup)
 - VS Code or Android Studio
 - Format on save is enabled and working
-- Checked Dart basics
+  - In VS Code go to `File>Preferences>Settings` and search for `formatOnSave`
+    ```
+    "editor.formatOnSave": true
+    ```
+- Read about Dart basics
+  - [Dart language](https://dart.dev/language)
+  - [Dart Variables](https://dart.dev/language/variables) especially the `final` vs `const` keywords.

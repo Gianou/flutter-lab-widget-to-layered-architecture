@@ -59,3 +59,6 @@ Note on Types: As per the documentation, color expects a Color object, not a str
 - Custom Values: Create a specific color using `Color(0xFFE63946)` for hex, or `Color.fromRGBO(230, 57, 70, 1)` for RGB
 
 Similarly, fontWeight expects a FontWeight enum (e.g., `FontWeight.w400`, `FontWeight.w700`, `FontWeight.bold`), not a string or number.
+
+
+#@todo, add a recap to ensure how important it is to check the documentation?

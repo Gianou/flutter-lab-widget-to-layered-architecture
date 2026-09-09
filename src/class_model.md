@@ -1,6 +1,8 @@
 # Class Model
 #@todo, in this chapter we'll create a `Film()` class to represent the future api response we'll get, and add a new widget `FilmDetails()`
 
+#@todo, explain the api first, then that we need to represent the data in the code.  
+
 So far, we've been hardcoding our data as simple strings for movie titles that are passed to the `FilmTitle()` widget.  
 Eventually, we are going to use the Studio Ghibli API at `https://ghibliapi.vercel.app/` that returns much more information about each film.  
 To use this data in our code, we need to define a **class** so that we can create instances of Films and work with them in Dart.

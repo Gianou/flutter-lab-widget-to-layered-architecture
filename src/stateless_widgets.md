@@ -105,4 +105,66 @@ class MainApp extends StatelessWidget {
    - Create a class `FilmTitle()` that extends `StatelessWidget`
    - Add a `final String filmTitle` property
    - In the `build()` method, return the previously defined `Container(Text())`
-   - Update the rest of the project to use this new widget to display film titles
+   - Update the rest of the project to use this new widget to display film titles. The newly defined `FilmTitle()` widget must be imported in `main.dart`
+  
+### Solution
+```dart
+// views/film_title.dart
+
+import 'package:flutter/material.dart';
+
+class FilmTitle extends StatelessWidget {
+  final String title;
+  const new({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+
+```
+
+```dart
+// main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const FilmTitle(title: "Castle in The Sky"),
+              const FilmTitle(title: "Kiki's Delivery Service"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
