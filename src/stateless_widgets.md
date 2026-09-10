@@ -84,9 +84,9 @@ By convention, widget constructors only use **named arguments** (in curly braces
 ## Practice
 
 Let's now practice by extracting the UI logic we have created to display film titles.  
-This step should result in a much cleaner main.dart:
+This step should result in a much cleaner `main.dart`:
 ```dart
-// main.dart (before refactoring)
+// expected result by end of chapter
 ...
 
 class MainApp extends StatelessWidget {
@@ -153,6 +153,7 @@ class FilmTitle extends StatelessWidget {
 ```dart
 // lib/main.dart
 import 'package:flutter/material.dart';
+// You may need to adapt the import statement below
 import 'package:flutter_lab_widget_to_layered_architecture/views/film_title.dart';
 
 void main() {
@@ -180,6 +181,9 @@ class MainApp extends StatelessWidget {
   }
 }
 ```
+> [!Tip]
+> The refactor tool can also be used to automatically extract code into a Widget. However the new Widget will appear in the current file and will not include the defined `title` parameter.
+> ![alt text](extract_widget.gif)
 
 </details>
 

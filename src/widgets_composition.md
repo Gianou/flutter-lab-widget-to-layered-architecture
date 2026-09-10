@@ -2,7 +2,7 @@
 
 ## Learning Outcome
 
-By the end of this chapter, you'll understand how widgets are organized in hierarchical trees, learn about child and children parameters, and practice nesting widgets using Container, Row, and Center. You'll also master the refactoring tools in your IDE to wrap widgets efficiently.
+By the end of this chapter, you'll understand how widgets are organized in hierarchical trees, learn about child and children parameters, and practice nesting widgets using Container, Row, and Center. You'll also learn about the refactoring tools in your IDE to wrap widgets efficiently.
 
 ## Theory / Explanation
 
