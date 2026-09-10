@@ -517,7 +517,7 @@ class FilmDetails extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: Color.fromARGB(255, 234, 24, 24),
+              color: Colors.red,
             ),
           ),
 
