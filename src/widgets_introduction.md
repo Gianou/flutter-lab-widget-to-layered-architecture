@@ -1,5 +1,11 @@
 # Widgets Introduction
 
+## Learning Outcome
+
+By the end of this chapter, you'll understand what widgets are, explore the default Flutter widgets provided by the Material Components package, and customize widget properties (color, font weight) using the TextStyle class. You'll see how hot reload speeds up development.
+
+## Theory / Explanation
+
 In Flutter, everything that appears on the screen, and dictate how it appears on the screens, is called a **Widget**. Widgets are Dart classes. Some are defined as part of the Flutter's <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>, and you can also create your own Widgets.
 
 In the default empty project, there are already five widgets:
@@ -29,36 +35,60 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-### Practice
+## Practice
+
 Now, let's apply this knowledge by customizing the interface. You will update the text content to display a movie title and apply basic styling to match the design below:  
-    ![alt text](image-5.png)
+![Movie title styled with red color and bold font weight](image-5.png)
 
+### Exercise 1: Change the Text Widget Content
 
-1. Change the `String` parameter passed to the `Text()` widget and save the change to see the application hot reload to show the changes.
-2. `Text()` can take optional arguments in the form of `key: value`. Add a second parameter `style: TextStyle()` and complete `TextStyle()` to change the color and font weight.
+Change the `String` parameter passed to the `Text()` widget and save the change to see the application automatically **hot reload** to show the changes.
 
-    >[!TIP] 
-    >You don't need to memorize properties. Before typing, hover over TextStyle in your IDE to see all available parameters. Then, inside the parentheses, start typing color or fontWeight and let auto-completion guide you.  
-
-
-
-### Solution
-#@todo, hide by default
+<details>
+<summary>Solution</summary>
 
 ```dart
-
-          child: Text(
-            "Castle in The Sky",
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-          ),
-     
+child: Text(
+  "Castle in The Sky",
+),
 ```
-Note on Types: As per the documentation, color expects a Color object, not a string. You can provide this in two ways:
 
-- Predefined Constants: `Colors.red` or `Colors.blue`
-- Custom Values: Create a specific color using `Color(0xFFE63946)` for hex, or `Color.fromRGBO(230, 57, 70, 1)` for RGB
+</details>
 
-Similarly, fontWeight expects a FontWeight enum (e.g., `FontWeight.w400`, `FontWeight.w700`, `FontWeight.bold`), not a string or number.
+### Exercise 2: Add TextStyle for Customization
 
+`Text()` can take optional arguments in the form of `key: value`. Add a second parameter `style: TextStyle()` and complete `TextStyle()` to change the color and font weight.
 
-#@todo, add a recap to ensure how important it is to check the documentation?
+>[!TIP] 
+>You don't need to memorize properties. Before typing, hover over TextStyle in your IDE to see all available parameters. Then, inside the parentheses, start typing color or fontWeight and let auto-completion guide you.  
+
+<details>
+<summary>Solution</summary>
+
+```dart
+child: Text(
+  "Castle in The Sky",
+  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+),
+```
+
+> [!NOTE]
+> As per the documentation, color expects a Color object, not a string. You can provide this in two ways:
+> 
+> - Predefined Constants: `Colors.red` or `Colors.blue`
+> - Custom Values: Create a specific color using `Color(0xFFE63946)` for hex, or `Color.fromRGBO(230, 57, 70, 1)` for RGB
+>
+> Similarly, fontWeight expects a FontWeight enum (e.g., `FontWeight.w400`, `FontWeight.w700`, `FontWeight.bold`), not a string or number.
+
+</details>
+
+## Recap
+
+- ✓ Explored the five core widgets in a default Flutter project
+- ✓ Learned that widget properties like `color` and `fontWeight` expect specific types
+- ✓ Customized the TextStyle to change appearance (always check the documentation for property types!)
+- ✓ Saw how hot reload lets you iterate quickly on UI changes
+
+## Next Steps
+
+Now that you've customized individual widgets, the next chapter shows you how to **compose** widgets together—nesting them to create more complex layouts using containers, rows, and columns.

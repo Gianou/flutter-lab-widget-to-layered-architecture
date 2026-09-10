@@ -1,18 +1,23 @@
 # MVVM: View
 
+## Learning Outcome
+
+By the end of this chapter, you'll understand how Views serve as page-level components in the MVVM architecture, create a `FilmsView` widget that displays multiple film cards in a grid or list, and organize your project structure to separate concerns by feature (views and their widgets).
+
+## Theory / Explanation
+
 As your application grows, managing all state, logic, and UI in one place becomes difficult.  
 [**Model-View-ViewModel (MVVM)**](https://docs.flutter.dev/app-architecture/guide#mvvm) is an architecture pattern that separates these concerns into distinct layers. Let's start with the **View** layer.  
 MVVM is one way amongst others to achieve a [**Layered Architecture**](https://docs.flutter.dev/app-architecture/concepts#layered-architecture)
 
-## The View Layer
+### The View Layer
 
 Think of Views like pages in your application. Each page/route typically has its own View. When users navigate to different parts of your app, they're moving between different Views.
 
-
-## The FilmsView
+### The FilmsView
 
 Currently, we have a `FilmCard()` that is being called directly from our root widget `MainApp()`.  
-Our final goal is to display all the films that are returned by the ghibli api. We will now create `FilmView()` the widget that represent a page in our application, and will display a list of `FilmCard()`.
+Our final goal is to display all the films that are returned by the ghibli api. We will now create `FilmsView()` the widget that represent a page in our application, and will display a list of `FilmCard()`.
 
 Your `FilmsView` will:
 - Use `Scaffold` to provide the page structure (app bar, body)
@@ -22,10 +27,11 @@ This View will later receive data from a ViewModel, but for now, you can pass sa
 
 ## Practice
 
-1. **Create a FilmsView widget** that extends `StatelessWidget`
+### Exercise 1: Create FilmsView with Mock Data
 
-   - Use `Scaffold` with an `appBar` showing "Ghibli Films"
-   - FilmsView receives an array of `Film()`
+Create a FilmsView widget that extends `StatelessWidget`.
+- Use `Scaffold` with an `appBar` showing "Ghibli Films"
+- FilmsView receives an array of `Film()`
       You can use:
       ```dart
         static const mockFilms = [
@@ -87,40 +93,128 @@ This View will later receive data from a ViewModel, but for now, you can pass sa
             ),
           ];
       ```
-   - Use a `GridView` or `ListView` to display multiple `FilmCard` widgets
-2. Reorganize the file structure:  
-   - In `lib/views` create a `/films` folder and move all widgets related to films to this folder
-   - Optionally, you can also create the `lib/views/films/widgets` folder and add to it:
-      - `film_card.dart`
-      - `film_title.dart`
-      - `film_details.dart`
-   - The resulting file structure indicate clearly that we have a view dedicated to films, and that `FilmsView()` is the root node, or root widget, for this section of our app.
+- Use a `GridView` or `ListView` to display multiple `FilmCard` widgets
 
-  ```
-  │   main.dart
-  │   
-  ├───models
-  │       film_model.dart
-  │       
-  └───views
-      └───films
-          │   film_view.dart
-          │   
-          └───widgets
-                  film_card.dart
-                  film_details.dart
-                  film_title.dart
-  ```
+<details>
+<summary>Solution</summary>
 
+#### lib/views/films/film_view.dart
+```dart
+// lib/views/films/film_view.dart
+class FilmsView extends StatelessWidget {
+  static const mockFilms = [
+    Film(
+      // TODO: Add Film instances for testing
+      // Use the structure above as reference
+    ),
+  ];
 
-![alt text](image-15.png)
+  const FilmsView({super.key});
 
-## More about Views
-Most application have more than one View and a navigation system to switch from one View to another.  
-Navigation will not be covered in this lab, but to illustrate the concept, here are screenshots of a the Ghibli Viewer with a user View and navigation. The navigation is implemented with the Flutter package GoRouter and the UserView is widget that, like FilmsView, uses Scaffold to display the top banner with the name of the current page (or View):
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Ghibli Films')),
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemCount: mockFilms.length,
+        itemBuilder: (context, index) {
+          return FilmCard(film: mockFilms[index]);
+        },
+      ),
+    );
+  }
+}
+```
 
-![alt text](image-16.png)
+</details>
+
+### Exercise 2: Organize Project File Structure
+
+Reorganize the file structure:
+- In `lib/views` create a `/films` folder and move all widgets related to films to this folder
+- Optionally, you can also create the `lib/views/films/widgets` folder and add to it:
+  - `film_card.dart`
+  - `film_title.dart`
+  - `film_details.dart`
+- The resulting file structure indicate clearly that we have a view dedicated to films, and that `FilmsView()` is the root node, or root widget, for this section of our app.
+
+```
+│   main.dart
+│   
+├───models
+│       film_model.dart
+│       
+└───views
+    └───films
+        │   film_view.dart
+        │   
+        └───widgets
+                film_card.dart
+                film_details.dart
+                film_title.dart
+```
+
+![Project folder structure showing organized views and models directories](image-15.png)
+
+<details>
+<summary>Solution</summary>
+
+**File structure reorganization:**
+
+1. Create directories:
+   - `lib/views/films/`
+   - `lib/views/films/widgets/`
+
+2. Move/create files:
+   - Move `lib/views/film_title.dart` → `lib/views/films/widgets/film_title.dart`
+   - Create `lib/views/films/widgets/film_card.dart`
+   - Create `lib/views/films/widgets/film_details.dart`
+   - Create `lib/views/films/film_view.dart`
+
+3. Update imports in all files to reflect new paths
+
+**Updated `main.dart` imports:**
+```dart
+// lib/main.dart
+import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/views/films/film_view.dart';
+```
+
+**Final structure:**
+```
+lib/
+├── models/
+│   └── film_model.dart
+├── views/
+│   └── films/
+│       ├── film_view.dart
+│       └── widgets/
+│           ├── film_card.dart
+│           ├── film_details.dart
+│           └── film_title.dart
+└── main.dart
+```
+
+</details>
+
+## Recap
+
+- ✓ Understood the role of Views in MVVM architecture (page-level components)
+- ✓ Learned the distinction between Views and individual widgets
+- ✓ Created `FilmsView` to display multiple films in a grid or list
+- ✓ Practiced organizing project structure by feature (`lib/views/films/`)
+- ✓ Prepared the View layer to receive data from a ViewModel
+
+## More About Views
+
+Most applications have more than one View and a navigation system to switch from one View to another.  
+Navigation will not be covered in this lab, but to illustrate the concept, here are screenshots of the Ghibli Viewer with a user View and navigation. The navigation is implemented with the Flutter package GoRouter and the UserView is widget that, like FilmsView, uses Scaffold to display the top banner with the name of the current page (or View):
+
+![Ghibli Viewer app showing user profile view and navigation between FilmsView and UserView](image-16.png)
 
 ## Next Steps
 
-The View is what users interact with, but it needs data and logic. The next chapters will introduce the ViewModel and Model layers to complete the MVVM pattern.
+The View is what users interact with, but it needs data and logic. The next chapter introduces the **ViewModel layer** which will manage the state and orchestrate fetching films from the Model layer, then the View will display them.

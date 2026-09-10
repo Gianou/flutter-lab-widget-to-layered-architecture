@@ -17,7 +17,7 @@ For instructions on using Android Studio or IntelliJ, consult the official Flutt
    
   5. Choose the folder where you want to create the new project.
    
-  6. Choose how you want to name the project. You can use `ghibli_viewer` or something else.
+  6. Choose how you want to name the project. You can use `ghibli_viewer` or something else, but make sure to use the `snake_case` convention.
    
   7. Select platforms
       - android

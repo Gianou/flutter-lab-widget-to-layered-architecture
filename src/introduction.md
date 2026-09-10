@@ -26,6 +26,7 @@ Participants will build a cross-platform frontend application that retrieves and
     ```
     "editor.formatOnSave": true
     ```
+    This enables auto formatting on file saves. It is very important for Flutter as the formatting uses a lot of indentation and would quickly become unreadable without proper formatting.
 - Read about Dart basics
   - [Dart language](https://dart.dev/language)
   - [Dart Variables](https://dart.dev/language/variables) especially the `final` vs `const` keywords.
