@@ -135,7 +135,7 @@ class FilmTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red, width: 2),
         borderRadius: BorderRadius.circular(12),
@@ -182,7 +182,8 @@ class MainApp extends StatelessWidget {
 }
 ```
 > [!Tip]
-> The refactor tool can also be used to automatically extract code into a Widget. However the new Widget will appear in the current file and will not include the defined `title` parameter.
+> The refactor tool can also be used to automatically extract code into a Widget.  
+> However, the new Widget will appear in the current file and will not include the defined `title` parameter.
 > ![alt text](extract_widget.gif)
 
 </details>

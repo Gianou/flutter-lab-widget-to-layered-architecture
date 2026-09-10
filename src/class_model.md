@@ -2,7 +2,7 @@
 
 ## Learning Outcome
 
-By the end of this chapter, you'll create a `Film` model class to represent data from the Ghibli API, update the `FilmTitle` widget to accept a Film object and display its image, and create a new `FilmDetails` widget to show comprehensive film information.
+By the end of this chapter, you'll create a `Film` model class to represent data from the Ghibli API, update the `FilmTitle` widget to accept a Film object and display its image, and create a new `FilmDetails` widget to show more detailed film information.
 
 ## Theory / Explanation
 
@@ -29,6 +29,9 @@ Here is a simplified example of what the API returns for a single film:
   ...
 }
 ```
+> [!Note]
+> The Ghibli Api is a simple backend project that is frequently used in software development tutorials. It is an unofficial/fan-made project.
+> If the API at [https://ghibliapi.vercel.app](https://ghibliapi.vercel.app) is no longer available, you can search for "studio ghibli api" and find many other deployed instances, or even host it locally yourself from the [original codebase](https://github.com/janaipakos/ghibliapi)
 
 
 ## Dart Classes for Type Safety
@@ -130,15 +133,16 @@ Create a Film model class with properties for the key film data:
     ``` 
   - Notice the content of the Film Class:
  
-    - All attribute that can be found in the ghibli api response, strongly typed
+    - All attribute that can be found in the Ghibli api response, strongly typed
     - A constructor
     - A factory method that returns a Film instance from a json input
 
 
 ### Exercise 2: Create a Mock Film Instance
 
-Instantiate a film object in the `main.dart` file.  
-   It is not best practice to place an application's data in the main, this will be corrected in later chapters.
+Import the new `film_model.dart` into main and instantiate a film object in the `MainApp()` widget of the `main.dart` file.  
+  
+It is not best practice to place an application's data in the main, this will be corrected in later chapters.
 ```dart
   static const mockFilm = Film(
     id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
@@ -170,29 +174,96 @@ Instantiate a film object in the `main.dart` file.
 
 ### Exercise 3: Update FilmTitle to Accept Film Objects
 
-Update your `FilmTitle()` widget to accept a `Film` object instead of just a `String` title.
-Notice how auto-complete now shows you all available properties on the `Film` object.
+Update your `FilmTitle()` widget to accept a `Film` object instead of just a `String` title.  
+
+You can remove the second instance of `FilmTitle()` but keep the `Row()`, we will create a new widget soon.  
+
+Notice how auto-complete now shows you all available properties on the `Film` object:
+![alt text](image-18.png)
 
 <details>
 <summary>Solution</summary>
 
 ```dart
-// lib/views/films/widgets/film_title.dart
-// TODO: Update FilmTitle to accept Film object instead of String
+// lib/views/film_title.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
 class FilmTitle extends StatelessWidget {
   final Film film;
-  
-  const FilmTitle({
-    super.key,
-    required this.film,
-  });
+  const FilmTitle({super.key, required this.film});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Display the film object
-    return Container();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        film.title,
+        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 }
+```
+
+```dart
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [const FilmTitle(film: mockFilm)],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 ```
 
 </details>
@@ -202,40 +273,84 @@ class FilmTitle extends StatelessWidget {
 Update FilmTitle() to display the `film.image` property ([Display images from the internet](https://docs.flutter.dev/cookbook/images/network-image)).
 
 <details>
+<summary>Hints</summary>
+<ol>
+<li>
+Start by wrapping `Text()` in a `Column()`  
+</li><br/>
+<li>
+Then add `Image.network()` with the url for the image found in the film object.  
+</li><br/>
+<li>
+The image will be too big, but the `Image.network()` widget can take height and width as named parameters (I used 170x250)
+</li><br/>
+<li>
+Now the border looks all strange, because the `Column()` widgets is taking all the space available to it. This can be fixed with the named parameter `mainAxisSize` of `Column()`.
+</li><br/>
+<li>
+It is now looking better but the square border of the film poster are clashing with the rounded border we defined earlier. Wrapping the `Image.network()` with the `ClipRRect()` widget gives us access to a `borderRadius` parameter.
+</li><br/>
+<li>
+And finally, the image and the title are a bit to close to each others. This could be fixed with some padding but a common alternative is the `SizedBox()` widget. It is a simple widget that creates a fixed sized box. Placing it between `Image.network()` and `Text()` in the `children` array of `Column()` will add some space between them.
+The use of `SizedBox()` is sometimes criticized over the use of paddings, but it is common to find it in tutorials and AI generated code.
+</li>
+</ol>
+</details><br/>
+  
+
+   
+<details>
 <summary>Solution</summary>
 
 ```dart
-// lib/views/films/widgets/film_title.dart
-// TODO: Update to display film.image using Image.network()
-// Keep the styled container with border and padding
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
 class FilmTitle extends StatelessWidget {
   final Film film;
-  
-  const FilmTitle({
-    super.key,
-    required this.film,
-  });
+  const FilmTitle({super.key, required this.film});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red, width: 2),
         borderRadius: BorderRadius.circular(12),
       ),
-      // TODO: Display film.image using Image.network()
-      child: Container(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              film.image,
+              width: 170,
+              height: 250,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            film.title,
+            style: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+
 ```
 
 </details>
 
 ### Exercise 5: Create the FilmDetails Widget
 
-Create a new widget named FilmDetails() to display detailed film information.
+In a dedicated file, create a new widget named `FilmDetails()` to display detailed film information.
 Try to replicate this result on your own:
 
 ![Film details widget showing poster, title, description, and director information](image-13.png)
@@ -243,67 +358,125 @@ Try to replicate this result on your own:
 <details>
 <summary>Solution</summary>
 
-#### lib/views/films/widgets/film_details.dart
 ```dart
-// lib/views/films/widgets/film_details.dart
-// TODO: Create FilmDetails widget to display:
-// - Film image (using Image.network)
-// - Film title and original title
-// - Description
-// - Director and producer information
-// - Release date and runtime
+// lib/views/film_details.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmDetails extends StatelessWidget {
   final Film film;
-  
-  const FilmDetails({
-    super.key,
-    required this.film,
-  });
+
+  const FilmDetails({super.key, required this.film});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement the widget UI showing film details
-    return Container();
+    return Container(
+      width: 200,
+      height: 320,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              film.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Color.fromARGB(255, 234, 24, 24),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            Text(
+              'Director: ${film.director}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text('Producer: ${film.producer}'),
+
+            const SizedBox(height: 8),
+
+            Text('Release: ${film.releaseDate}'),
+
+            const SizedBox(height: 16),
+
+            Text(film.description, style: const TextStyle(fontSize: 14)),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-
-</details>
-```
-    required this.film,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Implement the widget UI showing film details
-    return Container();
-  }
-}
 ```
 
-#### lib/views/films/widgets/film_title.dart (Updated)
 ```dart
-// lib/views/films/widgets/film_title.dart
-// TODO: Update FilmTitle to:
-// - Accept a Film object instead of String title
-// - Display film.image using Image.network()
-// - Keep the styled container with border
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
 
-class FilmTitle extends StatelessWidget {
-  final Film film;
-  
-  const FilmTitle({
-    super.key,
-    required this.film,
-  });
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement widget showing film image in a styled container
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const FilmTitle(film: mockFilm),
+              const FilmDetails(film: mockFilm),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
+
 ```
 
 </details>

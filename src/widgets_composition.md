@@ -42,7 +42,7 @@ Add padding and border to the movie title:
 
 The `Text()` widget cannot define padding and borders, we must use a `Container()` widget instead. The `Container()` will wrap around the `Text()`. Then the following attributes from `Container()` can be used to add the style we want:
 ```dart
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
 ```
 ```dart
     decoration: BoxDecoration(
@@ -70,7 +70,7 @@ The `Text()` widget cannot define padding and borders, we must use a `Container(
 // lib/main.dart
 body: Center(
   child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     decoration: BoxDecoration(
       border: Border.all(color: Colors.red, width: 2),
       borderRadius: BorderRadius.circular(12),
@@ -95,7 +95,7 @@ Currently our `Container(Text())` widget is child of `Center()`, and we want to 
 
       Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.red, width: 2),
             borderRadius: BorderRadius.circular(12),
@@ -138,7 +138,7 @@ class MainApp extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
+                  horizontal: 10,
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
@@ -155,7 +155,7 @@ class MainApp extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
+                  horizontal: 10,
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(

@@ -9,3 +9,4 @@
 - [MVVM: View](./mvvm_view.md)
 - [MVVM: ViewModel](./mvvm_view_model.md)
 - [MVVM: Model](./mvvm_model.md)
+- [Additional Theory](./additional_theory.md)
