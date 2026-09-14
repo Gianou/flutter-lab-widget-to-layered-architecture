@@ -27,6 +27,14 @@ This View will later receive data from a ViewModel, but for now, you can pass sa
 
 ## Practice
 
+#@todo, clearer steps
+#@todo, 1 create FilmsView widget
+#@todo, 2 display FilmsView
+#@todo, 3 add app bar to Films View
+#@todo, 4 add mockFilms array and pass it to FilmsView
+#@todo, 5 add SingleChildScrollView
+#@todo, 6 refactor to proper file structure
+
 ### Exercise 1: Create FilmsView with Mock Data
 
 Create a FilmsView widget that extends `StatelessWidget`.
