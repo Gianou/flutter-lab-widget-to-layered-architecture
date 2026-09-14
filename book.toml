@@ -2,7 +2,12 @@
 title = "Flutter lab: Widget to layered architecture"
 authors = ["Gianou"]
 language = "en"
+src = "src"
+
+[build]
+build-dir = "docs"
 
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "coal"
+site-url = "/flutter-lab-widget-to-layered-architecture/"

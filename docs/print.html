@@ -1,0 +1,2376 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Flutter lab: Widget to layered architecture</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "coal";
+            window.path_to_searchindex_js = "searchindex-7ad57467.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-809ced58.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Flutter lab: Widget to layered architecture</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<h2 id="context-and-goals"><a class="header" href="#context-and-goals">Context and Goals</a></h2>
+<p>This lab serves as an introduction to Flutter development.
+It starts with the very basics of Flutter and ends with an intermediate level implementation of <strong>Layered Architecture</strong> using the <strong>Model View View-Model (MVVM)</strong> design pattern.</p>
+<p>It is based on Flutter’s official documentation and training materials, and combines elements from:</p>
+<ul>
+<li><a href="https://docs.flutter.dev/learn/pathway/tutorial/create-an-app">Create an app project</a></li>
+<li><a href="https://docs.flutter.dev/learn/pathway/tutorial/set-up-state-project">Set up state management project</a></li>
+<li><a href="https://docs.flutter.dev/app-architecture">Architecting Flutter apps</a>.</li>
+</ul>
+<p>Participants will build a cross-platform frontend application that retrieves and displays a list of movies from an open-source API.</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="ghibli_viewer_output_demo.gif" alt="alt text"><span class="img-wrapper"><img src="ghibli_viewer_output_demo.gif" alt="alt text"></span></label></p>
+<h2 id="pre-requisites"><a class="header" href="#pre-requisites">Pre-requisites</a></h2>
+<ul>
+<li>Flutter is installed
+<ul>
+<li><a href="https://docs.flutter.dev/install/quick">Set up and test drive Flutter</a></li>
+</ul>
+</li>
+<li>An Android emulator is installed
+<ul>
+<li><a href="https://docs.flutter.dev/platform-integration/android/setup">Set up Android development</a></li>
+</ul>
+</li>
+<li>VS Code or Android Studio</li>
+<li>Format on save is enabled and working
+<ul>
+<li>In VS Code go to <code>File&gt;Preferences&gt;Settings</code> and search for <code>formatOnSave</code>
+<pre><code>"editor.formatOnSave": true
+</code></pre>
+This enables auto formatting on file saves. It is very important for Flutter as the formatting uses a lot of indentation and would quickly become unreadable without proper formatting.</li>
+</ul>
+</li>
+<li>Read about Dart basics
+<ul>
+<li><a href="https://dart.dev/language">Dart language</a></li>
+<li><a href="https://dart.dev/language/variables">Dart Variables</a> especially the <code>final</code> vs <code>const</code> keywords.</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="create-a-flutter-project"><a class="header" href="#create-a-flutter-project">Create a Flutter Project</a></h1>
+<p>This chapter covers the basics of creating a new Flutter project. It is based on the use of VS Code.</p>
+<p>For instructions on using Android Studio or IntelliJ, consult the official Flutter documentation: <a href="https://docs.flutter.dev/install/custom#editor">https://docs.flutter.dev/install/custom#editor</a></p>
+<h2 id="create-a-new-empty-project"><a class="header" href="#create-a-new-empty-project">Create a new empty project</a></h2>
+<ol>
+<li>
+<p>Open the command palette in VS Code.</p>
+<p>Go to <strong>View</strong> &gt; <strong>Command Palette</strong> or press <strong>Control</strong> + <strong>Shift</strong> + <strong>P</strong>.</p>
+</li>
+<li>
+<p>In the command palette, type <code>flutter</code>.</p>
+</li>
+<li>
+<p>Select <strong>Flutter: New Project</strong>.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image.png" alt="alt text"><span class="img-wrapper"><img src="image.png" alt="alt text"></span></label></p>
+</li>
+<li>
+<p>Select <strong>Empty Application</strong>.</p>
+</li>
+<li>
+<p>Choose the folder where you want to create the new project.</p>
+</li>
+<li>
+<p>Choose how you want to name the project. You can use <code>ghibli_viewer</code> or something else, but make sure to use the <code>snake_case</code> convention.</p>
+</li>
+<li>
+<p>Select platforms</p>
+<ul>
+<li>android</li>
+<li>web</li>
+<li>(optional) any other platforms</li>
+</ul>
+</li>
+<li>
+<p>Wait for the project to initialize.<br>VS Code uses <code>flutter create</code> to bootstrap your app.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-2.png" alt="alt text"><span class="img-wrapper"><img src="image-2.png" alt="alt text"></span></label></p>
+<p>If needed, set the folder as a <code>Trusted Folder</code>. The project creation is blocked in <code>Restricted Mode</code>.<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-1.png" alt="alt text"><span class="img-wrapper"><img src="image-1.png" alt="alt text"></span></label></p>
+</li>
+<li>
+<p>Once the project is created you should see this folder structure (or similar):<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-10.png" alt="alt text"><span class="img-wrapper"><img src="image-10.png" alt="alt text"></span></label></p>
+</li>
+</ol>
+<h2 id="run-the-project"><a class="header" href="#run-the-project">Run the project</a></h2>
+<ol>
+<li>Open the <code>/lib/main.dart</code> file.</li>
+<li>On the top right of the VSCode interface, the <code>Start Debugging</code> option should appear. Click it to run the project.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-3.png" alt="alt text"><span class="img-wrapper"><img src="image-3.png" alt="alt text"></span></label></li>
+<li>If you need to change the device that your project launches on:
+<ul>
+<li>In the command palette, type <code>flutter</code>.</li>
+<li>Select <strong>Flutter: Select Device</strong>.</li>
+</ul>
+</li>
+<li>You should now see the default empty Flutter project in your Android Emulator or web browser:
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-4.png" alt="alt text"><span class="img-wrapper"><img src="image-4.png" alt="alt text"></span></label></li>
+</ol>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li><a href="https://docs.flutter.dev/install/quick#test-drive">https://docs.flutter.dev/install/quick#test-drive</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="widgets-introduction"><a class="header" href="#widgets-introduction">Widgets Introduction</a></h1>
+<h2 id="learning-outcome"><a class="header" href="#learning-outcome">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand what widgets are, explore the default Flutter widgets provided by the Material Components package, and customize widget properties (color, font weight) using the TextStyle class. You’ll see how hot reload speeds up development.</p>
+<h2 id="theory--explanation"><a class="header" href="#theory--explanation">Theory / Explanation</a></h2>
+<p>In Flutter, everything that appears on the screen, and dictate how it appears on the screens, is called a <strong>Widget</strong>. Widgets are Dart classes. Some are defined as part of the Flutter’s <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>, and you can also create your own Widgets.</p>
+<p>In the default empty project, there are already five widgets:</p>
+<ul>
+<li><code>Text()</code>: A leaf widget that renders a String on the screen.</li>
+<li><code>Center()</code>: A layout widget that forces its single child to be positioned in the middle of the available space.</li>
+<li><code>Scaffold()</code>: Provides the fundamental visual structure for a page. It only renders the body in the current project, but a header (appBar) could be added.</li>
+<li><code>MaterialApp()</code>: The root widget that initializes the application with <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>.</li>
+<li><code>MainApp()</code>: The custom root widget defined in your code <code>class MainApp extends StatelessWidget</code>. Wraps the MaterialApp to start the widget tree.</li>
+</ul>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: Scaffold(body: Center(child: Text('Hello World!'))),
+    );
+  }
+}
+</code></pre>
+<h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
+<p>Now, let’s apply this knowledge by customizing the interface. You will update the text content to display a movie title and apply basic styling to match the design below:<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-5.png" alt="Movie title styled with red color and bold font weight"><span class="img-wrapper"><img src="image-5.png" alt="Movie title styled with red color and bold font weight"></span></label></p>
+<h3 id="exercise-1-change-the-text-widget-content"><a class="header" href="#exercise-1-change-the-text-widget-content">Exercise 1: Change the Text Widget Content</a></h3>
+<p>Change the <code>String</code> parameter passed to the <code>Text()</code> widget and save the change to see the application automatically <strong>hot reload</strong> to show the changes.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">child: Text(
+  "Castle in The Sky",
+),
+</code></pre>
+</details>
+<h3 id="exercise-2-add-textstyle-for-customization"><a class="header" href="#exercise-2-add-textstyle-for-customization">Exercise 2: Add TextStyle for Customization</a></h3>
+<p><code>Text()</code> can take optional arguments in the form of <code>key: value</code>. Add a second parameter <code>style: TextStyle()</code> and complete <code>TextStyle()</code> to change the color and font weight.</p>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>You don’t need to memorize properties. Before typing, hover over TextStyle in your IDE to see all available parameters. Then, inside the parentheses, start typing color or fontWeight and let auto-completion guide you.</p>
+</blockquote>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">child: Text(
+  "Castle in The Sky",
+  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+),
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>As per the documentation, color expects a Color object, not a string. You can provide this in two ways:</p>
+<ul>
+<li>Predefined Constants: <code>Colors.red</code> or <code>Colors.blue</code></li>
+<li>Custom Values: Create a specific color using <code>Color(0xFFE63946)</code> for hex, or <code>Color.fromRGBO(230, 57, 70, 1)</code> for RGB</li>
+</ul>
+<p>Similarly, fontWeight expects a FontWeight enum (e.g., <code>FontWeight.w400</code>, <code>FontWeight.w700</code>, <code>FontWeight.bold</code>), not a string or number.</p>
+</blockquote>
+</details>
+<h2 id="recap"><a class="header" href="#recap">Recap</a></h2>
+<ul>
+<li>✓ Explored the five core widgets in a default Flutter project</li>
+<li>✓ Learned that widget properties like <code>color</code> and <code>fontWeight</code> expect specific types</li>
+<li>✓ Customized the TextStyle to change appearance (always check the documentation for property types!)</li>
+<li>✓ Saw how hot reload lets you iterate quickly on UI changes</li>
+</ul>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Now that you’ve customized individual widgets, the next chapter shows you how to <strong>compose</strong> widgets together—nesting them to create more complex layouts using containers, rows, and columns.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="widgets-composition"><a class="header" href="#widgets-composition">Widgets Composition</a></h1>
+<h2 id="learning-outcome-1"><a class="header" href="#learning-outcome-1">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand how widgets are organized in hierarchical trees, learn about child and children parameters, and practice nesting widgets using Container, Row, and Center. You’ll also learn about the refactoring tools in your IDE to wrap widgets efficiently.</p>
+<h2 id="theory--explanation-1"><a class="header" href="#theory--explanation-1">Theory / Explanation</a></h2>
+<h3 id="understanding-widget-trees"><a class="header" href="#understanding-widget-trees">Understanding Widget Trees</a></h3>
+<p>In Flutter, widgets are organized in a hierarchical structure called a <strong>widget tree</strong>. Widgets can contain other widgets as children, creating nested layers that form your entire UI. This composition is the foundation of how applications are built in Flutter.</p>
+<p>You can visualize your app’s widget tree using the Flutter DevTools widget inspector. Flutter DevTools is and IDE extension that should have been automatically installed when you set-up your Flutter development environment.</p>
+<p><code>MaterialApp</code> contains <code>Scaffold</code>, which contains <code>Center</code>, which contains <code>Text()</code>, and so on. This helps you understand the structure of your UI and debug layout issues.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"><span class="img-wrapper"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"></span></label></p>
+<h3 id="widget-wrapping-patterns"><a class="header" href="#widget-wrapping-patterns">Widget Wrapping Patterns</a></h3>
+<p>The most common way widgets organize their children is through a <code>child:</code> parameter, like <code>Center()</code> wrapping a single widget:</p>
+<pre><code class="language-dart">        Center(
+          child: Text(
+            "Castle in The Sky",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+        ),
+</code></pre>
+<p>Some layout widgets also use <code>children:</code> (plural) to accept an array of widgets, like <code>Row()</code> and <code>Column()</code>.</p>
+<p>Beyond these basic patterns, some widgets like <code>Scaffold()</code> use named parameters for specific purposes. For example, <code>Scaffold</code> provides <code>body:</code> for the main content, but it can also take other named parameters like <code>appBar:</code> or <code>floatingActionButton:</code> for different sections of the page. See <a href="https://api.flutter.dev/flutter/material/Scaffold-class.html">Scaffold class</a> for an example.</p>
+<p>#@todo, briefly mention Element Tree</p>
+<h2 id="practice-1"><a class="header" href="#practice-1">Practice</a></h2>
+<h3 id="exercise-1-add-padding-and-border"><a class="header" href="#exercise-1-add-padding-and-border">Exercise 1: Add Padding and Border</a></h3>
+<p>Add padding and border to the movie title:<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-11.png" alt="Movie title with red border and padding styling"><span class="img-wrapper"><img src="image-11.png" alt="Movie title with red border and padding styling"></span></label></p>
+<p>The <code>Text()</code> widget cannot define padding and borders, we must use a <code>Container()</code> widget instead. The <code>Container()</code> will wrap around the <code>Text()</code>. Then the following attributes from <code>Container()</code> can be used to add the style we want:</p>
+<pre><code class="language-dart">    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+</code></pre>
+<pre><code class="language-dart">    decoration: BoxDecoration(
+      border: Border.all(color: Colors.red, width: 2),
+      borderRadius: BorderRadius.circular(12),
+    ),
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>Updating widgets manually is not an easy task but the Flutter extension of your IDE can help you:<br><strong>Right click</strong> on <code>Text()</code> &gt; select <strong>“refactor”</strong> &gt; <strong>“Wrap with Container”</strong><br>The IDE will do the work for you.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="wrap_with_container.gif" alt="IDE refactoring menu showing Wrap with Container option"><span class="img-wrapper"><img src="wrap_with_container.gif" alt="IDE refactoring menu showing Wrap with Container option"></span></label></p>
+</blockquote>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>In Flutter you are likely to get this error<br><code>The constructor being called isn't a const constructor.</code><br>To fix it, simply use the IDE <code>Quick Fix</code> option, available when hovering the error:<br>To learn more about this topic, see <a href="https://docs.flutter.dev/perf/best-practices#control-build-cost">Flutter performances best practices</a> and <a href="https://dart.dev/language/constructors">Dart Constructors</a>
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="const_error.gif" alt="IDE Quick Fix option for const constructor error"><span class="img-wrapper"><img src="const_error.gif" alt="IDE Quick Fix option for const constructor error"></span></label></p>
+</blockquote>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// lib/main.dart
+body: Center(
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.red, width: 2),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: const Text(
+      "Castle in The Sky",
+      style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+    ),
+  ),
+),
+</code></pre>
+</details>
+<h3 id="exercise-2-duplicate-movies-using-row"><a class="header" href="#exercise-2-duplicate-movies-using-row">Exercise 2: Duplicate Movies Using Row</a></h3>
+<p>Duplicate your Movie Text using a <code>Row()</code> widget:<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-12.png" alt="Two movie title widgets displayed side by side"><span class="img-wrapper"><img src="image-12.png" alt="Two movie title widgets displayed side by side"></span></label></p>
+<p>Currently our <code>Container(Text())</code> widget is child of <code>Center()</code>, and we want to have two <code>Container(Text())</code> instead of one.</p>
+<pre><code class="language-dart">
+      Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.red, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Text(
+            "Castle in The Sky",
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+
+</code></pre>
+<p>The solution is to add a <code>Row()</code> widget between <code>Center()</code> and <code>Container(Text())</code>. The <code>Row()</code> widget can take multiple widgets as children with the <code>children:</code> attribute.</p>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>You can use the refactor tool to wrap with <code>Row()</code>, like explained in the <strong>tip</strong> of exercise 1 of this chapter</p>
+</blockquote>
+<p><code>Row()</code> has a <code>mainAxisAlignment</code> parameters that has a default value of <code>MainAxisAlignment.start</code>. That makes its content glued to the left of the screen at this point of the exercise. You can override this default value by specifying <code>mainAxisAlignment: MainAxisAlignment.center,</code></p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  "Castle in The Sky",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  "Kiki's Delivery Service",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h2 id="recap-1"><a class="header" href="#recap-1">Recap</a></h2>
+<ul>
+<li>✓ Learned that Flutter UIs are organized in widget trees with parent-child relationships</li>
+<li>✓ Explored <code>child:</code> parameter (single widget) vs <code>children:</code> parameter (multiple widgets)</li>
+<li>✓ Practiced nesting widgets and using Container for styling</li>
+<li>✓ Used IDE refactoring tools to wrap widgets automatically</li>
+<li>✓ Understood how <code>mainAxisAlignment</code> controls layout positioning</li>
+</ul>
+<h2 id="next-steps-1"><a class="header" href="#next-steps-1">Next Steps</a></h2>
+<p>Now that you can compose widgets together, the next chapter shows you how to <strong>extract common patterns into reusable widgets</strong>. You’ll create your first custom widget called <code>FilmTitle</code> to eliminate code duplication.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="stateless-widgets"><a class="header" href="#stateless-widgets">Stateless Widgets</a></h1>
+<h2 id="learning-outcome-2"><a class="header" href="#learning-outcome-2">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand the structure of StatelessWidget classes, learn constructor conventions, and create your first reusable custom widget called <code>FilmTitle</code> to eliminate code duplication.</p>
+<h2 id="theory--explanation-2"><a class="header" href="#theory--explanation-2">Theory / Explanation</a></h2>
+<p>Now that we know how to use the widgets provided by Flutter, let’s see how to create our own widgets. We will start with <strong>stateless</strong> widgets.</p>
+<p>A <strong>StatelessWidget</strong> is a Dart class that extends <code>StatelessWidget</code>.</p>
+<p>The following examples are taken from <a href="https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html#widgets.StatelessWidget.1">Flutter’s official documentation</a></p>
+<h2 id="simple-statelesswidget-no-parameters"><a class="header" href="#simple-statelesswidget-no-parameters">Simple StatelessWidget (No Parameters)</a></h2>
+<p>This is the most basic a widget can be:</p>
+<ul>
+<li>It is a Dart class</li>
+<li>It extends <code>StatelessWidget</code></li>
+<li>It has a constructor</li>
+<li>It overrides the inherited <code>build()</code> method, that returns a <code>Widget</code></li>
+</ul>
+<pre><code class="language-dart">class GreenFrog extends StatelessWidget {
+  const GreenFrog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(color: const Color(0xFF2DBD3A));
+  }
+}
+</code></pre>
+<h2 id="statelesswidget-with-parameters"><a class="header" href="#statelesswidget-with-parameters">StatelessWidget with Parameters</a></h2>
+<p>This is an example of a widget that takes parameters.<br>Here the <code>color</code> attribute is used for styling and it has a default value specified in the constructor.<br>The <code>child</code> attribute means that the <code>Frog()</code> widget can wrap around another widget.</p>
+<pre><code class="language-dart">class Frog extends StatelessWidget {
+  const Frog({
+    super.key,
+    this.color = const Color(0xFF2DBD3A),
+    this.child,
+  });
+
+  final Color color;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(color: color, child: child);
+  }
+}
+</code></pre>
+<h3 id="usage"><a class="header" href="#usage">Usage</a></h3>
+<p>Once defined, you can use the <code>Frog</code> widget in different ways:</p>
+<pre><code class="language-dart">// Using default color (green)
+const Frog()
+
+// With a custom color
+const Frog(color: Color(0xFFFF0000))
+
+// With custom color and a child widget
+const Frog(
+  color: Color(0xFFFFFF00),
+  child: Text("Yellow Frog"),
+)
+</code></pre>
+<h2 id="convention"><a class="header" href="#convention">Convention</a></h2>
+<p>By convention, widget constructors only use <strong>named arguments</strong> (in curly braces <code>{}</code>):</p>
+<ul>
+<li><strong><code>super.key</code></strong> is always first</li>
+<li><strong><code>child</code></strong> or <strong><code>children</code></strong> is always last (if present)</li>
+<li>Parameters are stored as <code>final</code> properties</li>
+</ul>
+<h2 id="practice-2"><a class="header" href="#practice-2">Practice</a></h2>
+<p>Let’s now practice by extracting the UI logic we have created to display film titles.<br>This step should result in a much cleaner <code>main.dart</code>:</p>
+<pre><code class="language-dart">// expected result by end of chapter
+...
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const FilmTitle(title: "Castle in The Sky"),
+              const FilmTitle(title: "Kiki's Delivery Service"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+<h3 id="exercise-1-create-a-reusable-filmtitle-widget"><a class="header" href="#exercise-1-create-a-reusable-filmtitle-widget">Exercise 1: Create a Reusable FilmTitle Widget</a></h3>
+<p>Create a FilmTitle widget to remove the duplicate code of <code>Container(Text())</code>:</p>
+<ul>
+<li>Create a new folder in <code>lib</code> named <code>views</code>. In this folder, add a <code>film_title.dart</code> file</li>
+<li>Create a class <code>FilmTitle()</code> that extends <code>StatelessWidget</code></li>
+<li>Add a <code>final String title</code> property</li>
+<li>In the <code>build()</code> method, return the previously defined <code>Container(Text())</code></li>
+<li>Update the rest of the project to use this new widget to display film titles. The newly defined <code>FilmTitle()</code> widget must be imported in <code>main.dart</code></li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libviewsfilm_titledart"><a class="header" href="#libviewsfilm_titledart">lib/views/film_title.dart</a></h4>
+<pre><code class="language-dart">// lib/views/film_title.dart
+import 'package:flutter/material.dart';
+
+class FilmTitle extends StatelessWidget {
+  final String title;
+  const FilmTitle({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+</code></pre>
+<h4 id="libmaindart"><a class="header" href="#libmaindart">lib/main.dart</a></h4>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+// You may need to adapt the import statement below
+import 'package:flutter_lab_widget_to_layered_architecture/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const FilmTitle(title: "Castle in The Sky"),
+              const FilmTitle(title: "Kiki's Delivery Service"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>The refactor tool can also be used to automatically extract code into a Widget.<br>However, the new Widget will appear in the current file and will not include the defined <code>title</code> parameter.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="extract_widget.gif" alt="alt text"><span class="img-wrapper"><img src="extract_widget.gif" alt="alt text"></span></label></p>
+</blockquote>
+</details>
+<h2 id="recap-2"><a class="header" href="#recap-2">Recap</a></h2>
+<ul>
+<li>✓ Learned the anatomy of a StatelessWidget (class definition, constructor, build method)</li>
+<li>✓ Understood constructor conventions (super.key first, child last, final properties)</li>
+<li>✓ Created your first reusable custom widget (<code>FilmTitle</code>)</li>
+<li>✓ Extracted common UI patterns to eliminate code duplication</li>
+<li>✓ Practiced importing and using custom widgets</li>
+</ul>
+<h2 id="next-steps-2"><a class="header" href="#next-steps-2">Next Steps</a></h2>
+<p>So far, our <code>FilmTitle</code> displays only what was passed to it at creation time. In the next chapter, you’ll learn about <strong>Stateful Widgets</strong>, which allow your widgets to manage and change state in response to user interaction—like toggling details on and off.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="class-model"><a class="header" href="#class-model">Class Model</a></h1>
+<h2 id="learning-outcome-3"><a class="header" href="#learning-outcome-3">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll create a <code>Film</code> model class to represent data from the Ghibli API, update the <code>FilmTitle</code> widget to accept a Film object and display its image, and create a new <code>FilmDetails</code> widget to show more detailed film information.</p>
+<h2 id="theory--explanation-3"><a class="header" href="#theory--explanation-3">Theory / Explanation</a></h2>
+<p>So far, we’ve been hardcoding our data as simple strings for movie titles that are passed to the <code>FilmTitle()</code> widget.<br>Eventually, we are going to use the Studio Ghibli API at <code>https://ghibliapi.vercel.app/</code> that returns much more information about each film. To use this data in our code, we need to define a <strong>class</strong> so that we can create instances of Films and work with them in Dart.</p>
+<p>Here is a simplified example of what the API returns for a single film:</p>
+<pre><code class="language-json">{
+  "id": "ea660b10-85c4-4ae3-8a5f-41cea3648e3e",
+  "title": "Kiki's Delivery Service",
+  "original_title": "魔女の宅急便",
+  "original_title_romanised": "Majo no takkyūbin",
+  "image": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg",
+  "movie_banner": "https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg",
+  "description": "A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.",
+  "director": "Hayao Miyazaki",
+  "producer": "Hayao Miyazaki",
+  "release_date": "1989",
+  "running_time": "102",
+  "rt_score": "96",
+  "url": "https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e",
+  ...
+}
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>The Ghibli Api is a simple backend project that is frequently used in software development tutorials. It is an unofficial/fan-made project.
+If the API at <a href="https://ghibliapi.vercel.app">https://ghibliapi.vercel.app</a> is no longer available, you can search for “studio ghibli api” and find many other deployed instances, or even host it locally yourself from the <a href="https://github.com/janaipakos/ghibliapi">original codebase</a></p>
+</blockquote>
+<h2 id="dart-classes-for-type-safety"><a class="header" href="#dart-classes-for-type-safety">Dart Classes for Type Safety</a></h2>
+<p>Dart is a <strong>strongly typed language</strong>. This means we can’t just treat API responses as generic objects, we need to define the exact structure of our data.</p>
+<p>We create a <strong>Film class</strong> that represents the structure of this data:</p>
+<ul>
+<li>Each property (title, description, director, etc.) has a defined type (String, int, etc.)</li>
+<li>When we create a <code>Film</code> object from API data, Dart validates that the data matches our class structure</li>
+<li>This gives us <strong>type safety</strong> to catch errors early instead of at runtime</li>
+</ul>
+<h2 id="practice-3"><a class="header" href="#practice-3">Practice</a></h2>
+<h3 id="exercise-1-create-the-film-model-class"><a class="header" href="#exercise-1-create-the-film-model-class">Exercise 1: Create the Film Model Class</a></h3>
+<p>Create a Film model class with properties for the key film data:</p>
+<ul>
+<li>
+<p>Create the <code>lib/models</code> folder in your project, and in this folder, create a file named <code>film_model.dart</code></p>
+</li>
+<li>
+<p>Paste the code below for the model</p>
+<pre><code class="language-dart">class Film {
+    final String id;
+    final String title;
+    final String originalTitle;
+    final String originalTitleRomanised;
+    final String image;
+    final String movieBanner;
+    final String description;
+    final String director;
+    final String producer;
+    final String releaseDate;
+    final String runningTime;
+    final String rtScore;
+    final List&lt;String&gt; people;
+    final List&lt;String&gt; species;
+    final List&lt;String&gt; locations;
+    final List&lt;String&gt; vehicles;
+    final String url;
+
+    const Film({
+      required this.id,
+      required this.title,
+      required this.originalTitle,
+      required this.originalTitleRomanised,
+      required this.image,
+      required this.movieBanner,
+      required this.description,
+      required this.director,
+      required this.producer,
+      required this.releaseDate,
+      required this.runningTime,
+      required this.rtScore,
+      required this.people,
+      required this.species,
+      required this.locations,
+      required this.vehicles,
+      required this.url,
+    });
+
+    factory Film.fromJson(Map&lt;String, dynamic&gt; json) {
+      return Film(
+        id: json['id'] as String,
+        title: json['title'] as String,
+        originalTitle: json['original_title'] as String,
+        originalTitleRomanised: json['original_title_romanised'] as String,
+        image: json['image'] as String,
+        movieBanner: json['movie_banner'] as String,
+        description: json['description'] as String,
+        director: json['director'] as String,
+        producer: json['producer'] as String,
+        releaseDate: json['release_date'] as String,
+        runningTime: json['running_time'] as String,
+        rtScore: json['rt_score'] as String,
+        people:
+            (json['people'] as List&lt;dynamic&gt;?)
+                ?.map((e) =&gt; e as String)
+                .toList() ??
+            [],
+        species:
+            (json['species'] as List&lt;dynamic&gt;?)
+                ?.map((e) =&gt; e as String)
+                .toList() ??
+            [],
+        locations:
+            (json['locations'] as List&lt;dynamic&gt;?)
+                ?.map((e) =&gt; e as String)
+                .toList() ??
+            [],
+        vehicles:
+            (json['vehicles'] as List&lt;dynamic&gt;?)
+                ?.map((e) =&gt; e as String)
+                .toList() ??
+            [],
+        url: json['url'] as String,
+      );
+    }
+  }
+</code></pre>
+</li>
+<li>
+<p>Notice the content of the Film Class:</p>
+<ul>
+<li>All attribute that can be found in the Ghibli api response, strongly typed</li>
+<li>A constructor</li>
+<li>A factory method that returns a Film instance from a json input</li>
+</ul>
+</li>
+</ul>
+<h3 id="exercise-2-create-a-mock-film-instance"><a class="header" href="#exercise-2-create-a-mock-film-instance">Exercise 2: Create a Mock Film Instance</a></h3>
+<p>Import the new <code>film_model.dart</code> into main and instantiate a film object in the <code>MainApp()</code> widget of the <code>main.dart</code> file.</p>
+<p>It is not best practice to place an application’s data in the main, this will be corrected in later chapters.</p>
+<pre><code class="language-dart">  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+</code></pre>
+<h3 id="exercise-3-update-filmtitle-to-accept-film-objects"><a class="header" href="#exercise-3-update-filmtitle-to-accept-film-objects">Exercise 3: Update FilmTitle to Accept Film Objects</a></h3>
+<p>Update your <code>FilmTitle()</code> widget to accept a <code>Film</code> object instead of just a <code>String</code> title.</p>
+<p>You can remove the second instance of <code>FilmTitle()</code> but keep the <code>Row()</code>, we will create a new widget soon.</p>
+<p>Notice how auto-complete now shows you all available properties on the <code>Film</code> object:
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-18.png" alt="alt text"><span class="img-wrapper"><img src="image-18.png" alt="alt text"></span></label></p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// lib/views/film_title.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmTitle extends StatelessWidget {
+  final Film film;
+  const FilmTitle({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        film.title,
+        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+</code></pre>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [const FilmTitle(film: mockFilm)],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-4-display-film-images"><a class="header" href="#exercise-4-display-film-images">Exercise 4: Display Film Images</a></h3>
+<p>Update FilmTitle() to display the <code>film.image</code> property (<a href="https://docs.flutter.dev/cookbook/images/network-image">Display images from the internet</a>).</p>
+<details>
+<summary>Hints</summary>
+<ol>
+<li>
+Start by wrapping `Text()` in a `Column()`  
+</li>
+<br />
+<li>
+Then add `Image.network()` with the url for the image found in the film object.  
+</li>
+<br />
+<li>
+The image will be too big, but the `Image.network()` widget can take height and width as named parameters (I used 170x250)
+</li>
+<br />
+<li>
+Now the border looks all strange, because the `Column()` widgets is taking all the space available to it. This can be fixed with the named parameter `mainAxisSize` of `Column()`.
+</li>
+<br />
+<li>
+It is now looking better but the square border of the film poster are clashing with the rounded border we defined earlier. Wrapping the `Image.network()` with the `ClipRRect()` widget gives us access to a `borderRadius` parameter.
+</li>
+<br />
+<li>
+And finally, the image and the title are a bit to close to each others. This could be fixed with some padding but a common alternative is the `SizedBox()` widget. It is a simple widget that creates a fixed sized box. Placing it between `Image.network()` and `Text()` in the `children` array of `Column()` will add some space between them.
+The use of `SizedBox()` is sometimes criticized over the use of paddings, but it is common to find it in tutorials and AI generated code.
+</li>
+
+</ol>
+
+</details><br />
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmTitle extends StatelessWidget {
+  final Film film;
+  const FilmTitle({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              film.image,
+              width: 170,
+              height: 250,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            film.title,
+            style: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-5-create-the-filmdetails-widget"><a class="header" href="#exercise-5-create-the-filmdetails-widget">Exercise 5: Create the FilmDetails Widget</a></h3>
+<p>In a dedicated file, create a new widget named <code>FilmDetails()</code> to display detailed film information.
+Try to replicate this result on your own:</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-13.png" alt="Film details widget showing poster, title, description, and director information"><span class="img-wrapper"><img src="image-13.png" alt="Film details widget showing poster, title, description, and director information"></span></label></p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// lib/views/film_details.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmDetails extends StatelessWidget {
+  final Film film;
+
+  const FilmDetails({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200,
+      height: 320,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              film.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.red,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            Text(
+              'Director: ${film.director}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text('Producer: ${film.producer}'),
+
+            const SizedBox(height: 8),
+
+            Text('Release: ${film.releaseDate}'),
+
+            const SizedBox(height: 16),
+
+            Text(film.description, style: const TextStyle(fontSize: 14)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+</code></pre>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const FilmTitle(film: mockFilm),
+              const FilmDetails(film: mockFilm),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h2 id="recap-3"><a class="header" href="#recap-3">Recap</a></h2>
+<ul>
+<li>✓ Learned about strongly-typed classes and why they’re important for handling API data</li>
+<li>✓ Created the <code>Film</code> model class with properties matching the Ghibli API response</li>
+<li>✓ Implemented <code>Film.fromJson()</code> factory method for parsing JSON data</li>
+<li>✓ Created a <code>mockFilm</code> instance to test your implementation</li>
+<li>✓ Updated <code>FilmTitle</code> widget to work with Film objects and display images</li>
+<li>✓ Created a new <code>FilmDetails</code> widget to show comprehensive film information</li>
+</ul>
+<h2 id="next-steps-3"><a class="header" href="#next-steps-3">Next Steps</a></h2>
+<p>Now that you have a model class to represent film data and widgets to display it, the next chapter introduces <strong>Stateful Widgets</strong>. This is important because your film cards need to be interactive—tapping should toggle between showing just the title/image vs. full details.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="stateful-widgets"><a class="header" href="#stateful-widgets">Stateful Widgets</a></h1>
+<h2 id="learning-outcome-4"><a class="header" href="#learning-outcome-4">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand how to create stateful widgets, manage ephemeral state with <code>setState()</code>, and build an interactive <code>FilmCard</code> widget that toggles between showing film title/image and detailed information when tapped.</p>
+<h2 id="theory--explanation-4"><a class="header" href="#theory--explanation-4">Theory / Explanation</a></h2>
+<p>So far, all our widgets have been <code>StatelessWidget</code> because they don’t need to change after they are created. But interactive applications need widgets that can change their appearance based on user actions. That’s where <code>StatefulWidget</code> comes in.</p>
+<h2 id="what-is-state"><a class="header" href="#what-is-state">What is State?</a></h2>
+<p><strong>State</strong> is data that can change during the lifetime of a widget. Examples include:</p>
+<ul>
+<li>Whether a button has been pressed</li>
+<li>Whether a menu is open or closed</li>
+<li>Whether a film’s details are showing or hidden</li>
+</ul>
+<p><strong>React</strong> has <code>useState()</code>, <strong>Vue</strong> usually uses <code>Ref()</code>, <strong>Angular</strong> has <code>signals()</code> and <strong>Flutter</strong> uses <code>StatefulWidget</code></p>
+<p>When state changes, the widget rebuilds to reflect the new state on screen. This automatic re-rendering of the UI is the concept of <strong>declarative programming</strong>.</p>
+<h2 id="ephemeral-state-vs-app-state"><a class="header" href="#ephemeral-state-vs-app-state">Ephemeral State vs App State</a></h2>
+<p>Not all state is the same:</p>
+<ul>
+<li><strong>Ephemeral state</strong> (or UI state) affects only one widget and is temporary. Examples: whether a dropdown is expanded, whether a film’s details are showing. This state doesn’t need to be saved or shared globally across the application.</li>
+<li><strong>App state</strong> affects the entire application, or a large portion of the application, and persists. We’ll cover this later with MVVM.</li>
+</ul>
+<p>For now, we’re focusing on <strong>ephemeral state</strong>, using <code>StatefulWidget</code> to manage local UI changes.</p>
+<h2 id="creating-a-statefulwidget"><a class="header" href="#creating-a-statefulwidget">Creating a StatefulWidget</a></h2>
+<p>A <code>StatefulWidget</code> is actually two classes:</p>
+<ol>
+<li>The widget class itself (extends <code>StatefulWidget</code>)</li>
+<li>A state class (extends <code>State&lt;WidgetName&gt;</code>)</li>
+</ol>
+<p>The state class contains:</p>
+<ul>
+<li>The mutable data (properties that can change)</li>
+<li>The <code>build()</code> method that describes the UI</li>
+<li>Methods to modify the state (using <code>setState()</code>)</li>
+</ul>
+<h2 id="managing-state-with-setstate"><a class="header" href="#managing-state-with-setstate">Managing State with setState()</a></h2>
+<p>When you need to change state and update the UI, you call <code>setState()</code>:</p>
+<ul>
+<li>Pass a <strong>function</strong> that updates your state variables</li>
+<li>Flutter rebuilds the widget automatically</li>
+<li>The screen displays the new state</li>
+</ul>
+<h2 id="example-a-simple-counter"><a class="header" href="#example-a-simple-counter">Example: A Simple Counter</a></h2>
+<p>Here’s a basic <code>StatefulWidget</code> that increments a counter when a button is tapped:</p>
+<pre><code class="language-dart">class Counter extends StatefulWidget {
+  const Counter({super.key});
+
+  @override
+  State&lt;Counter&gt; createState() =&gt; _CounterState();
+}
+
+class _CounterState extends State&lt;Counter&gt; {
+  int count = 0;
+
+  void increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Count: $count'),
+        ElevatedButton(
+          onPressed: increment, 
+          child: const Text('Increment')
+        ),
+      ],
+    );
+  }
+}
+</code></pre>
+<p>Notice:</p>
+<ul>
+<li>The widget class (<code>Counter</code>) is simple and just creates the state</li>
+<li>The state class (<code>_CounterState</code>) holds the mutable <code>count</code> variable</li>
+<li>When the ElevatedButton is pressed, the function <code>increment()</code> is called. Note that <code>onPressed: increment,</code> does not use parentheses at the end of increment. <code>onPressed</code> expects a reference to a function.</li>
+<li>Note the syntax of <code>setState()</code> call inside of <code>increment()</code>. <code>setState()</code> expects a function as parameter.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-17.png" alt="alt text"><span class="img-wrapper"><img src="image-17.png" alt="alt text"></span></label></li>
+<li>Here we are using the <a href="https://dart.dev/language/functions#anonymous-functions">anonymous function</a> syntax from Dart, which is very similar to arrow functions from JavaScript:
+<pre><code class="language-dart">  setState(() {
+    count++;
+  });
+</code></pre>
+</li>
+</ul>
+<p><code>int count = 0;</code> looks like a normal variable, but since it is defined in <code>class _CounterState extends State&lt;Counter&gt;</code> it is actually a state. In this regard, Flutter syntax differs from other frameworks like React that relies on the <code>useState()</code> syntax to create a state. We can compare a <code>StatelessWidget()</code> to a React component that has no <code>useState()</code> and a <code>StatefulWidget()</code> would be the equivalent of a React component with a <code>useState()</code>.
+This count state should only be modified inside a setState() call; otherwise, the value will change in memory, but the UI will not update to reflect it.</p>
+<h2 id="practice-4"><a class="header" href="#practice-4">Practice</a></h2>
+<p>Create a <code>FilmCard</code> widget that combines <code>FilmTitle()</code> and <code>FilmDetails()</code>:</p>
+<h3 id="exercise-1-create-filmcard-as-a-statefulwidget"><a class="header" href="#exercise-1-create-filmcard-as-a-statefulwidget">Exercise 1: Create FilmCard as a StatefulWidget</a></h3>
+<p>In a new file <code>lib/views/film_card.dart</code> create <code>FilmCard()</code> a StatefulWidget that accepts a <code>Film</code> object.<br>Add a boolean state variable <code>showDetails</code> (initially false).<br>For now, display the value of <code>showDetails</code> in a <code>Text()</code> widget. Use <code>Text(showDetails.toString())</code> for the boolean value to be cast as String.
+And display this new widget in the <code>MainApp()</code>.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// /lib/views/film_card.dart
+import 'package:flutter/material.dart';
+
+class FilmCard extends StatefulWidget {
+  const FilmCard({super.key});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(showDetails.toString());
+  }
+}
+</code></pre>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_card.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FilmCard(),
+              const FilmTitle(film: mockFilm),
+              const FilmDetails(film: mockFilm),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-2-add-a-button-to-toggle-the-value-of-the-showdetail-state"><a class="header" href="#exercise-2-add-a-button-to-toggle-the-value-of-the-showdetail-state">Exercise 2: Add a button to toggle the value of the <code>showDetail</code> state</a></h3>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-19.png" alt="alt text"><span class="img-wrapper"><img src="image-19.png" alt="alt text"></span></label></p>
+<p>Write a function, inside the <code>_FilmCardState</code> that uses <code>setState()</code> to toggle the value of <code>showDetails</code>.<br>Add an <code>ElevatedButton</code> to trigger the new state toggling function.<br>Test your app to make sure clicking on the button changes the value that is being displayed.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+
+class FilmCard extends StatefulWidget {
+  const FilmCard({super.key});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-3-display-either-filmtitle-or-filmdetails"><a class="header" href="#exercise-3-display-either-filmtitle-or-filmdetails">Exercise 3: Display either <code>FilmTitle()</code> or <code>FilmDetails()</code></a></h3>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="toggle_and_ternary.gif" alt="alt text"><span class="img-wrapper"><img src="toggle_and_ternary.gif" alt="alt text"></span></label>
+Let’s now add conditional rendering based on the <code>showDetails</code> boolean state.</p>
+<p>First you can remove <code>FilmTitle()</code> and <code>FilmDetails()</code> from the <code>MainApp()</code>. They will now be wrapped inside <code>FilmCard()</code>.</p>
+<p>There are multiple ways to achieve <a href="https://www.geeksforgeeks.org/flutter/flutter-outputting-widgets-conditionally/">conditional rendering</a> in Flutter. The method we will use now is the <a href="https://dart-tutorial.com/conditions-and-loops/ternary-operator-in-dart/">ternary operator</a>, a short form for an “if-else” condition.</p>
+<p>The ternary operator is used to return either <code>FilmTitle()</code> or <code>FilmDetails()</code>.</p>
+<p>The <code>FilmCard()</code> widget must also be updated to receive a <code>Film</code> object.</p>
+<details>
+<summary>Hints</summary>  
+<p><strong>Example of ternary operator syntax for widget rendering</strong><br>Here is an example of ternary operator to conditionally render two different <code>Text()</code> widgets:</p>
+<pre><code class="language-dart">  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        (showDetails ? Text("Should show details") : Text("Should show title")),
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+</code></pre>
+<p><strong>Where to define the <code>film</code> property and how to access it</strong></p>
+<p>For the <code>Film</code> attribute of the <code>FilmCard()</code> widget, since it is not a state, it should be defined as a <code>final</code> variable in <code>FilmCard</code> and not in <code>_FilmCardState</code>.</p>
+<p>The <code>film</code> property is defined in the <code>FilmCard</code> widget (immutable), not in the state class. In <code>_FilmCardState</code>, use <code>widget.film</code> to access it because <code>widget</code> is a special property that gives the state access to its parent <code>StatefulWidget</code>. Immutable data lives on the widget, mutable state lives in the state class.</p>
+</details><br>  
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        (showDetails
+            ? FilmDetails(film: widget.film)
+            : FilmTitle(film: widget.film)),
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-4-replace-elevatedbutton-with-gesturedetector"><a class="header" href="#exercise-4-replace-elevatedbutton-with-gesturedetector">Exercise 4: Replace <code>ElevatedButton()</code> with <code>GestureDetector()</code></a></h3>
+<p>We have the logic, but it would be nicer to be able to click the card directly to flip it.</p>
+<p>Remove the <code>ElevatedButton()</code> and the <code>Text()</code> that shows the boolean value.</p>
+<p>Then wrap the <code>Column()</code> with “widget”. This can be used when the widget we want to add is not part of the selection in the refactoring tool. Replace “widget” with <code>GestureDetector()</code> and re-implement the boolean toggle for the <code>onTap</code> action.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggleShowDetails,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          (showDetails
+              ? FilmDetails(film: widget.film)
+              : FilmTitle(film: widget.film)),
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-5-add-sizing-constraints"><a class="header" href="#exercise-5-add-sizing-constraints">Exercise 5: Add Sizing Constraints</a></h3>
+<p>Notice that both <code>FilmTitle</code> and <code>FilmDetails</code> have their own padding and spacing logic. We can remove this duplication by enforcing a consistent size and padding at the <code>FilmCard</code> level.</p>
+<p>Replace the <code>Column</code> wrapper with a <code>Container</code> that specifies a fixed width, height, and padding. This way, both child widgets are constrained to the same dimensions regardless of their internal layout.</p>
+<details>
+<summary>Hints</summary>
+<p>A <code>Container</code> can hold sizing and padding properties:</p>
+<pre><code class="language-dart">Container(
+  width: 200,
+  height: 320,
+  padding: const EdgeInsets.all(12),
+  child: // your conditional child here
+)
+</code></pre>
+<p>By adding padding at the container level, you centralize size management and reduce the need for each child widget to handle its own spacing.</p>
+<p>To remove the deprecated <code>Container()</code> widgets from <code>FilmTitle()</code> and <code>FilmDetails()</code> you can use the refactoring tool and the option <strong>“Remove widget”</strong>.</p>
+</details><br>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          showDetails = !showDetails;
+        });
+      },
+      child: Container(
+        width: 200,
+        height: 320,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: showDetails
+            ? FilmDetails(film: widget.film)
+            : FilmTitle(film: widget.film),
+      ),
+    );
+  }
+}
+</code></pre>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmTitle extends StatelessWidget {
+  final Film film;
+  const FilmTitle({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            film.image,
+            width: 170,
+            height: 250,
+            fit: BoxFit.cover,
+          ),
+        ),
+        SizedBox(height: 12),
+        Text(
+          film.title,
+          style: const TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+</code></pre>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmDetails extends StatelessWidget {
+  final Film film;
+
+  const FilmDetails({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            film.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.red,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          Text(
+            'Director: ${film.director}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+
+          const SizedBox(height: 8),
+
+          Text('Producer: ${film.producer}'),
+
+          const SizedBox(height: 8),
+
+          Text('Release: ${film.releaseDate}'),
+
+          const SizedBox(height: 16),
+
+          Text(film.description, style: const TextStyle(fontSize: 14)),
+        ],
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h2 id="recap-4"><a class="header" href="#recap-4">Recap</a></h2>
+<ul>
+<li>✓ Learned the difference between stateless and stateful widgets</li>
+<li>✓ Understood ephemeral state vs app state</li>
+<li>✓ Mastered the StatefulWidget pattern (widget class + state class)</li>
+<li>✓ Learned how <code>setState()</code> triggers widget rebuilds</li>
+<li>✓ Created an interactive <code>FilmCard</code> that toggles between two views</li>
+<li>✓ Practiced conditional rendering based on state</li>
+</ul>
+<h2 id="next-steps-4"><a class="header" href="#next-steps-4">Next Steps</a></h2>
+<p>Now that your film cards are interactive, the next chapter introduces the <strong>View layer</strong> of MVVM architecture. You’ll create a <code>FilmsView</code> widget that displays multiple film cards in a grid, bringing us closer to building a complete app structure.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="mvvm-view"><a class="header" href="#mvvm-view">MVVM: View</a></h1>
+<h2 id="learning-outcome-5"><a class="header" href="#learning-outcome-5">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand how Views serve as page-level components in the MVVM architecture, create a <code>FilmsView</code> widget that displays multiple film cards in a grid or list, and organize your project structure to separate concerns by feature (views and their widgets).</p>
+<h2 id="theory--explanation-5"><a class="header" href="#theory--explanation-5">Theory / Explanation</a></h2>
+<p>As your application grows, managing all state, logic, and UI in one place becomes difficult.<br><a href="https://docs.flutter.dev/app-architecture/guide#mvvm"><strong>Model-View-ViewModel (MVVM)</strong></a> is an architecture pattern that separates these concerns into distinct layers. Let’s start with the <strong>View</strong> layer.<br>MVVM is one way amongst others to achieve a <a href="https://docs.flutter.dev/app-architecture/concepts#layered-architecture"><strong>Layered Architecture</strong></a></p>
+<h3 id="the-view-layer"><a class="header" href="#the-view-layer">The View Layer</a></h3>
+<p>Think of Views like pages in your application. Each page/route typically has its own View. When users navigate to different parts of your app, they’re moving between different Views.</p>
+<h3 id="the-filmsview"><a class="header" href="#the-filmsview">The FilmsView</a></h3>
+<p>Currently, we have a <code>FilmCard()</code> that is being called directly from our root widget <code>MainApp()</code>.<br>Our final goal is to display all the films that are returned by the ghibli api. We will now create <code>FilmsView()</code> the widget that represent a page in our application, and will display a list of <code>FilmCard()</code>.</p>
+<p>Your <code>FilmsView</code> will:</p>
+<ul>
+<li>Use <code>Scaffold</code> to provide the page structure (app bar, body)</li>
+<li>Display multiple <code>FilmCard</code> widgets in a grid or list</li>
+</ul>
+<p>This View will later receive data from a ViewModel, but for now, you can pass sample <code>Film</code> objects.</p>
+<h2 id="practice-5"><a class="header" href="#practice-5">Practice</a></h2>
+<h3 id="exercise-1-create-filmsview-with-mock-data"><a class="header" href="#exercise-1-create-filmsview-with-mock-data">Exercise 1: Create FilmsView with Mock Data</a></h3>
+<p>Create a FilmsView widget that extends <code>StatelessWidget</code>.</p>
+<ul>
+<li>Use <code>Scaffold</code> with an <code>appBar</code> showing “Ghibli Films”</li>
+<li>FilmsView receives an array of <code>Film()</code>
+You can use:
+<pre><code class="language-dart">  static const mockFilms = [
+      Film(
+        id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+        title: "Kiki's Delivery Service",
+        originalTitle: '魔女の宅急便',
+        originalTitleRomanised: 'Majo no takkyūbin',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+        movieBanner:
+            'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+        description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+        director: 'Hayao Miyazaki',
+        producer: 'Hayao Miyazaki',
+        releaseDate: '1989',
+        runningTime: '102',
+        rtScore: '96',
+        people: [
+          'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+          'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+        url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+      ),
+      Film(
+        id: '2baf70d1-42bb-4437-b551-e5fed5a87abe',
+        title: 'Castle in the Sky',
+        originalTitle: '天空の城ラピュタ',
+        originalTitleRomanised: 'Tenkū no shiro Rapyuta',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg',
+        movieBanner: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg',
+        description: 'The orphan Sheeta inherited a mysterious crystal that links her to the mythical sky-kingdom of Laputa. With the help of resourceful Pazu and a rollicking band of sky pirates, she makes her way to the ruins of the once-great civilization. Sheeta and Pazu must outwit the evil Muska, who plans to use Laputa\'s science to make himself ruler of the world.',
+        director: 'Hayao Miyazaki',
+        producer: 'Isao Takahata',
+        releaseDate: '1986',
+        runningTime: '124',
+        rtScore: '95',
+        people: [
+          'https://ghibliapi.vercel.app/people/598f7048-74ff-41e0-92ef-87dc1ad980a9',
+          'https://ghibliapi.vercel.app/people/fe93adf2-2f3a-4ec4-9f68-5422f1b87c01',
+          'https://ghibliapi.vercel.app/people/3bc0b41e-3569-4d20-ae73-2da329bf0786',
+          'https://ghibliapi.vercel.app/people/40c005ce-3725-4f15-8409-3e1b1b14b583',
+          'https://ghibliapi.vercel.app/people/5c83c12a-62d5-4e92-8672-33ac76ae1fa0',
+          'https://ghibliapi.vercel.app/people/e08880d0-6938-44f3-b179-81947e7873fc',
+          'https://ghibliapi.vercel.app/people/2a1dad70-802a-459d-8cc2-4ebd8821248b',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: [
+          'https://ghibliapi.vercel.app/vehicles/4e09b023-f650-4747-9ab9-eacf14540cfb',
+        ],
+        url: 'https://ghibliapi.vercel.app/films/2baf70d1-42bb-4437-b551-e5fed5a87abe',
+      ),
+    ];
+</code></pre>
+</li>
+<li>Use a <code>GridView</code> or <code>ListView</code> to display multiple <code>FilmCard</code> widgets</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libviewsfilmsfilm_viewdart"><a class="header" href="#libviewsfilmsfilm_viewdart">lib/views/films/film_view.dart</a></h4>
+<pre><code class="language-dart">// lib/views/films/film_view.dart
+class FilmsView extends StatelessWidget {
+  static const mockFilms = [
+    Film(
+      // TODO: Add Film instances for testing
+      // Use the structure above as reference
+    ),
+  ];
+
+  const FilmsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Ghibli Films')),
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemCount: mockFilms.length,
+        itemBuilder: (context, index) {
+          return FilmCard(film: mockFilms[index]);
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-2-organize-project-file-structure"><a class="header" href="#exercise-2-organize-project-file-structure">Exercise 2: Organize Project File Structure</a></h3>
+<p>Reorganize the file structure:</p>
+<ul>
+<li>In <code>lib/views</code> create a <code>/films</code> folder and move all widgets related to films to this folder</li>
+<li>Optionally, you can also create the <code>lib/views/films/widgets</code> folder and add to it:
+<ul>
+<li><code>film_card.dart</code></li>
+<li><code>film_title.dart</code></li>
+<li><code>film_details.dart</code></li>
+</ul>
+</li>
+<li>The resulting file structure indicate clearly that we have a view dedicated to films, and that <code>FilmsView()</code> is the root node, or root widget, for this section of our app.</li>
+</ul>
+<pre><code>│   main.dart
+│   
+├───models
+│       film_model.dart
+│       
+└───views
+    └───films
+        │   film_view.dart
+        │   
+        └───widgets
+                film_card.dart
+                film_details.dart
+                film_title.dart
+</code></pre>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-15.png" alt="Project folder structure showing organized views and models directories"><span class="img-wrapper"><img src="image-15.png" alt="Project folder structure showing organized views and models directories"></span></label></p>
+<details>
+<summary>Solution</summary>
+<p><strong>File structure reorganization:</strong></p>
+<ol>
+<li>
+<p>Create directories:</p>
+<ul>
+<li><code>lib/views/films/</code></li>
+<li><code>lib/views/films/widgets/</code></li>
+</ul>
+</li>
+<li>
+<p>Move/create files:</p>
+<ul>
+<li>Move <code>lib/views/film_title.dart</code> → <code>lib/views/films/widgets/film_title.dart</code></li>
+<li>Create <code>lib/views/films/widgets/film_card.dart</code></li>
+<li>Create <code>lib/views/films/widgets/film_details.dart</code></li>
+<li>Create <code>lib/views/films/film_view.dart</code></li>
+</ul>
+</li>
+<li>
+<p>Update imports in all files to reflect new paths</p>
+</li>
+</ol>
+<p><strong>Updated <code>main.dart</code> imports:</strong></p>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/views/films/film_view.dart';
+</code></pre>
+<p><strong>Final structure:</strong></p>
+<pre><code>lib/
+├── models/
+│   └── film_model.dart
+├── views/
+│   └── films/
+│       ├── film_view.dart
+│       └── widgets/
+│           ├── film_card.dart
+│           ├── film_details.dart
+│           └── film_title.dart
+└── main.dart
+</code></pre>
+</details>
+<h2 id="recap-5"><a class="header" href="#recap-5">Recap</a></h2>
+<ul>
+<li>✓ Understood the role of Views in MVVM architecture (page-level components)</li>
+<li>✓ Learned the distinction between Views and individual widgets</li>
+<li>✓ Created <code>FilmsView</code> to display multiple films in a grid or list</li>
+<li>✓ Practiced organizing project structure by feature (<code>lib/views/films/</code>)</li>
+<li>✓ Prepared the View layer to receive data from a ViewModel</li>
+</ul>
+<h2 id="more-about-views"><a class="header" href="#more-about-views">More About Views</a></h2>
+<p>Most applications have more than one View and a navigation system to switch from one View to another.<br>Navigation will not be covered in this lab, but to illustrate the concept, here are screenshots of the Ghibli Viewer with a user View and navigation. The navigation is implemented with the Flutter package GoRouter and the UserView is widget that, like FilmsView, uses Scaffold to display the top banner with the name of the current page (or View):</p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-16.png" alt="Ghibli Viewer app showing user profile view and navigation between FilmsView and UserView"><span class="img-wrapper"><img src="image-16.png" alt="Ghibli Viewer app showing user profile view and navigation between FilmsView and UserView"></span></label></p>
+<h2 id="next-steps-5"><a class="header" href="#next-steps-5">Next Steps</a></h2>
+<p>The View is what users interact with, but it needs data and logic. The next chapter introduces the <strong>ViewModel layer</strong> which will manage the state and orchestrate fetching films from the Model layer, then the View will display them.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="mvvm-viewmodel"><a class="header" href="#mvvm-viewmodel">MVVM: ViewModel</a></h1>
+<h2 id="learning-outcome-6"><a class="header" href="#learning-outcome-6">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll create a <code>FilmsViewModel</code> that extends <code>ChangeNotifier</code>, manage application state using <code>setState()</code> and <code>notifyListeners()</code>, integrate the Provider package for dependency injection, and connect your FilmsView to the ViewModel using the <code>Consumer</code> widget.</p>
+<h2 id="theory--explanation-6"><a class="header" href="#theory--explanation-6">Theory / Explanation</a></h2>
+<p>The <strong>ViewModel</strong> is the bridge between your View and your data. It holds the state (data) that your View needs to display.</p>
+<p>If a stateful widget has a state, a View has a ViewModel that holds all its states and for all the View’s widget to access.</p>
+<h2 id="what-does-logic-mean"><a class="header" href="#what-does-logic-mean">What Does Logic Mean?</a></h2>
+<p>The ViewModel holds <strong>state</strong> and manages <strong>user interactions</strong>:</p>
+<ul>
+<li><strong>State</strong>: Data the View needs (a list of films, loading status, error messages)</li>
+<li><strong>User Interactions</strong>: Methods that respond to user actions (like “fetchFilms” button taps)</li>
+</ul>
+<h2 id="changenotifier-managing-state-changes"><a class="header" href="#changenotifier-managing-state-changes">ChangeNotifier: Managing State Changes</a></h2>
+<p>Flutter provides a class called <code>ChangeNotifier</code> that makes it easy to notify widgets when state changes:</p>
+<ul>
+<li>Your ViewModel extends <code>ChangeNotifier</code></li>
+<li>When state changes, call <code>notifyListeners()</code> to alert all watching widgets</li>
+<li>Watching widgets rebuild automatically with the new state</li>
+</ul>
+<h2 id="the-provider-package"><a class="header" href="#the-provider-package">The Provider Package</a></h2>
+<p><strong>Provider</strong> is a popular package for dependency injection and state management. It makes it easy to:</p>
+<ul>
+<li>Create instances of your ViewModels</li>
+<li>Share them across your widget tree</li>
+<li>Have widgets listen to ViewModel state changes</li>
+</ul>
+<p>Provider is not part of the base Flutter framework, therefore it must be added as a dependency in your project.<br>The command <code>flutter pub add provider</code>, can be used to this effect.<br>To use a package in your code, it must be imported:</p>
+<pre><code class="language-dart">import 'package:provider/provider.dart';
+</code></pre>
+<h2 id="using-consumer-to-listen-to-state"><a class="header" href="#using-consumer-to-listen-to-state">Using Consumer to Listen to State</a></h2>
+<p>The <code>Consumer</code> widget rebuilds whenever the ViewModel notifies listeners:</p>
+<ul>
+<li>Wrap your UI with a <code>Consumer&lt;YourViewModel&gt;</code></li>
+<li>Access the ViewModel instance inside the Consumer</li>
+<li>When the ViewModel’s state changes, only the Consumer rebuilds (efficient!)</li>
+</ul>
+<h2 id="practice-6"><a class="header" href="#practice-6">Practice</a></h2>
+<h3 id="exercise-1-create-filmsviewmodel-with-changenotifier"><a class="header" href="#exercise-1-create-filmsviewmodel-with-changenotifier">Exercise 1: Create FilmsViewModel with ChangeNotifier</a></h3>
+<p>Create a FilmsViewModel that extends <code>ChangeNotifier</code>.</p>
+<ul>
+<li>Add a list property to store films: <code>List&lt;Film&gt; films = []</code></li>
+<li>Add a method <code>fetchFilms()</code> that:
+<ul>
+<li>For now, just creates some sample Film objects and stores them in the <code>films</code> list</li>
+<li>Calls <code>notifyListeners()</code> at the end to alert watching widgets</li>
+</ul>
+</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libview_modelsfilms_view_modeldart"><a class="header" href="#libview_modelsfilms_view_modeldart">lib/view_models/films_view_model.dart</a></h4>
+<pre><code class="language-dart">// lib/view_models/films_view_model.dart
+import 'package:flutter/foundation.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+
+class FilmsViewModel extends ChangeNotifier {
+  List&lt;Film&gt; films = [];
+
+  void fetchFilms() {
+    // TODO: Create mock Film objects and add to films list
+    films = [
+      // TODO: Add Film instances here
+    ];
+    notifyListeners();
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-2-install-the-provider-package"><a class="header" href="#exercise-2-install-the-provider-package">Exercise 2: Install the Provider Package</a></h3>
+<p>Add the provider dependency.</p>
+<ul>
+<li>Run <code>flutter pub add provider</code> in your terminal</li>
+<li>Verify it was added to <code>pubspec.yaml</code></li>
+</ul>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-bash"># Run in terminal:
+flutter pub add provider
+</code></pre>
+<p>After running, verify in <code>pubspec.yaml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.0  # Version may vary
+</code></pre>
+</details>
+<h3 id="exercise-3-integrate-provider-in-filmsview"><a class="header" href="#exercise-3-integrate-provider-in-filmsview">Exercise 3: Integrate Provider in FilmsView</a></h3>
+<p>Update your FilmsView to use Provider.</p>
+<ul>
+<li>Wrap your film list with <code>Consumer&lt;FilmsViewModel&gt;()</code></li>
+<li>Inside the Consumer, access the ViewModel and display <code>viewModel.films</code></li>
+<li>If the films list is empty, show a message like “No films yet”</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libviewsfilmsfilm_viewdart-updated"><a class="header" href="#libviewsfilmsfilm_viewdart-updated">lib/views/films/film_view.dart (Updated)</a></h4>
+<pre><code class="language-dart">// lib/views/films/film_view.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/view_models/films_view_model.dart';
+
+class FilmsView extends StatelessWidget {
+  const FilmsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ghibli Films'),
+      ),
+      body: Consumer&lt;FilmsViewModel&gt;(
+        builder: (context, viewModel, child) {
+          if (viewModel.films.isEmpty) {
+            return const Center(child: Text('No films yet'));
+          }
+          
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: viewModel.films.length,
+            itemBuilder: (context, index) {
+              // TODO: Return FilmCard widget
+              return Container();
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-4-add-fetch-films-button"><a class="header" href="#exercise-4-add-fetch-films-button">Exercise 4: Add Fetch Films Button</a></h3>
+<p>Add a “Fetch Films” button.</p>
+<ul>
+<li>Add a button in the app bar or body</li>
+<li>When tapped, call <code>viewModel.fetchFilms()</code></li>
+<li>The Consumer rebuilds automatically with the new films</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libviewsfilmsfilm_viewdart-with-button"><a class="header" href="#libviewsfilmsfilm_viewdart-with-button">lib/views/films/film_view.dart (with button)</a></h4>
+<pre><code class="language-dart">// lib/views/films/film_view.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class FilmsView extends StatelessWidget {
+  const FilmsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ghibli Films'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              context.read&lt;FilmsViewModel&gt;().fetchFilms();
+            },
+          ),
+        ],
+      ),
+      body: Consumer&lt;FilmsViewModel&gt;(
+        builder: (context, viewModel, child) {
+          if (viewModel.films.isEmpty) {
+            return const Center(child: Text('No films yet'));
+          }
+          
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: viewModel.films.length,
+            itemBuilder: (context, index) {
+              return FilmCard(film: viewModel.films[index]);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+<h4 id="libmaindart-updated-with-multiprovider"><a class="header" href="#libmaindart-updated-with-multiprovider">lib/main.dart (Updated with MultiProvider)</a></h4>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:provider/provider.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/view_models/films_view_model.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) =&gt; FilmsViewModel()),
+      ],
+      child: MaterialApp(
+        home: FilmsView(),
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h2 id="recap-6"><a class="header" href="#recap-6">Recap</a></h2>
+<ul>
+<li>✓ Understood the ViewModel’s role as bridge between View and data</li>
+<li>✓ Learned how <code>ChangeNotifier</code> and <code>notifyListeners()</code> manage state changes</li>
+<li>✓ Added the Provider package for dependency injection</li>
+<li>✓ Created <code>FilmsViewModel</code> with a <code>fetchFilms()</code> method</li>
+<li>✓ Used <code>Consumer&lt;FilmsViewModel&gt;()</code> to connect View to ViewModel</li>
+<li>✓ Implemented a “Fetch Films” button that triggers state updates</li>
+</ul>
+<h2 id="next-steps-6"><a class="header" href="#next-steps-6">Next Steps</a></h2>
+<p>Now that your ViewModel can manage films and notify the View, the final chapter introduces the <strong>Model layer</strong>. This is where you’ll connect to the real Ghibli API, fetch actual film data, handle errors, and complete the MVVM pattern.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="mvvm-model"><a class="header" href="#mvvm-model">MVVM: Model</a></h1>
+<h2 id="learning-outcome-7"><a class="header" href="#learning-outcome-7">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll create a <code>FilmService</code> class to fetch data from the Ghibli API, handle API responses and errors gracefully, integrate the service with your ViewModel, and understand how data flows through the complete MVVM architecture (View → ViewModel → Service).</p>
+<h2 id="theory--explanation-7"><a class="header" href="#theory--explanation-7">Theory / Explanation</a></h2>
+<p>The <strong>Model</strong> is the <strong>data layer</strong> of your application. It handles all operations related to data: fetching from APIs, parsing responses, managing databases, and providing clean data to the ViewModel.</p>
+<h3 id="components-of-the-model-layer"><a class="header" href="#components-of-the-model-layer">Components of the Model Layer</a></h3>
+<p>The Model layer consists of two main parts:</p>
+<ol>
+<li>
+<p><strong>Data Classes</strong>: Structures that represent your data (like the <code>Film</code> class you created earlier). These define what data looks like.</p>
+</li>
+<li>
+<p><strong>Services</strong>: Classes that fetch and manage data. A service handles:</p>
+<ul>
+<li>Making API requests</li>
+<li>Parsing JSON responses into data objects</li>
+<li>Error handling</li>
+<li>Caching (if needed)</li>
+</ul>
+</li>
+</ol>
+<h3 id="fetching-data-from-the-api"><a class="header" href="#fetching-data-from-the-api">Fetching Data from the API</a></h3>
+<p>To make HTTP requests in Flutter, we use the <code>http</code> package. Add it with:</p>
+<pre><code class="language-bash">flutter pub add http
+</code></pre>
+<p>Making a request is simple:</p>
+<pre><code class="language-dart">final response = await http.get(Uri.parse(url));
+</code></pre>
+<p>Once you have the response, parse the JSON:</p>
+<pre><code class="language-dart">final films = (jsonDecode(response.body) as List)
+    .map((data) =&gt; Film.fromJson(data))
+    .toList();
+</code></pre>
+<p>Notice that <code>Film</code> needs a <code>fromJson()</code> constructor to parse JSON data into a <code>Film</code> object. This is why having a structured model class is so valuable.</p>
+<h2 id="practice-7"><a class="header" href="#practice-7">Practice</a></h2>
+<h3 id="exercise-1-install-the-http-package"><a class="header" href="#exercise-1-install-the-http-package">Exercise 1: Install the HTTP Package</a></h3>
+<p>Add the http package.</p>
+<ul>
+<li>Run <code>flutter pub add http</code></li>
+<li>Verify it was added to <code>pubspec.yaml</code></li>
+</ul>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-bash"># Run in terminal:
+flutter pub add http
+</code></pre>
+<p>Verify in <code>pubspec.yaml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.0.0  # Version may vary
+  provider: ^6.0.0
+</code></pre>
+</details>
+<h3 id="exercise-2-create-filmservice-for-api-integration"><a class="header" href="#exercise-2-create-filmservice-for-api-integration">Exercise 2: Create FilmService for API Integration</a></h3>
+<p>Create a FilmService class.</p>
+<ul>
+<li>This service handles all communication with the Ghibli API</li>
+<li>It should have a method to fetch films and parse them into Film objects</li>
+<li>Handle errors gracefully (network errors, parsing errors)</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libservicesfilm_servicedart"><a class="header" href="#libservicesfilm_servicedart">lib/services/film_service.dart</a></h4>
+<pre><code class="language-dart">// lib/services/film_service.dart
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+
+class FilmService {
+  static const String baseUrl = 'https://ghibliapi.vercel.app';
+
+  Future&lt;List&lt;Film&gt;&gt; fetchFilms() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/films'));
+      
+      if (response.statusCode == 200) {
+        // TODO: Parse JSON response
+        final films = (jsonDecode(response.body) as List)
+            .map((data) =&gt; Film.fromJson(data as Map&lt;String, dynamic&gt;))
+            .toList();
+        return films;
+      } else {
+        // TODO: Handle HTTP errors
+        throw Exception('Failed to load films: ${response.statusCode}');
+      }
+    } catch (e) {
+      // TODO: Handle network and parsing errors
+      rethrow;
+    }
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-3-connect-filmservice-to-viewmodel"><a class="header" href="#exercise-3-connect-filmservice-to-viewmodel">Exercise 3: Connect FilmService to ViewModel</a></h3>
+<p>Update your FilmsViewModel.</p>
+<ul>
+<li>Add a FilmService instance to the ViewModel</li>
+<li>Modify <code>fetchFilms()</code> to call the service instead of creating mock data</li>
+<li>Handle loading and error states</li>
+<li>Update the UI to show loading indicator or error message when appropriate</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libview_modelsfilms_view_modeldart-updated"><a class="header" href="#libview_modelsfilms_view_modeldart-updated">lib/view_models/films_view_model.dart (Updated)</a></h4>
+<pre><code class="language-dart">// lib/view_models/films_view_model.dart
+import 'package:flutter/foundation.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+import 'package:flutter_lab_widget_to_layered_architecture/services/film_service.dart';
+
+class FilmsViewModel extends ChangeNotifier {
+  final FilmService _filmService = FilmService();
+  
+  List&lt;Film&gt; films = [];
+  bool isLoading = false;
+  String? errorMessage;
+
+  Future&lt;void&gt; fetchFilms() async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    
+    try {
+      films = await _filmService.fetchFilms();
+      errorMessage = null;
+    } catch (e) {
+      // TODO: Handle errors and set user-friendly error message
+      errorMessage = 'Failed to load films: ${e.toString()}';
+      films = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-4-complete-the-mvvm-data-flow"><a class="header" href="#exercise-4-complete-the-mvvm-data-flow">Exercise 4: Complete the MVVM Data Flow</a></h3>
+<p>Connect everything together.</p>
+<ul>
+<li>On button click in the View, call <code>viewModel.fetchFilms()</code></li>
+<li>The ViewModel calls <code>filmService.fetchFilms()</code></li>
+<li>The service makes the API request and returns films</li>
+<li>The ViewModel updates its state and notifies listeners</li>
+<li>The Consumer rebuilds the View with the new data</li>
+</ul>
+<details>
+<summary>Solution</summary>
+<h4 id="libviewsfilmsfilm_viewdart-updated-with-loading-and-error-states"><a class="header" href="#libviewsfilmsfilm_viewdart-updated-with-loading-and-error-states">lib/views/films/film_view.dart (Updated with loading and error states)</a></h4>
+<pre><code class="language-dart">// lib/views/films/film_view.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class FilmsView extends StatelessWidget {
+  const FilmsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ghibli Films'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              context.read&lt;FilmsViewModel&gt;().fetchFilms();
+            },
+          ),
+        ],
+      ),
+      body: Consumer&lt;FilmsViewModel&gt;(
+        builder: (context, viewModel, child) {
+          // TODO: Show loading spinner
+          if (viewModel.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          // TODO: Show error message
+          if (viewModel.errorMessage != null) {
+            return Center(
+              child: Text('Error: ${viewModel.errorMessage}'),
+            );
+          }
+
+          // TODO: Show empty state
+          if (viewModel.films.isEmpty) {
+            return const Center(child: Text('No films loaded. Tap refresh!'));
+          }
+
+          // TODO: Display films grid
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: viewModel.films.length,
+            itemBuilder: (context, index) {
+              return FilmCard(film: viewModel.films[index]);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+<p><strong>Complete Data Flow:</strong></p>
+<ol>
+<li>User taps refresh button in View</li>
+<li>View calls <code>context.read&lt;FilmsViewModel&gt;().fetchFilms()</code></li>
+<li>ViewModel sets <code>isLoading = true</code> and notifies listeners</li>
+<li>View shows loading spinner</li>
+<li>ViewModel calls <code>filmService.fetchFilms()</code></li>
+<li>FilmService makes HTTP request to Ghibli API</li>
+<li>FilmService parses JSON response into Film objects</li>
+<li>ViewModel receives films and updates state</li>
+<li>ViewModel calls <code>notifyListeners()</code></li>
+<li>Consumer rebuilds with new films list</li>
+</ol>
+</details>
+      ),
+      body: Consumer<filmsviewmodel>(
+        builder: (context, viewModel, _) {
+          // TODO: Show loading indicator if viewModel.isLoading
+          // TODO: Show error message if viewModel.errorMessage is not null
+          // TODO: Show empty state if films list is empty
+          // TODO: Show GridView/ListView of films otherwise
+          return Container();
+        },
+      ),
+    );
+  }
+}
+```
+
+<h2 id="recap-7"><a class="header" href="#recap-7">Recap</a></h2>
+<ul>
+<li>✓ Understood the Model layer as the data/API layer</li>
+<li>✓ Learned the two components: Data Classes and Services</li>
+<li>✓ Created <code>FilmService</code> to fetch data from the Ghibli API</li>
+<li>✓ Implemented JSON parsing using <code>Film.fromJson()</code></li>
+<li>✓ Added error handling for graceful failure</li>
+<li>✓ Integrated FilmService with FilmsViewModel</li>
+<li>✓ Added loading and error states to the UI</li>
+<li>✓ Completed the full MVVM architecture (View → ViewModel → Service → API)</li>
+</ul>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>Congratulations! You’ve successfully implemented a complete MVVM architecture:</p>
+<ul>
+<li><strong>View Layer</strong> (<code>FilmsView</code>): Displays UI and receives user interactions</li>
+<li><strong>ViewModel Layer</strong> (<code>FilmsViewModel</code>): Manages state and orchestrates logic</li>
+<li><strong>Model Layer</strong> (<code>FilmService</code>, <code>Film</code>): Fetches and manages data</li>
+</ul>
+<p>This architecture scales well as your app grows—you can:</p>
+<ul>
+<li>Add more Views without touching the ViewModel or Service</li>
+<li>Modify the API source without changing the View</li>
+<li>Test ViewModels independently using mock services</li>
+<li>Reuse services across multiple ViewModels</li>
+</ul>
+<p>The patterns you’ve learned here are foundational for professional Flutter development. From here, you could explore navigation, advanced state management, testing, and more complex features.</p>
+</filmsviewmodel><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="additional-theory"><a class="header" href="#additional-theory">Additional Theory</a></h1>
+<ul>
+<li>BuildContext context</li>
+<li>Navigation</li>
+<li>MVVM and Repositories</li>
+<li>Folder Structure</li>
+<li>Animations</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-2100cc9e.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

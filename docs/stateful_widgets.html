@@ -1,0 +1,719 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Stateful Widgets - Flutter lab: Widget to layered architecture</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "coal";
+            window.path_to_searchindex_js = "searchindex-7ad57467.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-809ced58.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Flutter lab: Widget to layered architecture</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="stateful-widgets"><a class="header" href="#stateful-widgets">Stateful Widgets</a></h1>
+<h2 id="learning-outcome"><a class="header" href="#learning-outcome">Learning Outcome</a></h2>
+<p>By the end of this chapter, you’ll understand how to create stateful widgets, manage ephemeral state with <code>setState()</code>, and build an interactive <code>FilmCard</code> widget that toggles between showing film title/image and detailed information when tapped.</p>
+<h2 id="theory--explanation"><a class="header" href="#theory--explanation">Theory / Explanation</a></h2>
+<p>So far, all our widgets have been <code>StatelessWidget</code> because they don’t need to change after they are created. But interactive applications need widgets that can change their appearance based on user actions. That’s where <code>StatefulWidget</code> comes in.</p>
+<h2 id="what-is-state"><a class="header" href="#what-is-state">What is State?</a></h2>
+<p><strong>State</strong> is data that can change during the lifetime of a widget. Examples include:</p>
+<ul>
+<li>Whether a button has been pressed</li>
+<li>Whether a menu is open or closed</li>
+<li>Whether a film’s details are showing or hidden</li>
+</ul>
+<p><strong>React</strong> has <code>useState()</code>, <strong>Vue</strong> usually uses <code>Ref()</code>, <strong>Angular</strong> has <code>signals()</code> and <strong>Flutter</strong> uses <code>StatefulWidget</code></p>
+<p>When state changes, the widget rebuilds to reflect the new state on screen. This automatic re-rendering of the UI is the concept of <strong>declarative programming</strong>.</p>
+<h2 id="ephemeral-state-vs-app-state"><a class="header" href="#ephemeral-state-vs-app-state">Ephemeral State vs App State</a></h2>
+<p>Not all state is the same:</p>
+<ul>
+<li><strong>Ephemeral state</strong> (or UI state) affects only one widget and is temporary. Examples: whether a dropdown is expanded, whether a film’s details are showing. This state doesn’t need to be saved or shared globally across the application.</li>
+<li><strong>App state</strong> affects the entire application, or a large portion of the application, and persists. We’ll cover this later with MVVM.</li>
+</ul>
+<p>For now, we’re focusing on <strong>ephemeral state</strong>, using <code>StatefulWidget</code> to manage local UI changes.</p>
+<h2 id="creating-a-statefulwidget"><a class="header" href="#creating-a-statefulwidget">Creating a StatefulWidget</a></h2>
+<p>A <code>StatefulWidget</code> is actually two classes:</p>
+<ol>
+<li>The widget class itself (extends <code>StatefulWidget</code>)</li>
+<li>A state class (extends <code>State&lt;WidgetName&gt;</code>)</li>
+</ol>
+<p>The state class contains:</p>
+<ul>
+<li>The mutable data (properties that can change)</li>
+<li>The <code>build()</code> method that describes the UI</li>
+<li>Methods to modify the state (using <code>setState()</code>)</li>
+</ul>
+<h2 id="managing-state-with-setstate"><a class="header" href="#managing-state-with-setstate">Managing State with setState()</a></h2>
+<p>When you need to change state and update the UI, you call <code>setState()</code>:</p>
+<ul>
+<li>Pass a <strong>function</strong> that updates your state variables</li>
+<li>Flutter rebuilds the widget automatically</li>
+<li>The screen displays the new state</li>
+</ul>
+<h2 id="example-a-simple-counter"><a class="header" href="#example-a-simple-counter">Example: A Simple Counter</a></h2>
+<p>Here’s a basic <code>StatefulWidget</code> that increments a counter when a button is tapped:</p>
+<pre><code class="language-dart">class Counter extends StatefulWidget {
+  const Counter({super.key});
+
+  @override
+  State&lt;Counter&gt; createState() =&gt; _CounterState();
+}
+
+class _CounterState extends State&lt;Counter&gt; {
+  int count = 0;
+
+  void increment() {
+    setState(() {
+      count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Count: $count'),
+        ElevatedButton(
+          onPressed: increment, 
+          child: const Text('Increment')
+        ),
+      ],
+    );
+  }
+}
+</code></pre>
+<p>Notice:</p>
+<ul>
+<li>The widget class (<code>Counter</code>) is simple and just creates the state</li>
+<li>The state class (<code>_CounterState</code>) holds the mutable <code>count</code> variable</li>
+<li>When the ElevatedButton is pressed, the function <code>increment()</code> is called. Note that <code>onPressed: increment,</code> does not use parentheses at the end of increment. <code>onPressed</code> expects a reference to a function.</li>
+<li>Note the syntax of <code>setState()</code> call inside of <code>increment()</code>. <code>setState()</code> expects a function as parameter.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-17.png" alt="alt text"><span class="img-wrapper"><img src="image-17.png" alt="alt text"></span></label></li>
+<li>Here we are using the <a href="https://dart.dev/language/functions#anonymous-functions">anonymous function</a> syntax from Dart, which is very similar to arrow functions from JavaScript:
+<pre><code class="language-dart">  setState(() {
+    count++;
+  });
+</code></pre>
+</li>
+</ul>
+<p><code>int count = 0;</code> looks like a normal variable, but since it is defined in <code>class _CounterState extends State&lt;Counter&gt;</code> it is actually a state. In this regard, Flutter syntax differs from other frameworks like React that relies on the <code>useState()</code> syntax to create a state. We can compare a <code>StatelessWidget()</code> to a React component that has no <code>useState()</code> and a <code>StatefulWidget()</code> would be the equivalent of a React component with a <code>useState()</code>.
+This count state should only be modified inside a setState() call; otherwise, the value will change in memory, but the UI will not update to reflect it.</p>
+<h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
+<p>Create a <code>FilmCard</code> widget that combines <code>FilmTitle()</code> and <code>FilmDetails()</code>:</p>
+<h3 id="exercise-1-create-filmcard-as-a-statefulwidget"><a class="header" href="#exercise-1-create-filmcard-as-a-statefulwidget">Exercise 1: Create FilmCard as a StatefulWidget</a></h3>
+<p>In a new file <code>lib/views/film_card.dart</code> create <code>FilmCard()</code> a StatefulWidget that accepts a <code>Film</code> object.<br>Add a boolean state variable <code>showDetails</code> (initially false).<br>For now, display the value of <code>showDetails</code> in a <code>Text()</code> widget. Use <code>Text(showDetails.toString())</code> for the boolean value to be cast as String.
+And display this new widget in the <code>MainApp()</code>.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">// /lib/views/film_card.dart
+import 'package:flutter/material.dart';
+
+class FilmCard extends StatefulWidget {
+  const FilmCard({super.key});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(showDetails.toString());
+  }
+}
+</code></pre>
+<pre><code class="language-dart">// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_card.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  static const mockFilm = Film(
+    id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+    title: "Kiki's Delivery Service",
+    originalTitle: '魔女の宅急便',
+    originalTitleRomanised: 'Majo no takkyūbin',
+    image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+    movieBanner:
+        'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+    description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+    director: 'Hayao Miyazaki',
+    producer: 'Hayao Miyazaki',
+    releaseDate: '1989',
+    runningTime: '102',
+    rtScore: '96',
+    people: [
+      'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+      'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+    ],
+    species: [
+      'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+    ],
+    locations: ['https://ghibliapi.vercel.app/locations/'],
+    vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+    url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FilmCard(),
+              const FilmTitle(film: mockFilm),
+              const FilmDetails(film: mockFilm),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-2-add-a-button-to-toggle-the-value-of-the-showdetail-state"><a class="header" href="#exercise-2-add-a-button-to-toggle-the-value-of-the-showdetail-state">Exercise 2: Add a button to toggle the value of the <code>showDetail</code> state</a></h3>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-19.png" alt="alt text"><span class="img-wrapper"><img src="image-19.png" alt="alt text"></span></label></p>
+<p>Write a function, inside the <code>_FilmCardState</code> that uses <code>setState()</code> to toggle the value of <code>showDetails</code>.<br>Add an <code>ElevatedButton</code> to trigger the new state toggling function.<br>Test your app to make sure clicking on the button changes the value that is being displayed.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+
+class FilmCard extends StatefulWidget {
+  const FilmCard({super.key});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-3-display-either-filmtitle-or-filmdetails"><a class="header" href="#exercise-3-display-either-filmtitle-or-filmdetails">Exercise 3: Display either <code>FilmTitle()</code> or <code>FilmDetails()</code></a></h3>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="toggle_and_ternary.gif" alt="alt text"><span class="img-wrapper"><img src="toggle_and_ternary.gif" alt="alt text"></span></label>
+Let’s now add conditional rendering based on the <code>showDetails</code> boolean state.</p>
+<p>First you can remove <code>FilmTitle()</code> and <code>FilmDetails()</code> from the <code>MainApp()</code>. They will now be wrapped inside <code>FilmCard()</code>.</p>
+<p>There are multiple ways to achieve <a href="https://www.geeksforgeeks.org/flutter/flutter-outputting-widgets-conditionally/">conditional rendering</a> in Flutter. The method we will use now is the <a href="https://dart-tutorial.com/conditions-and-loops/ternary-operator-in-dart/">ternary operator</a>, a short form for an “if-else” condition.</p>
+<p>The ternary operator is used to return either <code>FilmTitle()</code> or <code>FilmDetails()</code>.</p>
+<p>The <code>FilmCard()</code> widget must also be updated to receive a <code>Film</code> object.</p>
+<details>
+<summary>Hints</summary>  
+<p><strong>Example of ternary operator syntax for widget rendering</strong><br>Here is an example of ternary operator to conditionally render two different <code>Text()</code> widgets:</p>
+<pre><code class="language-dart">  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        (showDetails ? Text("Should show details") : Text("Should show title")),
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+</code></pre>
+<p><strong>Where to define the <code>film</code> property and how to access it</strong></p>
+<p>For the <code>Film</code> attribute of the <code>FilmCard()</code> widget, since it is not a state, it should be defined as a <code>final</code> variable in <code>FilmCard</code> and not in <code>_FilmCardState</code>.</p>
+<p>The <code>film</code> property is defined in the <code>FilmCard</code> widget (immutable), not in the state class. In <code>_FilmCardState</code>, use <code>widget.film</code> to access it because <code>widget</code> is a special property that gives the state access to its parent <code>StatefulWidget</code>. Immutable data lives on the widget, mutable state lives in the state class.</p>
+</details><br>  
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        (showDetails
+            ? FilmDetails(film: widget.film)
+            : FilmTitle(film: widget.film)),
+        ElevatedButton(
+          onPressed: toggleShowDetails,
+          child: Text("Toggle value"),
+        ),
+        Text(showDetails.toString()),
+      ],
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h3 id="exercise-4-replace-elevatedbutton-with-gesturedetector"><a class="header" href="#exercise-4-replace-elevatedbutton-with-gesturedetector">Exercise 4: Replace <code>ElevatedButton()</code> with <code>GestureDetector()</code></a></h3>
+<p>We have the logic, but it would be nicer to be able to click the card directly to flip it.</p>
+<p>Remove the <code>ElevatedButton()</code> and the <code>Text()</code> that shows the boolean value.</p>
+<p>Then wrap the <code>Column()</code> with “widget”. This can be used when the widget we want to add is not part of the selection in the refactoring tool. Replace “widget” with <code>GestureDetector()</code> and re-implement the boolean toggle for the <code>onTap</code> action.</p>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  void toggleShowDetails() {
+    setState(() {
+      showDetails = !showDetails;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggleShowDetails,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          (showDetails
+              ? FilmDetails(film: widget.film)
+              : FilmTitle(film: widget.film)),
+        ],
+      ),
+    );
+  }
+}
+</code></pre>
+</details>
+<h3 id="exercise-5-add-sizing-constraints"><a class="header" href="#exercise-5-add-sizing-constraints">Exercise 5: Add Sizing Constraints</a></h3>
+<p>Notice that both <code>FilmTitle</code> and <code>FilmDetails</code> have their own padding and spacing logic. We can remove this duplication by enforcing a consistent size and padding at the <code>FilmCard</code> level.</p>
+<p>Replace the <code>Column</code> wrapper with a <code>Container</code> that specifies a fixed width, height, and padding. This way, both child widgets are constrained to the same dimensions regardless of their internal layout.</p>
+<details>
+<summary>Hints</summary>
+<p>A <code>Container</code> can hold sizing and padding properties:</p>
+<pre><code class="language-dart">Container(
+  width: 200,
+  height: 320,
+  padding: const EdgeInsets.all(12),
+  child: // your conditional child here
+)
+</code></pre>
+<p>By adding padding at the container level, you centralize size management and reduce the need for each child widget to handle its own spacing.</p>
+<p>To remove the deprecated <code>Container()</code> widgets from <code>FilmTitle()</code> and <code>FilmDetails()</code> you can use the refactoring tool and the option <strong>“Remove widget”</strong>.</p>
+</details><br>
+<details>
+<summary>Solution</summary>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_details.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
+
+class FilmCard extends StatefulWidget {
+  final Film film;
+  const FilmCard({super.key, required this.film});
+
+  @override
+  State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
+}
+
+class _FilmCardState extends State&lt;FilmCard&gt; {
+  bool showDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          showDetails = !showDetails;
+        });
+      },
+      child: Container(
+        width: 200,
+        height: 320,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: showDetails
+            ? FilmDetails(film: widget.film)
+            : FilmTitle(film: widget.film),
+      ),
+    );
+  }
+}
+</code></pre>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmTitle extends StatelessWidget {
+  final Film film;
+  const FilmTitle({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            film.image,
+            width: 170,
+            height: 250,
+            fit: BoxFit.cover,
+          ),
+        ),
+        SizedBox(height: 12),
+        Text(
+          film.title,
+          style: const TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+</code></pre>
+<pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+
+class FilmDetails extends StatelessWidget {
+  final Film film;
+
+  const FilmDetails({super.key, required this.film});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            film.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.red,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          Text(
+            'Director: ${film.director}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+
+          const SizedBox(height: 8),
+
+          Text('Producer: ${film.producer}'),
+
+          const SizedBox(height: 8),
+
+          Text('Release: ${film.releaseDate}'),
+
+          const SizedBox(height: 16),
+
+          Text(film.description, style: const TextStyle(fontSize: 14)),
+        ],
+      ),
+    );
+  }
+}
+
+</code></pre>
+</details>
+<h2 id="recap"><a class="header" href="#recap">Recap</a></h2>
+<ul>
+<li>✓ Learned the difference between stateless and stateful widgets</li>
+<li>✓ Understood ephemeral state vs app state</li>
+<li>✓ Mastered the StatefulWidget pattern (widget class + state class)</li>
+<li>✓ Learned how <code>setState()</code> triggers widget rebuilds</li>
+<li>✓ Created an interactive <code>FilmCard</code> that toggles between two views</li>
+<li>✓ Practiced conditional rendering based on state</li>
+</ul>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Now that your film cards are interactive, the next chapter introduces the <strong>View layer</strong> of MVVM architecture. You’ll create a <code>FilmsView</code> widget that displays multiple film cards in a grid, bringing us closer to building a complete app structure.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="class_model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="mvvm_view.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="class_model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="mvvm_view.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-2100cc9e.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
