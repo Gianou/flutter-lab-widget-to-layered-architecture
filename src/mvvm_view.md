@@ -2,7 +2,7 @@
 
 ## Learning Outcome
 
-By the end of this chapter, you'll understand how Views serve as page-level components in the MVVM architecture, create a `FilmsView` widget that displays multiple film cards in a grid or list, and organize your project structure to separate concerns by feature (views and their widgets).
+By the end of this chapter, you'll understand how Views serve as page-level components in the MVVM architecture, create a `FilmsView` widget that displays multiple film cards in a scrollable list, and organize your project structure to separate concerns by feature (views and their widgets).
 
 ## Theory / Explanation
 
@@ -12,7 +12,7 @@ MVVM is one way amongst others to achieve a [**Layered Architecture**](https://d
 
 ### The View Layer
 
-Think of Views like pages in your application. Each page/route typically has its own View. When users navigate to different parts of your app, they're moving between different Views.
+For now, think of Views like pages in your application. Each page/route typically has its own View. When users navigate to different parts of your app, they're moving between different Views.
 
 ### The FilmsView
 
@@ -20,178 +20,229 @@ Currently, we have a `FilmCard()` that is being called directly from our root wi
 Our final goal is to display all the films that are returned by the ghibli api. We will now create `FilmsView()` the widget that represent a page in our application, and will display a list of `FilmCard()`.
 
 Your `FilmsView` will:
-- Use `Scaffold` to provide the page structure (app bar, body)
-- Display multiple `FilmCard` widgets in a grid or list
+- Use [`Scaffold`](https://api.flutter.dev/flutter/material/Scaffold-class.html) to provide the page structure (app bar, body).
+- Display multiple `FilmCard` widgets in a scrollable [`ListView`](https://api.flutter.dev/flutter/widgets/ListView-class.html)
+- Receive a list of `Film` as an input.
 
-This View will later receive data from a ViewModel, but for now, you can pass sample `Film` objects.
+This View will later receive data from a ViewModel, but for now, we will pass a list of `Film` passed by the `MainApp()` widget.
 
 ## Practice
 
-#@todo, clearer steps
-#@todo, 1 create FilmsView widget
-#@todo, 2 display FilmsView
-#@todo, 3 add app bar to Films View
-#@todo, 4 add mockFilms array and pass it to FilmsView
-#@todo, 5 add SingleChildScrollView
-#@todo, 6 refactor to proper file structure
+### Exercise 1: Create FilmsView and Display in Main
 
-### Exercise 1: Create FilmsView with Mock Data
+Create a `FilmsView` widget that extends `StatelessWidget` and update your `main.dart` to use it.
+![alt text](image-20.png)
 
-Create a FilmsView widget that extends `StatelessWidget`.
-- Use `Scaffold` with an `appBar` showing "Ghibli Films"
-- FilmsView receives an array of `Film()`
-      You can use:
-  ```dart
-    static const mockFilms = [
-        Film(
-          id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
-          title: "Kiki's Delivery Service",
-          originalTitle: '魔女の宅急便',
-          originalTitleRomanised: 'Majo no takkyūbin',
-          image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
-          movieBanner:
-              'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
-          description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
-          director: 'Hayao Miyazaki',
-          producer: 'Hayao Miyazaki',
-          releaseDate: '1989',
-          runningTime: '102',
-          rtScore: '96',
-          people: [
-            'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
-            'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
-          ],
-          species: [
-            'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
-          ],
-          locations: ['https://ghibliapi.vercel.app/locations/'],
-          vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
-          url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
-        ),
-        Film(
-          id: '2baf70d1-42bb-4437-b551-e5fed5a87abe',
-          title: 'Castle in the Sky',
-          originalTitle: '天空の城ラピュタ',
-          originalTitleRomanised: 'Tenkū no shiro Rapyuta',
-          image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg',
-          movieBanner: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg',
-          description: 'The orphan Sheeta inherited a mysterious crystal that links her to the mythical sky-kingdom of Laputa. With the help of resourceful Pazu and a rollicking band of sky pirates, she makes her way to the ruins of the once-great civilization. Sheeta and Pazu must outwit the evil Muska, who plans to use Laputa\'s science to make himself ruler of the world.',
-          director: 'Hayao Miyazaki',
-          producer: 'Isao Takahata',
-          releaseDate: '1986',
-          runningTime: '124',
-          rtScore: '95',
-          people: [
-            'https://ghibliapi.vercel.app/people/598f7048-74ff-41e0-92ef-87dc1ad980a9',
-            'https://ghibliapi.vercel.app/people/fe93adf2-2f3a-4ec4-9f68-5422f1b87c01',
-            'https://ghibliapi.vercel.app/people/3bc0b41e-3569-4d20-ae73-2da329bf0786',
-            'https://ghibliapi.vercel.app/people/40c005ce-3725-4f15-8409-3e1b1b14b583',
-            'https://ghibliapi.vercel.app/people/5c83c12a-62d5-4e92-8672-33ac76ae1fa0',
-            'https://ghibliapi.vercel.app/people/e08880d0-6938-44f3-b179-81947e7873fc',
-            'https://ghibliapi.vercel.app/people/2a1dad70-802a-459d-8cc2-4ebd8821248b',
-          ],
-          species: [
-            'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
-          ],
-          locations: ['https://ghibliapi.vercel.app/locations/'],
-          vehicles: [
-            'https://ghibliapi.vercel.app/vehicles/4e09b023-f650-4747-9ab9-eacf14540cfb',
-          ],
-          url: 'https://ghibliapi.vercel.app/films/2baf70d1-42bb-4437-b551-e5fed5a87abe',
-        ),
-      ];
-  ```
-- Use a `GridView` or `ListView` to display multiple `FilmCard` widgets
+**Steps:**
+- Create `lib/views/films/film_view.dart`
+- Define `FilmsView` class extending `StatelessWidget`
+- Have the `FilmsView()` return a simple `Text("Hello from FilmView")`
+- Update `main.dart` to import and use `FilmsView()` as the home screen
+- Wrap the "Hello from FilmView" widget with [`Scaffold`](https://api.flutter.dev/flutter/material/Scaffold-class.html) and add an [`appBar property`](https://api.flutter.dev/flutter/material/Scaffold/appBar.html) with:
+  - title
+  - foreground color
+  - background color  
+
+`Scaffold` is used to implement a basic layout, the main content of the page is passed with the [`body`](https://api.flutter.dev/flutter/material/Scaffold/body.html) property.
+
 
 <details>
 <summary>Solution</summary>
 
-#### lib/views/films/film_view.dart
 ```dart
-// lib/views/films/film_view.dart
-class FilmsView extends StatelessWidget {
-  static const mockFilms = [
-    Film(
-      // TODO: Add Film instances for testing
-      // Use the structure above as reference
-    ),
-  ];
+// lib/views/film_view.dart
+import 'package:flutter/material.dart';
 
-  const FilmsView({super.key});
+class FilmView extends StatelessWidget {
+  const FilmView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Ghibli Films')),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: mockFilms.length,
-        itemBuilder: (context, index) {
-          return FilmCard(film: mockFilms[index]);
-        },
+      appBar: AppBar(
+        title: Text("Ghibli Films"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
+      body: Center(child: Text("Hello from FilmView")),
     );
   }
 }
 ```
 
+```dart
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/views/film_view.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(body: Center(child: FilmView())),
+    );
+  }
+}
+
+
+```
+
 </details>
 
-### Exercise 2: Organize Project File Structure
+### Exercise 2: Add Mock Films Data and Display with ListView
 
-Reorganize the file structure:
-- In `lib/views` create a `/films` folder and move all widgets related to films to this folder
-- Optionally, you can also create the `lib/views/films/widgets` folder and add to it:
-  - `film_card.dart`
-  - `film_title.dart`
-  - `film_details.dart`
-- The resulting file structure indicate clearly that we have a view dedicated to films, and that `FilmsView()` is the root node, or root widget, for this section of our app.
+Create a static `mockFilms` list with film data and display them using a scrollable list.
+![alt text](image-22.png)
 
+**Steps:**
+- In the `MainApp()` add the following variable: 
+  ```dart
+   static const mockFilms = [
+      Film(
+        id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+        title: "Kiki's Delivery Service",
+        originalTitle: '魔女の宅急便',
+        originalTitleRomanised: 'Majo no takkyūbin',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+        movieBanner:
+            'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+        description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+        director: 'Hayao Miyazaki',
+        producer: 'Hayao Miyazaki',
+        releaseDate: '1989',
+        runningTime: '102',
+        rtScore: '96',
+        people: [
+          'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+          'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+        url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+      ),
+      Film(
+        id: '2baf70d1-42bb-4437-b551-e5fed5a87abe',
+        title: 'Castle in the Sky',
+        originalTitle: '天空の城ラピュタ',
+        originalTitleRomanised: 'Tenkū no shiro Rapyuta',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg',
+        movieBanner: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg',
+        description: 'The orphan Sheeta inherited a mysterious crystal that links her to the mythical sky-kingdom of Laputa. With the help of resourceful Pazu and a rollicking band of sky pirates, she makes her way to the ruins of the once-great civilization. Sheeta and Pazu must outwit the evil Muska, who plans to use Laputa\'s science to make himself ruler of the world.',
+        director: 'Hayao Miyazaki',
+        producer: 'Isao Takahata',
+        releaseDate: '1986',
+        runningTime: '124',
+        rtScore: '95',
+        people: [
+          'https://ghibliapi.vercel.app/people/598f7048-74ff-41e0-92ef-87dc1ad980a9',
+          'https://ghibliapi.vercel.app/people/fe93adf2-2f3a-4ec4-9f68-5422f1b87c01',
+          'https://ghibliapi.vercel.app/people/3bc0b41e-3569-4d20-ae73-2da329bf0786',
+          'https://ghibliapi.vercel.app/people/40c005ce-3725-4f15-8409-3e1b1b14b583',
+          'https://ghibliapi.vercel.app/people/5c83c12a-62d5-4e92-8672-33ac76ae1fa0',
+          'https://ghibliapi.vercel.app/people/e08880d0-6938-44f3-b179-81947e7873fc',
+          'https://ghibliapi.vercel.app/people/2a1dad70-802a-459d-8cc2-4ebd8821248b',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: [
+          'https://ghibliapi.vercel.app/vehicles/4e09b023-f650-4747-9ab9-eacf14540cfb',
+        ],
+        url: 'https://ghibliapi.vercel.app/films/2baf70d1-42bb-4437-b551-e5fed5a87abe',
+      ),
+    ];
+  ```  
+
+- Adapt `FilmView()` to receive a list of films property
+- Use [`ListView.builder`](https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html) in the Scaffold body to render the films
+
+<details>
+<summary>Hints</summary>
+
+[`ListView.builder`](https://api.flutter.dev/flutter/widgets/ListView-class.html) efficiently renders a scrollable list of items:
+
+```dart
+ListView.builder(
+  itemCount: items.length,
+  itemBuilder: (context, index) {
+    return SomeWidget(item: items[index]);
+  },
+)
 ```
-│   main.dart
-│   
-├───models
-│       film_model.dart
-│       
-└───views
-    └───films
-        │   film_view.dart
-        │   
-        └───widgets
-                film_card.dart
-                film_details.dart
-                film_title.dart
-```
 
-![Project folder structure showing organized views and models directories](image-15.png)
+The `itemBuilder` function is called for each item and should return the widget to display.
+
+**Note:** You could also use a `Column` with a for-loop inside `ListView` or `SingleChildScrollView`, but `ListView.builder` is more efficient, especially for large lists, because it only builds widgets that are visible on screen.
+
+</details>
 
 <details>
 <summary>Solution</summary>
 
-**File structure reorganization:**
-
-1. Create directories:
-   - `lib/views/films/`
-   - `lib/views/films/widgets/`
-
-2. Move/create files:
-   - Move `lib/views/film_title.dart` → `lib/views/films/widgets/film_title.dart`
-   - Create `lib/views/films/widgets/film_card.dart`
-   - Create `lib/views/films/widgets/film_details.dart`
-   - Create `lib/views/films/film_view.dart`
-
-3. Update imports in all files to reflect new paths
-
-**Updated `main.dart` imports:**
 ```dart
-// lib/main.dart
-import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/views/films/film_view.dart';
+// lib/views/film_view.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/views/film_card.dart';
+
+class FilmView extends StatelessWidget {
+  const FilmView({super.key, required this.films});
+
+  final List<Film> films;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Ghibli Films"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        itemCount: films.length,
+        itemBuilder: (context, index) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: FilmCard(film: films[index]),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 ```
 
-**Final structure:**
+</details>
+
+### Exercise 3: Organize Project File Structure
+
+As your project grows, organizing files by feature (rather than by type) keeps the codebase tidy and makes it easier to find related code. A `films` folder containing all film-related views and widgets keeps everything together, making future changes and additions much simpler.
+
+**Steps:**
+- Create `lib/views/films/` directory
+- Move all film related widget files to `lib/views/films/`
+- Then create `lib/views/films/widgets/` subdirectory
+- Move all film widgets, except the View, to `lib/views/films/`
+
+- Update all imports, this can be done automatically by the IDE:  
+
+![alt text](image-23.png)  
+
+
+**Final expected structure:**
 ```
 lib/
 ├── models/
@@ -206,8 +257,6 @@ lib/
 └── main.dart
 ```
 
-</details>
-
 ## Recap
 
 - ✓ Understood the role of Views in MVVM architecture (page-level components)
@@ -221,7 +270,7 @@ lib/
 Most applications have more than one View and a navigation system to switch from one View to another.  
 Navigation will not be covered in this lab, but to illustrate the concept, here are screenshots of the Ghibli Viewer with a user View and navigation. The navigation is implemented with the Flutter package GoRouter and the UserView is widget that, like FilmsView, uses Scaffold to display the top banner with the name of the current page (or View):
 
-![Ghibli Viewer app showing user profile view and navigation between FilmsView and UserView](image-16.png)
+![alt text](image-24.png)
 
 ## Next Steps
 
