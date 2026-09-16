@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-7ad57467.js";
+            window.path_to_searchindex_js = "searchindex-65f3232f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -176,128 +176,180 @@
                     <main>
                         <h1 id="mvvm-viewmodel"><a class="header" href="#mvvm-viewmodel">MVVM: ViewModel</a></h1>
 <h2 id="learning-outcome"><a class="header" href="#learning-outcome">Learning Outcome</a></h2>
-<p>By the end of this chapter, you’ll create a <code>FilmsViewModel</code> that extends <code>ChangeNotifier</code>, manage application state using <code>setState()</code> and <code>notifyListeners()</code>, integrate the Provider package for dependency injection, and connect your FilmsView to the ViewModel using the <code>Consumer</code> widget.</p>
+<p>By the end of this chapter, you’ll create a separate <code>ViewModel</code> class that manages state, notify listeners when data changes, and connect your View to the ViewModel using <code>ListenableBuilder</code>.</p>
 <h2 id="theory--explanation"><a class="header" href="#theory--explanation">Theory / Explanation</a></h2>
-<p>The <strong>ViewModel</strong> is the bridge between your View and your data. It holds the state (data) that your View needs to display.</p>
-<p>If a stateful widget has a state, a View has a ViewModel that holds all its states and for all the View’s widget to access.</p>
-<h2 id="what-does-logic-mean"><a class="header" href="#what-does-logic-mean">What Does Logic Mean?</a></h2>
-<p>The ViewModel holds <strong>state</strong> and manages <strong>user interactions</strong>:</p>
+<p>The <strong>ViewModel</strong> is a separate class (not a widget) that:</p>
 <ul>
-<li><strong>State</strong>: Data the View needs (a list of films, loading status, error messages)</li>
-<li><strong>User Interactions</strong>: Methods that respond to user actions (like “fetchFilms” button taps)</li>
+<li>Holds the state (data) the View needs</li>
+<li>Provides methods to update that state</li>
+<li>Notifies listeners when state changes using <a href="https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html"><code>ChangeNotifier</code></a></li>
 </ul>
-<h2 id="changenotifier-managing-state-changes"><a class="header" href="#changenotifier-managing-state-changes">ChangeNotifier: Managing State Changes</a></h2>
-<p>Flutter provides a class called <code>ChangeNotifier</code> that makes it easy to notify widgets when state changes:</p>
-<ul>
-<li>Your ViewModel extends <code>ChangeNotifier</code></li>
-<li>When state changes, call <code>notifyListeners()</code> to alert all watching widgets</li>
-<li>Watching widgets rebuild automatically with the new state</li>
-</ul>
-<h2 id="the-provider-package"><a class="header" href="#the-provider-package">The Provider Package</a></h2>
-<p><strong>Provider</strong> is a popular package for dependency injection and state management. It makes it easy to:</p>
-<ul>
-<li>Create instances of your ViewModels</li>
-<li>Share them across your widget tree</li>
-<li>Have widgets listen to ViewModel state changes</li>
-</ul>
-<p>Provider is not part of the base Flutter framework, therefore it must be added as a dependency in your project.<br>The command <code>flutter pub add provider</code>, can be used to this effect.<br>To use a package in your code, it must be imported:</p>
-<pre><code class="language-dart">import 'package:provider/provider.dart';
-</code></pre>
-<h2 id="using-consumer-to-listen-to-state"><a class="header" href="#using-consumer-to-listen-to-state">Using Consumer to Listen to State</a></h2>
-<p>The <code>Consumer</code> widget rebuilds whenever the ViewModel notifies listeners:</p>
-<ul>
-<li>Wrap your UI with a <code>Consumer&lt;YourViewModel&gt;</code></li>
-<li>Access the ViewModel instance inside the Consumer</li>
-<li>When the ViewModel’s state changes, only the Consumer rebuilds (efficient!)</li>
-</ul>
+<p>The View listens to the ViewModel using <code>ListenableBuilder</code>. When the ViewModel calls <code>notifyListeners()</code>, the View rebuilds automatically—no <code>setState()</code> needed.</p>
+<p>This separation keeps View logic (UI) separate from state management logic (ViewModel).</p>
 <h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
-<h3 id="exercise-1-create-filmsviewmodel-with-changenotifier"><a class="header" href="#exercise-1-create-filmsviewmodel-with-changenotifier">Exercise 1: Create FilmsViewModel with ChangeNotifier</a></h3>
-<p>Create a FilmsViewModel that extends <code>ChangeNotifier</code>.</p>
+<h3 id="exercise-1-create-filmsviewmodel"><a class="header" href="#exercise-1-create-filmsviewmodel">Exercise 1: Create FilmsViewModel</a></h3>
+<p>This ViewModel is responsible for holding the state that contains all the films data. In the next chapter, we will implement the fetch of data via the REST API. For now, the list of films should be an empty array. On call of a function <code>fetchFilms()</code> the mock data we used previously is assigned to the ViewModel state. We use this extra step to demonstrate how to trigger UI update from the ViewModel.</p>
+<p>Create a new file <code>/lib/view_models/films_view_model.dart</code> with a <code>FilmsViewModel</code> class that:</p>
 <ul>
-<li>Add a list property to store films: <code>List&lt;Film&gt; films = []</code></li>
-<li>Add a method <code>fetchFilms()</code> that:
-<ul>
-<li>For now, just creates some sample Film objects and stores them in the <code>films</code> list</li>
-<li>Calls <code>notifyListeners()</code> at the end to alert watching widgets</li>
+<li>Extends <code>ChangeNotifier</code></li>
+<li>Has a <code>films</code> list property (initially empty)</li>
+<li>Has a <code>fetchFilms()</code> method that populates the list with mock Film data</li>
+<li>Calls <code>notifyListeners()</code> after updating the list</li>
 </ul>
-</li>
+<p><strong>Steps:</strong></p>
+<ul>
+<li>Create the <code>/lib/view_models/</code> folder</li>
+<li>Create <code>films_view_model.dart</code> and define the <code>FilmsViewModel</code> class that extends <a href="https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html"><code>ChangeNotifier</code></a></li>
+<li>Define mock Film objects (you can copy them from the previous chapter)</li>
+<li>The <code>fetchFilms()</code> method should assign the mock films to the <code>films</code> list and call <code>notifyListeners()</code></li>
 </ul>
 <details>
 <summary>Solution</summary>
-<h4 id="libview_modelsfilms_view_modeldart"><a class="header" href="#libview_modelsfilms_view_modeldart">lib/view_models/films_view_model.dart</a></h4>
-<pre><code class="language-dart">// lib/view_models/films_view_model.dart
-import 'package:flutter/foundation.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+<pre><code class="language-dart">// /lib/view_models/films_view_model.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmsViewModel extends ChangeNotifier {
   List&lt;Film&gt; films = [];
 
   void fetchFilms() {
-    // TODO: Create mock Film objects and add to films list
     films = [
-      // TODO: Add Film instances here
+      Film(
+        id: 'ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+        title: "Kiki's Delivery Service",
+        originalTitle: '魔女の宅急便',
+        originalTitleRomanised: 'Majo no takkyūbin',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7nO5DUMnGUuXrA4r2h6ESOKQRrx.jpg',
+        movieBanner: 'https://image.tmdb.org/t/p/original/h5pAEVma835u8xoE60kmLVopLct.jpg',
+        description: 'A young witch, on her mandatory year of independent life, finds fitting into a new community difficult while she supports herself by running an air courier service.',
+        director: 'Hayao Miyazaki',
+        producer: 'Hayao Miyazaki',
+        releaseDate: '1989',
+        runningTime: '102',
+        rtScore: '96',
+        people: [
+          'https://ghibliapi.vercel.app/people/2409052a-9029-4e8d-bfaf-70fd82c8e48d',
+          'https://ghibliapi.vercel.app/people/7151abc6-1a9e-4e6a-9711-ddb50ea572ec',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: ['https://ghibliapi.vercel.app/vehicles/'],
+        url: 'https://ghibliapi.vercel.app/films/ea660b10-85c4-4ae3-8a5f-41cea3648e3e',
+      ),
+      Film(
+        id: '2baf70d1-42bb-4437-b551-e5fed5a87abe',
+        title: 'Castle in the Sky',
+        originalTitle: '天空の城ラピュタ',
+        originalTitleRomanised: 'Tenkū no shiro Rapyuta',
+        image: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg',
+        movieBanner: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/3cyjYtLWCBE1uvWINHFsFnE8LUK.jpg',
+        description: 'The orphan Sheeta inherited a mysterious crystal that links her to the mythical sky-kingdom of Laputa. With the help of resourceful Pazu and a rollicking band of sky pirates, she makes her way to the ruins of the once-great civilization. Sheeta and Pazu must outwit the evil Muska, who plans to use Laputa\'s science to make himself ruler of the world.',
+        director: 'Hayao Miyazaki',
+        producer: 'Isao Takahata',
+        releaseDate: '1986',
+        runningTime: '124',
+        rtScore: '95',
+        people: [
+          'https://ghibliapi.vercel.app/people/598f7048-74ff-41e0-92ef-87dc1ad980a9',
+          'https://ghibliapi.vercel.app/people/fe93adf2-2f3a-4ec4-9f68-5422f1b87c01',
+          'https://ghibliapi.vercel.app/people/3bc0b41e-3569-4d20-ae73-2da329bf0786',
+          'https://ghibliapi.vercel.app/people/40c005ce-3725-4f15-8409-3e1b1b14b583',
+          'https://ghibliapi.vercel.app/people/5c83c12a-62d5-4e92-8672-33ac76ae1fa0',
+          'https://ghibliapi.vercel.app/people/e08880d0-6938-44f3-b179-81947e7873fc',
+          'https://ghibliapi.vercel.app/people/2a1dad70-802a-459d-8cc2-4ebd8821248b',
+        ],
+        species: [
+          'https://ghibliapi.vercel.app/species/af3910a6-429f-4c74-9ad5-dfe1c4aa04f2',
+        ],
+        locations: ['https://ghibliapi.vercel.app/locations/'],
+        vehicles: [
+          'https://ghibliapi.vercel.app/vehicles/4e09b023-f650-4747-9ab9-eacf14540cfb',
+        ],
+        url: 'https://ghibliapi.vercel.app/films/2baf70d1-42bb-4437-b551-e5fed5a87abe',
+      ),
     ];
     notifyListeners();
   }
 }
 </code></pre>
 </details>
-<h3 id="exercise-2-install-the-provider-package"><a class="header" href="#exercise-2-install-the-provider-package">Exercise 2: Install the Provider Package</a></h3>
-<p>Add the provider dependency.</p>
+<h3 id="exercise-2-connect-filmsview-to-filmsviewmodel-using-listenablebuilder"><a class="header" href="#exercise-2-connect-filmsview-to-filmsviewmodel-using-listenablebuilder">Exercise 2: Connect FilmsView to FilmsViewModel Using ListenableBuilder</a></h3>
+<p>Update <code>FilmsView</code> to use the <code>FilmsViewModel</code> and rebuild when the ViewModel notifies listeners.
+<label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="viewmodel.gif" alt="alt text"><span class="img-wrapper"><img src="viewmodel.gif" alt="alt text"></span></label>
+<strong>Steps:</strong></p>
 <ul>
-<li>Run <code>flutter pub add provider</code> in your terminal</li>
-<li>Verify it was added to <code>pubspec.yaml</code></li>
+<li>Convert <code>FilmsView</code> to a <code>StatefulWidget</code></li>
+<li>In <code>_FilmsViewState</code>, create an instance of <code>FilmsViewModel</code></li>
+<li>Wrap the body content of <code>_FilmsViewState</code> with <a href="https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html"><code>ListenableBuilder</code></a> to listen to the ViewModel</li>
+<li>Inside the builder, check if <code>viewModel.films.isEmpty</code> and show a button to fetch data if it is</li>
+<li>When the button is clicked, call <code>viewModel.fetchFilms()</code></li>
+<li>If films are available, display them in a ListView with FilmCard widgets</li>
+<li>You can now remove the <code>mockFilms</code> from the <code>main.dart</code> and remove the <code>films</code> property from the View, since it is stored in the ViewModel now.</li>
 </ul>
 <details>
-<summary>Solution</summary>
-<pre><code class="language-bash"># Run in terminal:
-flutter pub add provider
+<summary>Hints</summary>
+<p>Use <code>ListenableBuilder</code> to listen to the ViewModel:</p>
+<pre><code class="language-dart">ListenableBuilder(
+  listenable: viewModel,
+  builder: (context, _) {
+    return ListView.builder(
+      itemCount: viewModel.films.length,
+      itemBuilder: (context, index) {
+        // Display each film
+      },
+    );
+  },
+)
 </code></pre>
-<p>After running, verify in <code>pubspec.yaml</code>:</p>
-<pre><code class="language-yaml">dependencies:
-  flutter:
-    sdk: flutter
-  provider: ^6.0.0  # Version may vary
-</code></pre>
-</details>
-<h3 id="exercise-3-integrate-provider-in-filmsview"><a class="header" href="#exercise-3-integrate-provider-in-filmsview">Exercise 3: Integrate Provider in FilmsView</a></h3>
-<p>Update your FilmsView to use Provider.</p>
-<ul>
-<li>Wrap your film list with <code>Consumer&lt;FilmsViewModel&gt;()</code></li>
-<li>Inside the Consumer, access the ViewModel and display <code>viewModel.films</code></li>
-<li>If the films list is empty, show a message like “No films yet”</li>
-</ul>
+</details>  
 <details>
 <summary>Solution</summary>
-<h4 id="libviewsfilmsfilm_viewdart-updated"><a class="header" href="#libviewsfilmsfilm_viewdart-updated">lib/views/films/film_view.dart (Updated)</a></h4>
-<pre><code class="language-dart">// lib/views/films/film_view.dart
+<pre><code class="language-dart">// lib/views/films/films_view.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/view_models/films_view_model.dart';
+import 'package:ghibli_viewer_lab/view_models/films_view_model.dart';
+import 'package:ghibli_viewer_lab/views/films/widgets/film_card.dart';
 
-class FilmsView extends StatelessWidget {
+class FilmsView extends StatefulWidget {
   const FilmsView({super.key});
+
+  @override
+  State&lt;FilmsView&gt; createState() =&gt; _FilmsViewState();
+}
+
+class _FilmsViewState extends State&lt;FilmsView&gt; {
+  final FilmsViewModel viewModel = FilmsViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ghibli Films'),
+        title: const Text("Ghibli Films"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
-      body: Consumer&lt;FilmsViewModel&gt;(
-        builder: (context, viewModel, child) {
+      body: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, _) {
           if (viewModel.films.isEmpty) {
-            return const Center(child: Text('No films yet'));
+            return Center(
+              child: ElevatedButton(
+                onPressed: () =&gt; viewModel.fetchFilms(),
+                child: const Text('Fetch Films'),
+              ),
+            );
           }
-          
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
+
+          return ListView.builder(
             itemCount: viewModel.films.length,
             itemBuilder: (context, index) {
-              // TODO: Return FilmCard widget
-              return Container();
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: FilmCard(film: viewModel.films[index]),
+                ),
+              );
             },
           );
         },
@@ -306,63 +358,11 @@ class FilmsView extends StatelessWidget {
   }
 }
 </code></pre>
-</details>
-<h3 id="exercise-4-add-fetch-films-button"><a class="header" href="#exercise-4-add-fetch-films-button">Exercise 4: Add Fetch Films Button</a></h3>
-<p>Add a “Fetch Films” button.</p>
-<ul>
-<li>Add a button in the app bar or body</li>
-<li>When tapped, call <code>viewModel.fetchFilms()</code></li>
-<li>The Consumer rebuilds automatically with the new films</li>
-</ul>
-<details>
-<summary>Solution</summary>
-<h4 id="libviewsfilmsfilm_viewdart-with-button"><a class="header" href="#libviewsfilmsfilm_viewdart-with-button">lib/views/films/film_view.dart (with button)</a></h4>
-<pre><code class="language-dart">// lib/views/films/film_view.dart
+<pre><code class="language-dart">// /lib/main.dart
+
+// lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-class FilmsView extends StatelessWidget {
-  const FilmsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ghibli Films'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              context.read&lt;FilmsViewModel&gt;().fetchFilms();
-            },
-          ),
-        ],
-      ),
-      body: Consumer&lt;FilmsViewModel&gt;(
-        builder: (context, viewModel, child) {
-          if (viewModel.films.isEmpty) {
-            return const Center(child: Text('No films yet'));
-          }
-          
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemCount: viewModel.films.length,
-            itemBuilder: (context, index) {
-              return FilmCard(film: viewModel.films[index]);
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-</code></pre>
-<h4 id="libmaindart-updated-with-multiprovider"><a class="header" href="#libmaindart-updated-with-multiprovider">lib/main.dart (Updated with MultiProvider)</a></h4>
-<pre><code class="language-dart">// lib/main.dart
-import 'package:provider/provider.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/view_models/films_view_model.dart';
+import 'package:ghibli_viewer_lab/views/films/films_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -373,13 +373,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) =&gt; FilmsViewModel()),
-      ],
-      child: MaterialApp(
-        home: FilmsView(),
-      ),
+    return MaterialApp(
+      home: Scaffold(body: Center(child: FilmsView())),
     );
   }
 }
@@ -387,12 +382,11 @@ class MainApp extends StatelessWidget {
 </details>
 <h2 id="recap"><a class="header" href="#recap">Recap</a></h2>
 <ul>
-<li>✓ Understood the ViewModel’s role as bridge between View and data</li>
-<li>✓ Learned how <code>ChangeNotifier</code> and <code>notifyListeners()</code> manage state changes</li>
-<li>✓ Added the Provider package for dependency injection</li>
-<li>✓ Created <code>FilmsViewModel</code> with a <code>fetchFilms()</code> method</li>
-<li>✓ Used <code>Consumer&lt;FilmsViewModel&gt;()</code> to connect View to ViewModel</li>
-<li>✓ Implemented a “Fetch Films” button that triggers state updates</li>
+<li>✓ Created a separate <code>FilmsViewModel</code> class that extends <code>ChangeNotifier</code></li>
+<li>✓ Defined mock films in the ViewModel</li>
+<li>✓ Implemented <code>fetchFilms()</code> to update the films list</li>
+<li>✓ Called <code>notifyListeners()</code> to trigger UI rebuilds</li>
+<li>✓ Connected the View to ViewModel using <code>ListenableBuilder</code></li>
 </ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Now that your ViewModel can manage films and notify the View, the final chapter introduces the <strong>Model layer</strong>. This is where you’ll connect to the real Ghibli API, fetch actual film data, handle errors, and complete the MVVM pattern.</p>
