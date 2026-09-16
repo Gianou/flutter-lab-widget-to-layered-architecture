@@ -197,25 +197,43 @@ class _FilmsViewState extends State<FilmsView> {
     );
   }
 }
-```
+```   
+
+```dart
+// /lib/main.dart
+
+// lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/views/films/films_view.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(body: Center(child: FilmsView())),
+    );
+  }
+}
+```   
 
 </details>
+
+
+
+
+## Recap
 
 - ✓ Created a separate `FilmsViewModel` class that extends `ChangeNotifier`
 - ✓ Defined mock films in the ViewModel
 - ✓ Implemented `fetchFilms()` to update the films list
 - ✓ Called `notifyListeners()` to trigger UI rebuilds
 - ✓ Connected the View to ViewModel using `ListenableBuilder`
-
-
-## Recap
-
-- ✓ Understood the ViewModel's role as bridge between View and data
-- ✓ Learned how `ChangeNotifier` and `notifyListeners()` manage state changes
-- ✓ Added the Provider package for dependency injection
-- ✓ Created `FilmsViewModel` with a `fetchFilms()` method
-- ✓ Used `Consumer<FilmsViewModel>()` to connect View to ViewModel
-- ✓ Implemented a "Fetch Films" button that triggers state updates
 
 ## Next Steps
 
