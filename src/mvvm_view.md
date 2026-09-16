@@ -34,11 +34,11 @@ Create a `FilmsView` widget that extends `StatelessWidget` and update your `main
 ![alt text](image-20.png)
 
 **Steps:**
-- Create `lib/views/films/film_view.dart`
+- Create `lib/views/films/films_view.dart`
 - Define `FilmsView` class extending `StatelessWidget`
-- Have the `FilmsView()` return a simple `Text("Hello from FilmView")`
+- Have the `FilmsView()` return a simple `Text("Hello from FilmsView")`
 - Update `main.dart` to import and use `FilmsView()` as the home screen
-- Wrap the "Hello from FilmView" widget with [`Scaffold`](https://api.flutter.dev/flutter/material/Scaffold-class.html) and add an [`appBar property`](https://api.flutter.dev/flutter/material/Scaffold/appBar.html) with:
+- Wrap the "Hello from FilmsView" widget with [`Scaffold`](https://api.flutter.dev/flutter/material/Scaffold-class.html) and add an [`appBar property`](https://api.flutter.dev/flutter/material/Scaffold/appBar.html) with:
   - title
   - foreground color
   - background color  
@@ -50,11 +50,11 @@ Create a `FilmsView` widget that extends `StatelessWidget` and update your `main
 <summary>Solution</summary>
 
 ```dart
-// lib/views/film_view.dart
+// lib/views/films_view.dart
 import 'package:flutter/material.dart';
 
-class FilmView extends StatelessWidget {
-  const FilmView({super.key});
+class FilmsView extends StatelessWidget {
+  const FilmsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class FilmView extends StatelessWidget {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: Center(child: Text("Hello from FilmView")),
+      body: Center(child: Text("Hello from FilmsView")),
     );
   }
 }
@@ -73,7 +73,7 @@ class FilmView extends StatelessWidget {
 ```dart
 // lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:ghibli_viewer_lab/views/film_view.dart';
+import 'package:ghibli_viewer_lab/views/films_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -85,7 +85,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: Center(child: FilmView())),
+      home: Scaffold(body: Center(child: FilmsView())),
     );
   }
 }
@@ -163,7 +163,7 @@ Create a static `mockFilms` list with film data and display them using a scrolla
     ];
   ```  
 
-- Adapt `FilmView()` to receive a list of films property
+- Adapt `FilmsView()` to receive a list of films property
 - Use [`ListView.builder`](https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html) in the Scaffold body to render the films
 
 <details>
@@ -190,13 +190,13 @@ The `itemBuilder` function is called for each item and should return the widget 
 <summary>Solution</summary>
 
 ```dart
-// lib/views/film_view.dart
+// lib/views/films_view.dart
 import 'package:flutter/material.dart';
 import 'package:ghibli_viewer_lab/models/film_model.dart';
 import 'package:ghibli_viewer_lab/views/film_card.dart';
 
-class FilmView extends StatelessWidget {
-  const FilmView({super.key, required this.films});
+class FilmsView extends StatelessWidget {
+  const FilmsView({super.key, required this.films});
 
   final List<Film> films;
 
@@ -249,7 +249,7 @@ lib/
 │   └── film_model.dart
 ├── views/
 │   └── films/
-│       ├── film_view.dart
+│       ├── films_view.dart
 │       └── widgets/
 │           ├── film_card.dart
 │           ├── film_details.dart

@@ -9,9 +9,8 @@ By the end of this chapter, you'll create a separate `ViewModel` class that mana
 The **ViewModel** is a separate class (not a widget) that:
 - Holds the state (data) the View needs
 - Provides methods to update that state
-- Notifies listeners when state changes using `ChangeNotifier`
+- Notifies listeners when state changes using [`ChangeNotifier`](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
 
-#@todo detailed
 The View listens to the ViewModel using `ListenableBuilder`. When the ViewModel calls `notifyListeners()`, the View rebuilds automatically—no `setState()` needed.
 
 This separation keeps View logic (UI) separate from state management logic (ViewModel).
@@ -19,6 +18,7 @@ This separation keeps View logic (UI) separate from state management logic (View
 ## Practice
 
 ### Exercise 1: Create FilmsViewModel
+This ViewModel is responsible for holding the state that contains all the films data. In the next chapter, we will implement the fetch of data via the REST API. For now, the list of films should be an empty array. On call of a function `fetchFilms()` the mock data we used previously is assigned to the ViewModel state. We use this extra step to demonstrate how to trigger UI update from the ViewModel.
 
 Create a new file `/lib/view_models/films_view_model.dart` with a `FilmsViewModel` class that:
 - Extends `ChangeNotifier`
@@ -28,38 +28,17 @@ Create a new file `/lib/view_models/films_view_model.dart` with a `FilmsViewMode
 
 **Steps:**
 - Create the `/lib/view_models/` folder
-- Create `films_view_model.dart` with the FilmsViewModel class
+- Create `films_view_model.dart` and define the `FilmsViewModel` class that extends [`ChangeNotifier`](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
 - Define mock Film objects (you can copy them from the previous chapter)
 - The `fetchFilms()` method should assign the mock films to the `films` list and call `notifyListeners()`
 
-<details>
-<summary>Hints</summary>
-
-A ChangeNotifier class looks like:
-
-```dart
-import 'package:flutter/foundation.dart';
-
-class FilmsViewModel extends ChangeNotifier {
-  List<Film> films = [];
-
-  void fetchFilms() {
-    films = [
-      // Add mock Film objects here
-    ];
-    notifyListeners();
-  }
-}
-```
-
-</details>
 
 <details>
 <summary>Solution</summary>
 
 ```dart
-// lib/view_models/films_view_model.dart
-import 'package:flutter/foundation.dart';
+// /lib/view_models/films_view_model.dart
+import 'package:flutter/material.dart';
 import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmsViewModel extends ChangeNotifier {
@@ -133,13 +112,15 @@ class FilmsViewModel extends ChangeNotifier {
 ### Exercise 2: Connect FilmsView to FilmsViewModel Using ListenableBuilder
 
 Update `FilmsView` to use the `FilmsViewModel` and rebuild when the ViewModel notifies listeners.
-
+![alt text](viewmodel.gif)
 **Steps:**
-- Make `FilmsView` a `StatefulWidget`
+- Convert `FilmsView` to a `StatefulWidget`
 - In `_FilmsViewState`, create an instance of `FilmsViewModel`
-- In `initState()`, call `viewModel.fetchFilms()`
-- Wrap your ListView with [`ListenableBuilder`](https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html)
-- Access `viewModel.films` inside the builder to display films
+- Wrap the body content of `_FilmsViewState` with [`ListenableBuilder`](https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html) to listen to the ViewModel
+- Inside the builder, check if `viewModel.films.isEmpty` and show a button to fetch data if it is
+- When the button is clicked, call `viewModel.fetchFilms()`
+- If films are available, display them in a ListView with FilmCard widgets
+- You can now remove the `mockFilms` from the `main.dart` and remove the `films` property from the View, since it is stored in the ViewModel now.
 
 <details>
 <summary>Hints</summary>
@@ -158,17 +139,15 @@ ListenableBuilder(
     );
   },
 )
-```
-
-</details>
+```  
+</details>  
 
 <details>
 <summary>Solution</summary>
 
 ```dart
-// lib/views/films/film_view.dart
+// lib/views/films/films_view.dart
 import 'package:flutter/material.dart';
-import 'package:ghibli_viewer_lab/models/film_model.dart';
 import 'package:ghibli_viewer_lab/view_models/films_view_model.dart';
 import 'package:ghibli_viewer_lab/views/films/widgets/film_card.dart';
 
@@ -183,12 +162,6 @@ class _FilmsViewState extends State<FilmsView> {
   final FilmsViewModel viewModel = FilmsViewModel();
 
   @override
-  void initState() {
-    super.initState();
-    viewModel.fetchFilms();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -199,6 +172,15 @@ class _FilmsViewState extends State<FilmsView> {
       body: ListenableBuilder(
         listenable: viewModel,
         builder: (context, _) {
+          if (viewModel.films.isEmpty) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () => viewModel.fetchFilms(),
+                child: const Text('Fetch Films'),
+              ),
+            );
+          }
+
           return ListView.builder(
             itemCount: viewModel.films.length,
             itemBuilder: (context, index) {
@@ -219,19 +201,11 @@ class _FilmsViewState extends State<FilmsView> {
 
 </details>
 
-## Recap
-
 - ✓ Created a separate `FilmsViewModel` class that extends `ChangeNotifier`
 - ✓ Defined mock films in the ViewModel
 - ✓ Implemented `fetchFilms()` to update the films list
 - ✓ Called `notifyListeners()` to trigger UI rebuilds
 - ✓ Connected the View to ViewModel using `ListenableBuilder`
-
-## Next Steps
-
-In the next chapter, we'll create the **Model layer**. The Model will handle data fetching (from APIs or databases), and the ViewModel will call Model methods to get data, keeping business logic separate from state management.
-
-}
 
 
 ## Recap

@@ -167,7 +167,7 @@ Brief bridge to next chapter.
    │   └── film_model.dart
    ├── views/
    │   └── films/
-   │       ├── film_view.dart
+   │       ├── films_view.dart
    │       └── widgets/
    │           ├── film_card.dart
    │           └── film_title.dart
@@ -181,7 +181,7 @@ Brief bridge to next chapter.
    // code
    \`\`\`
 
-   #### lib/views/films/film_view.dart
+   #### lib/views/films/films_view.dart
    \`\`\`dart
    // code
    \`\`\`

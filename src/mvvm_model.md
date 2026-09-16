@@ -171,9 +171,9 @@ Connect everything together.
 <details>
 <summary>Solution</summary>
 
-#### lib/views/films/film_view.dart (Updated with loading and error states)
+#### lib/views/films/films_view.dart (Updated with loading and error states)
 ```dart
-// lib/views/films/film_view.dart
+// lib/views/films/films_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
