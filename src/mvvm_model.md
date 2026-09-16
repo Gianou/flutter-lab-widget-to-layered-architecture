@@ -10,29 +10,77 @@ The **Model** is the **data layer** of your application. It handles all operatio
 
 ### Components of the Model Layer
 
-The Model layer consists of two main parts:
+The Model layer can be quite confusing. Unlike the View and the ViewModel, the Model is multiple elements. Mainly:
 
-1. **Data Classes**: Structures that represent your data (like the `Film` class you created earlier). These define what data looks like.
+1. **Data Classes**: Structures that represent your data (like the `Film` class in this exercise). These define what data looks like.
 
-2. **Services**: Classes that fetch and manage data. A service handles:
+2. **Services**: Classes used to access the data from external sources. A service handles:
    - Making API requests
    - Parsing JSON responses into data objects
    - Error handling
    - Caching (if needed)
 
+
+
 ### Fetching Data from the API
 
-To make HTTP requests in Flutter, we use the `http` package. Add it with:
+Flutter comes with many built-in capabilities, but for specialized tasks like making HTTP requests, we use **external packages**. Packages are reusable code libraries that other developers have created and published.
+
+If you've worked with other languages, you've seen this before:
+- **JavaScript/Node.js**: npm packages managed in `package.json`
+- **Python**: pip packages managed in `requirements.txt`
+- **Dart/Flutter**: pub packages managed in `pubspec.yaml`
+
+To make HTTP requests in Flutter, we use the `http` package—a widely-used, well-maintained package for working with web APIs. Add it with:
+
 ```bash
 flutter pub add http
 ```
 
-Making a request is simple:
+This command downloads the package from the pub registry and adds it to your `pubspec.yaml` file. Once added, you can import it in your service files:
+```dart
+import 'package:http/http.dart' as http;
+import 'dart:convert'; // For JSON parsing
+```
+
+### Async and Await
+
+Network requests are **asynchronous**. In Dart, async functions are defined with the `Future` return type:
+
+```dart
+Future<List<Film>> fetchFilms() async {
+  // This function will return a List<Film> in the future
+}
+```
+
+Inside an async function, you can use `await` to wait for an async operation to complete:
+
+```dart
+final response = await http.get(Uri.parse(url));
+// Code here runs only after the request completes
+```
+
+The `Future<T>` return type means "this function will eventually return a value of type T". For example:
+- `Future<List<Film>>` means it will eventually return a list of films
+- `Future<void>` means it does something but returns nothing
+- `Future<String>` means it will eventually return a string
+
+Making a request inside an async function is simple:
 ```dart
 final response = await http.get(Uri.parse(url));
 ```
 
-Once you have the response, parse the JSON:
+Always check the response status code before processing:
+```dart
+if (response.statusCode == 200) {
+  // Success - parse the data
+} else {
+  // Error - handle the failure
+  throw Exception('Failed to load data');
+}
+```
+
+Once you have a successful response, parse the JSON:
 ```dart
 final films = (jsonDecode(response.body) as List)
     .map((data) => Film.fromJson(data))
@@ -62,52 +110,55 @@ Verify in `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.0.0  # Version may vary
+  http: ^1.6.0  # Version may vary
   provider: ^6.0.0
 ```
 
 </details>
 
-### Exercise 2: Create FilmService for API Integration
+### Exercise 2: Create a Service class for API Integration
 
-Create a FilmService class.
 - This service handles all communication with the Ghibli API
-- It should have a method to fetch films and parse them into Film objects
-- Handle errors gracefully (network errors, parsing errors)
+- It should have a method to fetch films 
+- It should Handle errors  
+  
+
+**Steps:**
+- In the existing `/lib/models` folder, create `ghibli_api_service.dart` 
+- Create a class `GhibliApiService`. It does not extend anything, this class just define the function to interact with the Ghibli API.  
+- Define a `getFilms()` function to fetch all available films from the [Ghibli API](https://ghibliapi.vercel.app/)
+
+ 
 
 <details>
 <summary>Solution</summary>
 
-#### lib/services/film_service.dart
 ```dart
 // lib/services/film_service.dart
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
+import 'dart:io';
 
-class FilmService {
-  static const String baseUrl = 'https://ghibliapi.vercel.app';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:http/http.dart' as http;
 
-  Future<List<Film>> fetchFilms() async {
-    try {
-      final response = await http.get(Uri.parse('$baseUrl/films'));
-      
-      if (response.statusCode == 200) {
-        // TODO: Parse JSON response
-        final films = (jsonDecode(response.body) as List)
-            .map((data) => Film.fromJson(data as Map<String, dynamic>))
-            .toList();
-        return films;
-      } else {
-        // TODO: Handle HTTP errors
-        throw Exception('Failed to load films: ${response.statusCode}');
-      }
-    } catch (e) {
-      // TODO: Handle network and parsing errors
-      rethrow;
+class GhibliApiService {
+  Future<List<Film>> getFilms() async {
+    final uri = Uri.https('ghibliapi.vercel.app', '/films');
+
+    final response = await http.get(uri);
+
+    if (response.statusCode != 200) {
+      throw HttpException('Failed to fetch films: HTTP ${response.statusCode}');
     }
+
+    final List<dynamic> jsonList = jsonDecode(response.body) as List<dynamic>;
+
+    return jsonList
+        .map((jsonItem) => Film.fromJson(jsonItem as Map<String, dynamic>))
+        .toList();
   }
 }
+
 ```
 
 </details>
@@ -116,23 +167,21 @@ class FilmService {
 
 Update your FilmsViewModel.
 - Add a FilmService instance to the ViewModel
-- Modify `fetchFilms()` to call the service instead of creating mock data
+- Modify `fetchFilms()` to call the service instead of assigning mock data
 - Handle loading and error states
 - Update the UI to show loading indicator or error message when appropriate
 
 <details>
 <summary>Solution</summary>
 
-#### lib/view_models/films_view_model.dart (Updated)
 ```dart
 // lib/view_models/films_view_model.dart
-import 'package:flutter/foundation.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/models/film_model.dart';
-import 'package:flutter_lab_widget_to_layered_architecture/services/film_service.dart';
+import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
+import 'package:ghibli_viewer_lab/models/ghibli_api_service.dart';
 
 class FilmsViewModel extends ChangeNotifier {
-  final FilmService _filmService = FilmService();
-  
+  final GhibliApiService service = GhibliApiService();
   List<Film> films = [];
   bool isLoading = false;
   String? errorMessage;
@@ -141,14 +190,11 @@ class FilmsViewModel extends ChangeNotifier {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
-    
+
     try {
-      films = await _filmService.fetchFilms();
-      errorMessage = null;
+      films = await service.getFilms();
     } catch (e) {
-      // TODO: Handle errors and set user-friendly error message
-      errorMessage = 'Failed to load films: ${e.toString()}';
-      films = [];
+      errorMessage = e.toString();
     } finally {
       isLoading = false;
       notifyListeners();
@@ -157,108 +203,92 @@ class FilmsViewModel extends ChangeNotifier {
 }
 ```
 
-</details>
-
-### Exercise 4: Complete the MVVM Data Flow
-
-Connect everything together.
-- On button click in the View, call `viewModel.fetchFilms()`
-- The ViewModel calls `filmService.fetchFilms()`
-- The service makes the API request and returns films
-- The ViewModel updates its state and notifies listeners
-- The Consumer rebuilds the View with the new data
-
-<details>
-<summary>Solution</summary>
-
-#### lib/views/films/films_view.dart (Updated with loading and error states)
 ```dart
 // lib/views/films/films_view.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:ghibli_viewer_lab/view_models/films_view_model.dart';
+import 'package:ghibli_viewer_lab/views/films/widgets/film_card.dart';
 
-class FilmsView extends StatelessWidget {
+class FilmsView extends StatefulWidget {
   const FilmsView({super.key});
+
+  @override
+  State<FilmsView> createState() => _FilmsViewState();
+}
+
+class _FilmsViewState extends State<FilmsView> {
+  final FilmsViewModel viewModel = FilmsViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ghibli Films'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              context.read<FilmsViewModel>().fetchFilms();
-            },
-          ),
-        ],
+        title: const Text("Ghibli Films"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
-      body: Consumer<FilmsViewModel>(
-        builder: (context, viewModel, child) {
-          // TODO: Show loading spinner
+      body: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, _) {
+          // 1. Handle Error State
+          if (viewModel.errorMessage != null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    viewModel.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => viewModel.fetchFilms(),
+                    child: const Text("Retry"),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          // 2. Handle Loading State
           if (viewModel.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // TODO: Show error message
-          if (viewModel.errorMessage != null) {
-            return Center(
-              child: Text('Error: ${viewModel.errorMessage}'),
+          // 3. Handle Success State (List not empty)
+          if (viewModel.films.isNotEmpty) {
+            return ListView.builder(
+              itemCount: viewModel.films.length,
+              itemBuilder: (context, index) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: FilmCard(film: viewModel.films[index]),
+                  ),
+                );
+              },
             );
           }
 
-          // TODO: Show empty state
-          if (viewModel.films.isEmpty) {
-            return const Center(child: Text('No films loaded. Tap refresh!'));
-          }
-
-          // TODO: Display films grid
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+          // 4. Handle Idle/Empty State (Initial load)
+          return Center(
+            child: ElevatedButton(
+              onPressed: () => viewModel.fetchFilms(),
+              child: const Text('Fetch Films'),
             ),
-            itemCount: viewModel.films.length,
-            itemBuilder: (context, index) {
-              return FilmCard(film: viewModel.films[index]);
-            },
           );
         },
       ),
     );
   }
 }
-```
 
-**Complete Data Flow:**
-1. User taps refresh button in View
-2. View calls `context.read<FilmsViewModel>().fetchFilms()`
-3. ViewModel sets `isLoading = true` and notifies listeners
-4. View shows loading spinner
-5. ViewModel calls `filmService.fetchFilms()`
-6. FilmService makes HTTP request to Ghibli API
-7. FilmService parses JSON response into Film objects
-8. ViewModel receives films and updates state
-9. ViewModel calls `notifyListeners()`
-10. Consumer rebuilds with new films list
+```  
 
 </details>
-      ),
-      body: Consumer<FilmsViewModel>(
-        builder: (context, viewModel, _) {
-          // TODO: Show loading indicator if viewModel.isLoading
-          // TODO: Show error message if viewModel.errorMessage is not null
-          // TODO: Show empty state if films list is empty
-          // TODO: Show GridView/ListView of films otherwise
-          return Container();
-        },
-      ),
-    );
-  }
-}
-```
 
-</details>
+
 
 ## Recap
 
