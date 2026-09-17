@@ -187,7 +187,7 @@ class MainApp extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FilmCard(film: mockFilm),
+              const FilmCard(film: mockFilm),
               const FilmTitle(film: mockFilm),
               const FilmDetails(film: mockFilm),
             ],
