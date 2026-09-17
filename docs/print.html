@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-65f3232f.js";
+            window.path_to_searchindex_js = "searchindex-e251bd02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -239,7 +239,7 @@ This enables auto formatting on file saves. It is very important for Flutter as 
 <p>Choose the folder where you want to create the new project.</p>
 </li>
 <li>
-<p>Choose how you want to name the project. You can use <code>ghibli_viewer</code> or something else, but make sure to use the <code>snake_case</code> convention.</p>
+<p>Choose how you want to name the project. You can use <code>ghibli_viewer_lab</code> or something else, but make sure to use the <code>snake_case</code> convention.</p>
 </li>
 <li>
 <p>Select platforms</p>
@@ -286,7 +286,7 @@ This enables auto formatting on file saves. It is very important for Flutter as 
 <ul>
 <li><code>Text()</code>: A leaf widget that renders a String on the screen.</li>
 <li><code>Center()</code>: A layout widget that forces its single child to be positioned in the middle of the available space.</li>
-<li><code>Scaffold()</code>: Provides the fundamental visual structure for a page. It only renders the body in the current project, but a header (appBar) could be added.</li>
+<li><code>Scaffold()</code>: Provides the fundamental visual structure for a page. It only renders the body in the current project, but other elements like a header (appBar) could be added.</li>
 <li><code>MaterialApp()</code>: The root widget that initializes the application with <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>.</li>
 <li><code>MainApp()</code>: The custom root widget defined in your code <code>class MainApp extends StatelessWidget</code>. Wraps the MaterialApp to start the widget tree.</li>
 </ul>
@@ -349,7 +349,7 @@ class MainApp extends StatelessWidget {
 <li>✓ Saw how hot reload lets you iterate quickly on UI changes</li>
 </ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
-<p>Now that you’ve customized individual widgets, the next chapter shows you how to <strong>compose</strong> widgets together—nesting them to create more complex layouts using containers, rows, and columns.</p>
+<p>Now that you’ve customized individual widgets, the next chapter shows you how to <strong>compose</strong> widgets together, nesting them to create more complex layouts using containers, rows, and columns.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="widgets-composition"><a class="header" href="#widgets-composition">Widgets Composition</a></h1>
 <h2 id="learning-outcome-1"><a class="header" href="#learning-outcome-1">Learning Outcome</a></h2>
@@ -357,7 +357,7 @@ class MainApp extends StatelessWidget {
 <h2 id="theory--explanation-1"><a class="header" href="#theory--explanation-1">Theory / Explanation</a></h2>
 <h3 id="understanding-widget-trees"><a class="header" href="#understanding-widget-trees">Understanding Widget Trees</a></h3>
 <p>In Flutter, widgets are organized in a hierarchical structure called a <strong>widget tree</strong>. Widgets can contain other widgets as children, creating nested layers that form your entire UI. This composition is the foundation of how applications are built in Flutter.</p>
-<p>You can visualize your app’s widget tree using the Flutter DevTools widget inspector. Flutter DevTools is and IDE extension that should have been automatically installed when you set-up your Flutter development environment.</p>
+<p>You can visualize your app’s widget tree using the Flutter DevTools widget inspector. Flutter DevTools is an IDE extension that should have been automatically installed when you set-up your Flutter development environment.</p>
 <p><code>MaterialApp</code> contains <code>Scaffold</code>, which contains <code>Center</code>, which contains <code>Text()</code>, and so on. This helps you understand the structure of your UI and debug layout issues.
 <label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"><span class="img-wrapper"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"></span></label></p>
 <h3 id="widget-wrapping-patterns"><a class="header" href="#widget-wrapping-patterns">Widget Wrapping Patterns</a></h3>
@@ -371,7 +371,6 @@ class MainApp extends StatelessWidget {
 </code></pre>
 <p>Some layout widgets also use <code>children:</code> (plural) to accept an array of widgets, like <code>Row()</code> and <code>Column()</code>.</p>
 <p>Beyond these basic patterns, some widgets like <code>Scaffold()</code> use named parameters for specific purposes. For example, <code>Scaffold</code> provides <code>body:</code> for the main content, but it can also take other named parameters like <code>appBar:</code> or <code>floatingActionButton:</code> for different sections of the page. See <a href="https://api.flutter.dev/flutter/material/Scaffold-class.html">Scaffold class</a> for an example.</p>
-<p>#@todo, briefly mention Element Tree</p>
 <h2 id="practice-1"><a class="header" href="#practice-1">Practice</a></h2>
 <h3 id="exercise-1-add-padding-and-border"><a class="header" href="#exercise-1-add-padding-and-border">Exercise 1: Add Padding and Border</a></h3>
 <p>Add padding and border to the movie title:<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-11.png" alt="Movie title with red border and padding styling"><span class="img-wrapper"><img src="image-11.png" alt="Movie title with red border and padding styling"></span></label></p>
@@ -638,7 +637,7 @@ class FilmTitle extends StatelessWidget {
 <pre><code class="language-dart">// lib/main.dart
 import 'package:flutter/material.dart';
 // You may need to adapt the import statement below
-import 'package:flutter_lab_widget_to_layered_architecture/views/film_title.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
 
 void main() {
   runApp(const MainApp());
@@ -680,11 +679,11 @@ class MainApp extends StatelessWidget {
 <li>✓ Practiced importing and using custom widgets</li>
 </ul>
 <h2 id="next-steps-2"><a class="header" href="#next-steps-2">Next Steps</a></h2>
-<p>So far, our <code>FilmTitle</code> displays only what was passed to it at creation time. In the next chapter, you’ll learn about <strong>Stateful Widgets</strong>, which allow your widgets to manage and change state in response to user interaction—like toggling details on and off.</p>
+<p>In the next chapter, you will practice writing widgets further after learning about the use of Model class to represent data from external sources in your Flutter code.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="class-model"><a class="header" href="#class-model">Class Model</a></h1>
 <h2 id="learning-outcome-3"><a class="header" href="#learning-outcome-3">Learning Outcome</a></h2>
-<p>By the end of this chapter, you’ll create a <code>Film</code> model class to represent data from the Ghibli API, update the <code>FilmTitle</code> widget to accept a Film object and display its image, and create a new <code>FilmDetails</code> widget to show more detailed film information.</p>
+<p>By the end of this chapter, you’ll create a <code>Film</code> model class to represent data from the Ghibli API, update the <code>FilmTitle</code> widget to accept a Film object and display its image, and create widgets to show more detailed film information.</p>
 <h2 id="theory--explanation-3"><a class="header" href="#theory--explanation-3">Theory / Explanation</a></h2>
 <p>So far, we’ve been hardcoding our data as simple strings for movie titles that are passed to the <code>FilmTitle()</code> widget.<br>Eventually, we are going to use the Studio Ghibli API at <code>https://ghibliapi.vercel.app/</code> that returns much more information about each film. To use this data in our code, we need to define a <strong>class</strong> so that we can create instances of Films and work with them in Dart.</p>
 <p>Here is a simplified example of what the API returns for a single film:</p>
@@ -711,7 +710,7 @@ class MainApp extends StatelessWidget {
 If the API at <a href="https://ghibliapi.vercel.app">https://ghibliapi.vercel.app</a> is no longer available, you can search for “studio ghibli api” and find many other deployed instances, or even host it locally yourself from the <a href="https://github.com/janaipakos/ghibliapi">original codebase</a></p>
 </blockquote>
 <h2 id="dart-classes-for-type-safety"><a class="header" href="#dart-classes-for-type-safety">Dart Classes for Type Safety</a></h2>
-<p>Dart is a <strong>strongly typed language</strong>. This means we can’t just treat API responses as generic objects, we need to define the exact structure of our data.</p>
+<p>Dart is a <strong>strongly typed language</strong>. This means we should not treat API responses as generic objects, we need to define the exact structure of our data.</p>
 <p>We create a <strong>Film class</strong> that represents the structure of this data:</p>
 <ul>
 <li>Each property (title, description, director, etc.) has a defined type (String, int, etc.)</li>
@@ -809,7 +808,7 @@ If the API at <a href="https://ghibliapi.vercel.app">https://ghibliapi.vercel.ap
 <li>
 <p>Notice the content of the Film Class:</p>
 <ul>
-<li>All attribute that can be found in the Ghibli api response, strongly typed</li>
+<li>All attributes that can be found in the Ghibli api response, strongly typed</li>
 <li>A constructor</li>
 <li>A factory method that returns a Film instance from a json input</li>
 </ul>
@@ -1142,7 +1141,7 @@ class MainApp extends StatelessWidget {
 <li>✓ Created a new <code>FilmDetails</code> widget to show comprehensive film information</li>
 </ul>
 <h2 id="next-steps-3"><a class="header" href="#next-steps-3">Next Steps</a></h2>
-<p>Now that you have a model class to represent film data and widgets to display it, the next chapter introduces <strong>Stateful Widgets</strong>. This is important because your film cards need to be interactive—tapping should toggle between showing just the title/image vs. full details.</p>
+<p>Now that you have a model class to represent film data and widgets to display it, the next chapter introduces <strong>Stateful Widgets</strong>. This is important because your film cards need to be interactive. Tapping should toggle between showing just the title/image vs. full details.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="stateful-widgets"><a class="header" href="#stateful-widgets">Stateful Widgets</a></h1>
 <h2 id="learning-outcome-4"><a class="header" href="#learning-outcome-4">Learning Outcome</a></h2>
@@ -1242,9 +1241,12 @@ And display this new widget in the <code>MainApp()</code>.</p>
 <summary>Solution</summary>
 <pre><code class="language-dart">// /lib/views/film_card.dart
 import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmCard extends StatefulWidget {
-  const FilmCard({super.key});
+  final Film film;
+
+  const FilmCard({super.key, required this.film});
 
   @override
   State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
@@ -1307,7 +1309,7 @@ class MainApp extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FilmCard(),
+              const FilmCard(film: mockFilm),
               const FilmTitle(film: mockFilm),
               const FilmDetails(film: mockFilm),
             ],
@@ -1326,9 +1328,12 @@ class MainApp extends StatelessWidget {
 <details>
 <summary>Solution</summary>
 <pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmCard extends StatefulWidget {
-  const FilmCard({super.key});
+  final Film film;
+  
+  const FilmCard({super.key, required this.film});
 
   @override
   State&lt;FilmCard&gt; createState() =&gt; _FilmCardState();
@@ -1652,7 +1657,7 @@ class FilmDetails extends StatelessWidget {
 <label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-20.png" alt="alt text"><span class="img-wrapper"><img src="image-20.png" alt="alt text"></span></label></p>
 <p><strong>Steps:</strong></p>
 <ul>
-<li>Create <code>lib/views/films/films_view.dart</code></li>
+<li>Create <code>lib/views/films_view.dart</code></li>
 <li>Define <code>FilmsView</code> class extending <code>StatelessWidget</code></li>
 <li>Have the <code>FilmsView()</code> return a simple <code>Text("Hello from FilmsView")</code></li>
 <li>Update <code>main.dart</code> to import and use <code>FilmsView()</code> as the home screen</li>
@@ -1846,7 +1851,7 @@ class FilmsView extends StatelessWidget {
 <p>Then create <code>lib/views/films/widgets/</code> subdirectory</p>
 </li>
 <li>
-<p>Move all film widgets, except the View, to <code>lib/views/films/</code></p>
+<p>Move all film widgets, except the View, to <code>lib/views/films/widgets/</code></p>
 </li>
 <li>
 <p>Update all imports, this can be done automatically by the IDE:</p>
@@ -1890,7 +1895,7 @@ class FilmsView extends StatelessWidget {
 <li>Provides methods to update that state</li>
 <li>Notifies listeners when state changes using <a href="https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html"><code>ChangeNotifier</code></a></li>
 </ul>
-<p>The View listens to the ViewModel using <code>ListenableBuilder</code>. When the ViewModel calls <code>notifyListeners()</code>, the View rebuilds automatically—no <code>setState()</code> needed.</p>
+<p>The View listens to the ViewModel using <code>ListenableBuilder</code>. When the ViewModel calls <code>notifyListeners()</code>, the View rebuilds automatically.</p>
 <p>This separation keeps View logic (UI) separate from state management logic (ViewModel).</p>
 <h2 id="practice-6"><a class="header" href="#practice-6">Practice</a></h2>
 <h3 id="exercise-1-create-filmsviewmodel"><a class="header" href="#exercise-1-create-filmsviewmodel">Exercise 1: Create FilmsViewModel</a></h3>
@@ -2118,6 +2123,7 @@ class MainApp extends StatelessWidget {
 </ul>
 </li>
 </ol>
+<p>And in some cases even more elements can compose the Model. For instance, the <a href="https://docs.flutter.dev/app-architecture/case-study">Architecture Case Study</a> from Flutter’s documentation also includes “Repositories” between the ViewModel and the Service. But for now, let us focus on a simple MVVM implementation.</p>
 <h3 id="fetching-data-from-the-api"><a class="header" href="#fetching-data-from-the-api">Fetching Data from the API</a></h3>
 <p>Flutter comes with many built-in capabilities, but for specialized tasks like making HTTP requests, we use <strong>external packages</strong>. Packages are reusable code libraries that other developers have created and published.</p>
 <p>If you’ve worked with other languages, you’ve seen this before:</p>
@@ -2126,7 +2132,7 @@ class MainApp extends StatelessWidget {
 <li><strong>Python</strong>: pip packages managed in <code>requirements.txt</code></li>
 <li><strong>Dart/Flutter</strong>: pub packages managed in <code>pubspec.yaml</code></li>
 </ul>
-<p>To make HTTP requests in Flutter, we use the <code>http</code> package—a widely-used, well-maintained package for working with web APIs. Add it with:</p>
+<p>To make HTTP requests in Flutter, we use the <code>http</code> package, a widely-used, well-maintained package for working with web APIs. Add it with:</p>
 <pre><code class="language-bash">flutter pub add http
 </code></pre>
 <p>This command downloads the package from the pub registry and adds it to your <code>pubspec.yaml</code> file. Once added, you can import it in your service files:</p>
@@ -2364,23 +2370,42 @@ class _FilmsViewState extends State&lt;FilmsView&gt; {
 <li><strong>ViewModel Layer</strong> (<code>FilmsViewModel</code>): Manages state and orchestrates logic</li>
 <li><strong>Model Layer</strong> (<code>FilmService</code>, <code>Film</code>): Fetches and manages data</li>
 </ul>
-<p>This architecture scales well as your app grows—you can:</p>
-<ul>
-<li>Add more Views without touching the ViewModel or Service</li>
-<li>Modify the API source without changing the View</li>
-<li>Test ViewModels independently using mock services</li>
-<li>Reuse services across multiple ViewModels</li>
-</ul>
-<p>The patterns you’ve learned here are foundational for professional Flutter development. From here, you could explore navigation, advanced state management, testing, and more complex features.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="additional-theory"><a class="header" href="#additional-theory">Additional Theory</a></h1>
+<p>Congratulations on completing this introductory lab on Flutter.</p>
+<p>The basics of Flutter Widgets, or how to build a UI in Flutter were covered, as well as a simple implementation of the MVVM pattern.</p>
+<p>However, some shortcuts have been taken to keep this lab succinct.</p>
+<p>This chapter is a collection of notes and links that go beyond the work done in this lab.</p>
+<h2 id="mvvm"><a class="header" href="#mvvm">MVVM</a></h2>
+<p>The MVVM pattern is widely used across many frameworks, not only Flutter. And while the name of this pattern is widely used, its implementation may vary from one source to another.</p>
+<p>Our implementation was basic, covering each layer, its components, and how to link them together. This is based on the <a href="https://docs.flutter.dev/learn/pathway/tutorial/set-up-state-project">Set Up State Project</a> tutorial from Flutter.</p>
+<h3 id="flutter-case-study"><a class="header" href="#flutter-case-study">Flutter Case Study</a></h3>
+<p>Flutter also has training material on a more advanced MVVM implementation in their <a href="https://docs.flutter.dev/app-architecture/case-study">Architecture Case Study</a>. The main differences are about the components of the Model or “Data layer” and how layers are connected.</p>
+<h4 id="data-layer"><a class="header" href="#data-layer">Data Layer</a></h4>
+<p>In Flutter’s study case, the data layer includes services and repositories. In this case, the repositories are used as Single Source Of Truth (SSOT) to host the data that is needed by multiple ViewModels.</p>
+<h4 id="dependency-injection"><a class="header" href="#dependency-injection">Dependency Injection</a></h4>
+<p>Instead of instantiating the ViewModel directly in the View, the study case uses Dependency Injection. To learn more about dependency injection, see <a href="https://docs.flutter.dev/app-architecture/case-study/dependency-injection">Flutter Study Case, dependency injection</a></p>
+<h2 id="navigation"><a class="header" href="#navigation">Navigation</a></h2>
+<p>Navigation was not covered in this tutorial. Flutter includes a basic built-in navigation API, but the <a href="https://pub.dev/packages/go_router"><code>GoRouter</code></a> library is often recommended over the use of the built-in <code>Navigator</code>.</p>
+<h2 id="folder-structure"><a class="header" href="#folder-structure">Folder Structure</a></h2>
+<p>The folder structure used in this lab is simplistic and was chosen to highlight the explanation of MVVM.
+For a more complex example of folder structure, see <a href="https://docs.flutter.dev/app-architecture/case-study#package-structure">Flutter Study Case, package structure</a></p>
+<h2 id="state-management"><a class="header" href="#state-management">State Management</a></h2>
+<p>In this lab, we used <code>ChangeNotifier</code> for state management. As your apps grow,
+other state management solutions become valuable:</p>
 <ul>
-<li>Navigation</li>
-<li>Connection between View and ViewModel using Provider and Consumer (DI)</li>
-<li>MVVM and Repositories</li>
-<li>Folder Structure</li>
-<li>Animations</li>
-<li>BuildContext context</li>
+<li><a href="https://pub.dev/packages/provider"><code>Provider</code></a> - Simple wrapper around ChangeNotifier</li>
+<li><a href="https://riverpod.dev/"><code>Riverpod</code></a> - Modern, type-safe alternative</li>
+<li><a href="https://pub.dev/packages/get"><code>GetX</code></a> - All-in-one solution</li>
+</ul>
+<p>Each has different philosophies and trade-offs. Explore them as your needs grow.</p>
+<h2 id="flutter-buildcontext"><a class="header" href="#flutter-buildcontext">Flutter BuildContext</a></h2>
+<p>You may have noticed that BuildContext context is a parameter in all widgets we created. To learn more about the underlying of widgets and BuildContext, check this video from Flutter: <a href="https://www.youtube.com/watch?v=rIaaH87z1-g">BuildContext?! | Decoding Flutter</a></p>
+<h2 id="ux--ui"><a class="header" href="#ux--ui">UX &amp; UI</a></h2>
+<p>UX and UI are important parts of any frontend framework. If you are interested in these topics, see Flutter’s documentation:</p>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/adaptive-responsive">Adaptive and responsive design</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations">Animations</a></li>
 </ul>
 
                     </main>

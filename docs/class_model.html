@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-65f3232f.js";
+            window.path_to_searchindex_js = "searchindex-e251bd02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -176,7 +176,7 @@
                     <main>
                         <h1 id="class-model"><a class="header" href="#class-model">Class Model</a></h1>
 <h2 id="learning-outcome"><a class="header" href="#learning-outcome">Learning Outcome</a></h2>
-<p>By the end of this chapter, you’ll create a <code>Film</code> model class to represent data from the Ghibli API, update the <code>FilmTitle</code> widget to accept a Film object and display its image, and create a new <code>FilmDetails</code> widget to show more detailed film information.</p>
+<p>By the end of this chapter, you’ll create a <code>Film</code> model class to represent data from the Ghibli API, update the <code>FilmTitle</code> widget to accept a Film object and display its image, and create widgets to show more detailed film information.</p>
 <h2 id="theory--explanation"><a class="header" href="#theory--explanation">Theory / Explanation</a></h2>
 <p>So far, we’ve been hardcoding our data as simple strings for movie titles that are passed to the <code>FilmTitle()</code> widget.<br>Eventually, we are going to use the Studio Ghibli API at <code>https://ghibliapi.vercel.app/</code> that returns much more information about each film. To use this data in our code, we need to define a <strong>class</strong> so that we can create instances of Films and work with them in Dart.</p>
 <p>Here is a simplified example of what the API returns for a single film:</p>
@@ -203,7 +203,7 @@
 If the API at <a href="https://ghibliapi.vercel.app">https://ghibliapi.vercel.app</a> is no longer available, you can search for “studio ghibli api” and find many other deployed instances, or even host it locally yourself from the <a href="https://github.com/janaipakos/ghibliapi">original codebase</a></p>
 </blockquote>
 <h2 id="dart-classes-for-type-safety"><a class="header" href="#dart-classes-for-type-safety">Dart Classes for Type Safety</a></h2>
-<p>Dart is a <strong>strongly typed language</strong>. This means we can’t just treat API responses as generic objects, we need to define the exact structure of our data.</p>
+<p>Dart is a <strong>strongly typed language</strong>. This means we should not treat API responses as generic objects, we need to define the exact structure of our data.</p>
 <p>We create a <strong>Film class</strong> that represents the structure of this data:</p>
 <ul>
 <li>Each property (title, description, director, etc.) has a defined type (String, int, etc.)</li>
@@ -301,7 +301,7 @@ If the API at <a href="https://ghibliapi.vercel.app">https://ghibliapi.vercel.ap
 <li>
 <p>Notice the content of the Film Class:</p>
 <ul>
-<li>All attribute that can be found in the Ghibli api response, strongly typed</li>
+<li>All attributes that can be found in the Ghibli api response, strongly typed</li>
 <li>A constructor</li>
 <li>A factory method that returns a Film instance from a json input</li>
 </ul>
@@ -634,7 +634,7 @@ class MainApp extends StatelessWidget {
 <li>✓ Created a new <code>FilmDetails</code> widget to show comprehensive film information</li>
 </ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
-<p>Now that you have a model class to represent film data and widgets to display it, the next chapter introduces <strong>Stateful Widgets</strong>. This is important because your film cards need to be interactive—tapping should toggle between showing just the title/image vs. full details.</p>
+<p>Now that you have a model class to represent film data and widgets to display it, the next chapter introduces <strong>Stateful Widgets</strong>. This is important because your film cards need to be interactive. Tapping should toggle between showing just the title/image vs. full details.</p>
 
                     </main>
 

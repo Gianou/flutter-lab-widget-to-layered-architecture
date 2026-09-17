@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-65f3232f.js";
+            window.path_to_searchindex_js = "searchindex-e251bd02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -180,7 +180,7 @@
 <h2 id="theory--explanation"><a class="header" href="#theory--explanation">Theory / Explanation</a></h2>
 <h3 id="understanding-widget-trees"><a class="header" href="#understanding-widget-trees">Understanding Widget Trees</a></h3>
 <p>In Flutter, widgets are organized in a hierarchical structure called a <strong>widget tree</strong>. Widgets can contain other widgets as children, creating nested layers that form your entire UI. This composition is the foundation of how applications are built in Flutter.</p>
-<p>You can visualize your app’s widget tree using the Flutter DevTools widget inspector. Flutter DevTools is and IDE extension that should have been automatically installed when you set-up your Flutter development environment.</p>
+<p>You can visualize your app’s widget tree using the Flutter DevTools widget inspector. Flutter DevTools is an IDE extension that should have been automatically installed when you set-up your Flutter development environment.</p>
 <p><code>MaterialApp</code> contains <code>Scaffold</code>, which contains <code>Center</code>, which contains <code>Text()</code>, and so on. This helps you understand the structure of your UI and debug layout issues.
 <label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"><span class="img-wrapper"><img src="image-6.png" alt="Flutter DevTools widget tree visualization showing nested widget hierarchy"></span></label></p>
 <h3 id="widget-wrapping-patterns"><a class="header" href="#widget-wrapping-patterns">Widget Wrapping Patterns</a></h3>
@@ -194,7 +194,6 @@
 </code></pre>
 <p>Some layout widgets also use <code>children:</code> (plural) to accept an array of widgets, like <code>Row()</code> and <code>Column()</code>.</p>
 <p>Beyond these basic patterns, some widgets like <code>Scaffold()</code> use named parameters for specific purposes. For example, <code>Scaffold</code> provides <code>body:</code> for the main content, but it can also take other named parameters like <code>appBar:</code> or <code>floatingActionButton:</code> for different sections of the page. See <a href="https://api.flutter.dev/flutter/material/Scaffold-class.html">Scaffold class</a> for an example.</p>
-<p>#@todo, briefly mention Element Tree</p>
 <h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
 <h3 id="exercise-1-add-padding-and-border"><a class="header" href="#exercise-1-add-padding-and-border">Exercise 1: Add Padding and Border</a></h3>
 <p>Add padding and border to the movie title:<br><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="image-11.png" alt="Movie title with red border and padding styling"><span class="img-wrapper"><img src="image-11.png" alt="Movie title with red border and padding styling"></span></label></p>

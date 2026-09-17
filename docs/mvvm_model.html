@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-65f3232f.js";
+            window.path_to_searchindex_js = "searchindex-e251bd02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -195,6 +195,7 @@
 </ul>
 </li>
 </ol>
+<p>And in some cases even more elements can compose the Model. For instance, the <a href="https://docs.flutter.dev/app-architecture/case-study">Architecture Case Study</a> from Flutter’s documentation also includes “Repositories” between the ViewModel and the Service. But for now, let us focus on a simple MVVM implementation.</p>
 <h3 id="fetching-data-from-the-api"><a class="header" href="#fetching-data-from-the-api">Fetching Data from the API</a></h3>
 <p>Flutter comes with many built-in capabilities, but for specialized tasks like making HTTP requests, we use <strong>external packages</strong>. Packages are reusable code libraries that other developers have created and published.</p>
 <p>If you’ve worked with other languages, you’ve seen this before:</p>
@@ -203,7 +204,7 @@
 <li><strong>Python</strong>: pip packages managed in <code>requirements.txt</code></li>
 <li><strong>Dart/Flutter</strong>: pub packages managed in <code>pubspec.yaml</code></li>
 </ul>
-<p>To make HTTP requests in Flutter, we use the <code>http</code> package—a widely-used, well-maintained package for working with web APIs. Add it with:</p>
+<p>To make HTTP requests in Flutter, we use the <code>http</code> package, a widely-used, well-maintained package for working with web APIs. Add it with:</p>
 <pre><code class="language-bash">flutter pub add http
 </code></pre>
 <p>This command downloads the package from the pub registry and adds it to your <code>pubspec.yaml</code> file. Once added, you can import it in your service files:</p>
@@ -441,14 +442,6 @@ class _FilmsViewState extends State&lt;FilmsView&gt; {
 <li><strong>ViewModel Layer</strong> (<code>FilmsViewModel</code>): Manages state and orchestrates logic</li>
 <li><strong>Model Layer</strong> (<code>FilmService</code>, <code>Film</code>): Fetches and manages data</li>
 </ul>
-<p>This architecture scales well as your app grows—you can:</p>
-<ul>
-<li>Add more Views without touching the ViewModel or Service</li>
-<li>Modify the API source without changing the View</li>
-<li>Test ViewModels independently using mock services</li>
-<li>Reuse services across multiple ViewModels</li>
-</ul>
-<p>The patterns you’ve learned here are foundational for professional Flutter development. From here, you could explore navigation, advanced state management, testing, and more complex features.</p>
 
                     </main>
 

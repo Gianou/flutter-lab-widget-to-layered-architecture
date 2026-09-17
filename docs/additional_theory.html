@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-65f3232f.js";
+            window.path_to_searchindex_js = "searchindex-e251bd02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-809ced58.js"></script>
@@ -175,13 +175,40 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="additional-theory"><a class="header" href="#additional-theory">Additional Theory</a></h1>
+<p>Congratulations on completing this introductory lab on Flutter.</p>
+<p>The basics of Flutter Widgets, or how to build a UI in Flutter were covered, as well as a simple implementation of the MVVM pattern.</p>
+<p>However, some shortcuts have been taken to keep this lab succinct.</p>
+<p>This chapter is a collection of notes and links that go beyond the work done in this lab.</p>
+<h2 id="mvvm"><a class="header" href="#mvvm">MVVM</a></h2>
+<p>The MVVM pattern is widely used across many frameworks, not only Flutter. And while the name of this pattern is widely used, its implementation may vary from one source to another.</p>
+<p>Our implementation was basic, covering each layer, its components, and how to link them together. This is based on the <a href="https://docs.flutter.dev/learn/pathway/tutorial/set-up-state-project">Set Up State Project</a> tutorial from Flutter.</p>
+<h3 id="flutter-case-study"><a class="header" href="#flutter-case-study">Flutter Case Study</a></h3>
+<p>Flutter also has training material on a more advanced MVVM implementation in their <a href="https://docs.flutter.dev/app-architecture/case-study">Architecture Case Study</a>. The main differences are about the components of the Model or “Data layer” and how layers are connected.</p>
+<h4 id="data-layer"><a class="header" href="#data-layer">Data Layer</a></h4>
+<p>In Flutter’s study case, the data layer includes services and repositories. In this case, the repositories are used as Single Source Of Truth (SSOT) to host the data that is needed by multiple ViewModels.</p>
+<h4 id="dependency-injection"><a class="header" href="#dependency-injection">Dependency Injection</a></h4>
+<p>Instead of instantiating the ViewModel directly in the View, the study case uses Dependency Injection. To learn more about dependency injection, see <a href="https://docs.flutter.dev/app-architecture/case-study/dependency-injection">Flutter Study Case, dependency injection</a></p>
+<h2 id="navigation"><a class="header" href="#navigation">Navigation</a></h2>
+<p>Navigation was not covered in this tutorial. Flutter includes a basic built-in navigation API, but the <a href="https://pub.dev/packages/go_router"><code>GoRouter</code></a> library is often recommended over the use of the built-in <code>Navigator</code>.</p>
+<h2 id="folder-structure"><a class="header" href="#folder-structure">Folder Structure</a></h2>
+<p>The folder structure used in this lab is simplistic and was chosen to highlight the explanation of MVVM.
+For a more complex example of folder structure, see <a href="https://docs.flutter.dev/app-architecture/case-study#package-structure">Flutter Study Case, package structure</a></p>
+<h2 id="state-management"><a class="header" href="#state-management">State Management</a></h2>
+<p>In this lab, we used <code>ChangeNotifier</code> for state management. As your apps grow,
+other state management solutions become valuable:</p>
 <ul>
-<li>Navigation</li>
-<li>Connection between View and ViewModel using Provider and Consumer (DI)</li>
-<li>MVVM and Repositories</li>
-<li>Folder Structure</li>
-<li>Animations</li>
-<li>BuildContext context</li>
+<li><a href="https://pub.dev/packages/provider"><code>Provider</code></a> - Simple wrapper around ChangeNotifier</li>
+<li><a href="https://riverpod.dev/"><code>Riverpod</code></a> - Modern, type-safe alternative</li>
+<li><a href="https://pub.dev/packages/get"><code>GetX</code></a> - All-in-one solution</li>
+</ul>
+<p>Each has different philosophies and trade-offs. Explore them as your needs grow.</p>
+<h2 id="flutter-buildcontext"><a class="header" href="#flutter-buildcontext">Flutter BuildContext</a></h2>
+<p>You may have noticed that BuildContext context is a parameter in all widgets we created. To learn more about the underlying of widgets and BuildContext, check this video from Flutter: <a href="https://www.youtube.com/watch?v=rIaaH87z1-g">BuildContext?! | Decoding Flutter</a></p>
+<h2 id="ux--ui"><a class="header" href="#ux--ui">UX &amp; UI</a></h2>
+<p>UX and UI are important parts of any frontend framework. If you are interested in these topics, see Flutter’s documentation:</p>
+<ul>
+<li><a href="https://docs.flutter.dev/ui/adaptive-responsive">Adaptive and responsive design</a></li>
+<li><a href="https://docs.flutter.dev/ui/animations">Animations</a></li>
 </ul>
 
                     </main>
