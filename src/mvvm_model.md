@@ -20,7 +20,7 @@ The Model layer can be quite confusing. Unlike the View and the ViewModel, the M
    - Error handling
    - Caching (if needed)
 
-And in some cases even more elements can compose the Model. For instance, the [Architecture Case Study](https://docs.flutter.dev/app-architecture/case-study) from Flutter's documentation also includes "Repositories" between the ViewModel and the Service. But for now, let us focus an a simple MVVM implementation.
+And in some cases even more elements can compose the Model. For instance, the [Architecture Case Study](https://docs.flutter.dev/app-architecture/case-study) from Flutter's documentation also includes "Repositories" between the ViewModel and the Service. But for now, let us focus on a simple MVVM implementation.
 
 ### Fetching Data from the API
 

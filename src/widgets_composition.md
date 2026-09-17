@@ -10,7 +10,7 @@ By the end of this chapter, you'll understand how widgets are organized in hiera
 
 In Flutter, widgets are organized in a hierarchical structure called a **widget tree**. Widgets can contain other widgets as children, creating nested layers that form your entire UI. This composition is the foundation of how applications are built in Flutter.
 
-You can visualize your app's widget tree using the Flutter DevTools widget inspector. Flutter DevTools is and IDE extension that should have been automatically installed when you set-up your Flutter development environment.  
+You can visualize your app's widget tree using the Flutter DevTools widget inspector. Flutter DevTools is an IDE extension that should have been automatically installed when you set-up your Flutter development environment.  
 
 `MaterialApp` contains `Scaffold`, which contains `Center`, which contains `Text()`, and so on. This helps you understand the structure of your UI and debug layout issues.
 ![Flutter DevTools widget tree visualization showing nested widget hierarchy](image-6.png)

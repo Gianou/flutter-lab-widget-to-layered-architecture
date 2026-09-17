@@ -117,9 +117,12 @@ And display this new widget in the `MainApp()`.
 ```dart
 // /lib/views/film_card.dart
 import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmCard extends StatefulWidget {
-  const FilmCard({super.key});
+  final Film film;
+
+  const FilmCard({super.key, required this.film});
 
   @override
   State<FilmCard> createState() => _FilmCardState();
@@ -184,7 +187,7 @@ class MainApp extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FilmCard(),
+              FilmCard(film: mockFilm),
               const FilmTitle(film: mockFilm),
               const FilmDetails(film: mockFilm),
             ],
@@ -211,9 +214,12 @@ Test your app to make sure clicking on the button changes the value that is bein
 
 ```dart
 import 'package:flutter/material.dart';
+import 'package:ghibli_viewer_lab/models/film_model.dart';
 
 class FilmCard extends StatefulWidget {
-  const FilmCard({super.key});
+  final Film film;
+  
+  const FilmCard({super.key, required this.film});
 
   @override
   State<FilmCard> createState() => _FilmCardState();

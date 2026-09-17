@@ -34,7 +34,7 @@ Create a `FilmsView` widget that extends `StatelessWidget` and update your `main
 ![alt text](image-20.png)
 
 **Steps:**
-- Create `lib/views/films/films_view.dart`
+- Create `lib/views/films_view.dart`
 - Define `FilmsView` class extending `StatelessWidget`
 - Have the `FilmsView()` return a simple `Text("Hello from FilmsView")`
 - Update `main.dart` to import and use `FilmsView()` as the home screen
@@ -235,7 +235,7 @@ As your project grows, organizing files by feature (rather than by type) keeps t
 - Create `lib/views/films/` directory
 - Move all film related widget files to `lib/views/films/`
 - Then create `lib/views/films/widgets/` subdirectory
-- Move all film widgets, except the View, to `lib/views/films/`
+- Move all film widgets, except the View, to `lib/views/films/widgets/`
 
 - Update all imports, this can be done automatically by the IDE:  
 

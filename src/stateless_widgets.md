@@ -154,7 +154,7 @@ class FilmTitle extends StatelessWidget {
 // lib/main.dart
 import 'package:flutter/material.dart';
 // You may need to adapt the import statement below
-import 'package:flutter_lab_widget_to_layered_architecture/views/film_title.dart';
+import 'package:ghibli_viewer_lab/views/film_title.dart';
 
 void main() {
   runApp(const MainApp());
