@@ -20,7 +20,7 @@ The Model layer can be quite confusing. Unlike the View and the ViewModel, the M
    - Error handling
    - Caching (if needed)
 
-
+And in some cases even more elements can compose the Model. For instance, the [Architecture Case Study](https://docs.flutter.dev/app-architecture/case-study) from Flutter's documentation also includes "Repositories" between the ViewModel and the Service. But for now, let us focus an a simple MVVM implementation.
 
 ### Fetching Data from the API
 
@@ -31,7 +31,7 @@ If you've worked with other languages, you've seen this before:
 - **Python**: pip packages managed in `requirements.txt`
 - **Dart/Flutter**: pub packages managed in `pubspec.yaml`
 
-To make HTTP requests in Flutter, we use the `http` package—a widely-used, well-maintained package for working with web APIs. Add it with:
+To make HTTP requests in Flutter, we use the `http` package, a widely-used, well-maintained package for working with web APIs. Add it with:
 
 ```bash
 flutter pub add http
@@ -308,11 +308,3 @@ Congratulations! You've successfully implemented a complete MVVM architecture:
 - **View Layer** (`FilmsView`): Displays UI and receives user interactions
 - **ViewModel Layer** (`FilmsViewModel`): Manages state and orchestrates logic
 - **Model Layer** (`FilmService`, `Film`): Fetches and manages data
-
-This architecture scales well as your app grows—you can:
-- Add more Views without touching the ViewModel or Service
-- Modify the API source without changing the View
-- Test ViewModels independently using mock services
-- Reuse services across multiple ViewModels
-
-The patterns you've learned here are foundational for professional Flutter development. From here, you could explore navigation, advanced state management, testing, and more complex features.

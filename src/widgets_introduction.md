@@ -11,7 +11,7 @@ In Flutter, everything that appears on the screen, and dictate how it appears on
 In the default empty project, there are already five widgets:
 - `Text()`: A leaf widget that renders a String on the screen.
 - `Center()`: A layout widget that forces its single child to be positioned in the middle of the available space.
-- `Scaffold()`: Provides the fundamental visual structure for a page. It only renders the body in the current project, but a header (appBar) could be added.
+- `Scaffold()`: Provides the fundamental visual structure for a page. It only renders the body in the current project, but other elements like a header (appBar) could be added.
 - `MaterialApp()`: The root widget that initializes the application with <a href="https://docs.flutter.dev/ui/widgets/material" target="_blank">Material Components package</a>.
 - `MainApp()`: The custom root widget defined in your code `class MainApp extends StatelessWidget`. Wraps the MaterialApp to start the widget tree.
 
@@ -91,4 +91,4 @@ child: Text(
 
 ## Next Steps
 
-Now that you've customized individual widgets, the next chapter shows you how to **compose** widgets together—nesting them to create more complex layouts using containers, rows, and columns.
+Now that you've customized individual widgets, the next chapter shows you how to **compose** widgets together, nesting them to create more complex layouts using containers, rows, and columns.

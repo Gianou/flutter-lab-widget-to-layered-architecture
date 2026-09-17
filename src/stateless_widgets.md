@@ -198,4 +198,4 @@ class MainApp extends StatelessWidget {
 
 ## Next Steps
 
-So far, our `FilmTitle` displays only what was passed to it at creation time. In the next chapter, you'll learn about **Stateful Widgets**, which allow your widgets to manage and change state in response to user interaction—like toggling details on and off.
+In the next chapter, you will practice writing widgets further after learning about the use of Model class to represent data from external sources in your Flutter code.

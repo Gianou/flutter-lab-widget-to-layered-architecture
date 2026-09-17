@@ -2,7 +2,7 @@
 
 ## Learning Outcome
 
-By the end of this chapter, you'll create a `Film` model class to represent data from the Ghibli API, update the `FilmTitle` widget to accept a Film object and display its image, and create a new `FilmDetails` widget to show more detailed film information.
+By the end of this chapter, you'll create a `Film` model class to represent data from the Ghibli API, update the `FilmTitle` widget to accept a Film object and display its image, and create widgets to show more detailed film information.
 
 ## Theory / Explanation
 
@@ -36,7 +36,7 @@ Here is a simplified example of what the API returns for a single film:
 
 ## Dart Classes for Type Safety
 
-Dart is a **strongly typed language**. This means we can't just treat API responses as generic objects, we need to define the exact structure of our data.
+Dart is a **strongly typed language**. This means we should not treat API responses as generic objects, we need to define the exact structure of our data.
 
 We create a **Film class** that represents the structure of this data:
 - Each property (title, description, director, etc.) has a defined type (String, int, etc.)
@@ -133,7 +133,7 @@ Create a Film model class with properties for the key film data:
     ``` 
   - Notice the content of the Film Class:
  
-    - All attribute that can be found in the Ghibli api response, strongly typed
+    - All attributes that can be found in the Ghibli api response, strongly typed
     - A constructor
     - A factory method that returns a Film instance from a json input
 
@@ -492,4 +492,4 @@ class MainApp extends StatelessWidget {
 
 ## Next Steps
 
-Now that you have a model class to represent film data and widgets to display it, the next chapter introduces **Stateful Widgets**. This is important because your film cards need to be interactive—tapping should toggle between showing just the title/image vs. full details.
+Now that you have a model class to represent film data and widgets to display it, the next chapter introduces **Stateful Widgets**. This is important because your film cards need to be interactive. Tapping should toggle between showing just the title/image vs. full details.

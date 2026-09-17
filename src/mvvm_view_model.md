@@ -11,7 +11,7 @@ The **ViewModel** is a separate class (not a widget) that:
 - Provides methods to update that state
 - Notifies listeners when state changes using [`ChangeNotifier`](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
 
-The View listens to the ViewModel using `ListenableBuilder`. When the ViewModel calls `notifyListeners()`, the View rebuilds automatically—no `setState()` needed.
+The View listens to the ViewModel using `ListenableBuilder`. When the ViewModel calls `notifyListeners()`, the View rebuilds automatically.
 
 This separation keeps View logic (UI) separate from state management logic (ViewModel).
 

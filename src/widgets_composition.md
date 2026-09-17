@@ -31,7 +31,6 @@ Some layout widgets also use `children:` (plural) to accept an array of widgets,
 
 Beyond these basic patterns, some widgets like `Scaffold()` use named parameters for specific purposes. For example, `Scaffold` provides `body:` for the main content, but it can also take other named parameters like `appBar:` or `floatingActionButton:` for different sections of the page. See [Scaffold class](https://api.flutter.dev/flutter/material/Scaffold-class.html) for an example.
 
-#@todo, briefly mention Element Tree
 
 ## Practice
 
